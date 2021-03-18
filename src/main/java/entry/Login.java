@@ -37,6 +37,12 @@ public class Login
                     this.user = result;
                     break;
                 }
+                else
+                {
+                    System.out.println(ConsoleColors.RED + "The username or password is incorrect. Please try again...");
+                    System.out.println(ConsoleColors.RED + "Don't have an account yet? You can go to Sign Up page by typing \"" +
+                            ConsoleColors.RED_UNDERLINED + "Create an account" + ConsoleColors.RED + "\" as your username.");
+                }
             }
             else
             {

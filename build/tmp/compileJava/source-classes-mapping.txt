@@ -14,18 +14,18 @@ pages/DirectMessages.java
  pages.DirectMessages
 utils/ConsoleColors.java
  utils.ConsoleColors
-entry/Login.java
- entry.Login
+Main.java
+ Main
+entry/Validations.java
+ entry.Validations
 data/Save.java
  data.Save
 models/User.java
  models.User
 data/Load.java
  data.Load
-Main.java
- Main
-entry/Validations.java
- entry.Validations
+entry/Login.java
+ entry.Login
 entry/Enter.java
  entry.Enter
 entry/SignUp.java

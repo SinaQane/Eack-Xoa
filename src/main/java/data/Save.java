@@ -2,6 +2,7 @@ package data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import models.Tweet;
 import models.User;
 import utils.ConsoleColors;
 
@@ -20,10 +21,11 @@ public class Save
         String path = "./resources/users/" + user.username;
         File file = new File(path);
         if(file.getParentFile().mkdirs())
-            System.out.println(ConsoleColors.YELLOW + "Users directory was made successfully.");
-        if (!file.exists()) {
+            System.out.println(ConsoleColors.GREEN + "Users directory was made successfully.");
+        if (!file.exists())
+        {
             if (file.createNewFile())
-                System.out.println(ConsoleColors.YELLOW + "User file was made successfully.");
+                System.out.println(ConsoleColors.GREEN + "User file was made successfully.");
         }
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -42,13 +44,32 @@ public class Save
         fout.close();
     }
 
-    public static void addUsername(User user) throws FileNotFoundException
+    public static void saveTweet(Tweet tweet) throws IOException
     {
-        String usernamesPath = "./resources/usernames.txt";
-        PrintStream saveUsername = new PrintStream(new FileOutputStream(usernamesPath, true));
-        saveUsername.println(user.username);
-        saveUsername.flush();
-        saveUsername.close();
+        String path = "./resources/tweets/" + tweet.id;
+        File file = new File(path);
+        if(file.getParentFile().mkdirs())
+            System.out.println(ConsoleColors.GREEN + "Tweets directory was made successfully.");
+        if (!file.exists())
+        {
+            if (file.createNewFile())
+                System.out.println(ConsoleColors.GREEN + "Tweet file was made successfully.");
+        }
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+
+        Gson gson = gsonBuilder.create();
+        String data = gson.toJson(tweet);
+
+        FileOutputStream fout = new FileOutputStream(path, false);
+        PrintStream printStream = new PrintStream(fout);
+        printStream.println(data);
+
+        printStream.flush();
+        printStream.close();
+        fout.flush();
+        fout.close();
     }
 
     public static void replaceLine(String path, String oldLine, String newLine) throws IOException
@@ -56,8 +77,10 @@ public class Save
         List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8));
 
         boolean flag = true;
-        for (int i = 0; i < fileContent.size(); i++) {
-            if (fileContent.get(i).equals(oldLine)) {
+        for (int i = 0; i < fileContent.size(); i++)
+        {
+            if (fileContent.get(i).equals(oldLine))
+            {
                 fileContent.set(i, newLine);
                 flag = false;
                 break;

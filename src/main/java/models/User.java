@@ -41,12 +41,13 @@ public class User
     public List<String> dislikedTweets = new LinkedList<>();
     public List<String> retweetedTweets = new LinkedList<>();
     public List<String> savedTweets = new LinkedList<>();
+    public Long lastTweetId = (long) 0;
 
     // Privacy
     public boolean publicInfo; // For Email, Phone number and Birthday. "true" for public and "false" for private.
     public int lastSeenState; // "0" for no one, "1" for followings only and "2" for everyone.
-    private int reports = 0; // If the number of reports exceed a limit, the account will be limited.
     public boolean privatePage; // "true" is the page is private, "false" if not.
+    private int reports; // If the number of reports exceed a limit, the account will be limited.
 
     public User(String username, String password) throws IOException
     {
@@ -58,6 +59,7 @@ public class User
         this.lastSeenState = 1;
         this.isActive = true;
         this.privatePage = false;
+        this.reports = 0;
         Save.changeUsername("0", this.username);
         Save.saveUser(this);
     }
