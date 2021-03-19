@@ -21,9 +21,10 @@ public class Tweet
     public boolean visible;
 
     // Interactions of users with this tweet
-    public List<String> likes = new ArrayList<>();
-    public List<String> dislikes = new ArrayList<>();
+    public List<String> upvotes = new ArrayList<>();
+    public List<String> downvotes = new ArrayList<>();
     public List<String> comments = new LinkedList<>();
+    public List<String> retweets = new ArrayList<>();
     public int reports;
 
     public Tweet(User owner, String text) throws IOException
@@ -35,8 +36,44 @@ public class Tweet
         this.reports = 0;
         this.tweetTime = new Date();
         this.visible = true;
-        // TODO add tweet to its owner's tweets
+        owner.addTweet(this);
         Save.saveTweet(this);
+    }
+
+    public void deleted() throws IOException
+    {
+        this.visible = false;
+        Save.saveTweet(this);
+    }
+
+    public void addToRetweets(String string)
+    {
+        retweets.add(string);
+    }
+
+    public void removeFromRetweets(String string)
+    {
+        retweets.remove(string);
+    }
+
+    public void addToUpvotes(User user)
+    {
+        this.upvotes.add(user.id + "");
+    }
+
+    public void removeFromUpvoted(User user)
+    {
+        this.upvotes.remove(user.id + "");
+    }
+
+    public void addToDownvotes(User user)
+    {
+        this.downvotes.add(user.id + "");
+    }
+
+    public void removeFromDownvoted(User user)
+    {
+        this.downvotes.remove(user.id + "");
     }
 
 }
