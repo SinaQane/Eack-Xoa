@@ -18,14 +18,14 @@ public class Save
 
     public static void saveUser(User user) throws IOException
     {
-        String path = "./resources/users/" + user.username;
+        String path = "./resources/users/" + user.id;
         File file = new File(path);
         if(file.getParentFile().mkdirs())
-            System.out.println(ConsoleColors.GREEN + "Users directory was made successfully.");
+            System.out.println(ConsoleColors.GREEN_BRIGHT + "Users directory was made successfully.");
         if (!file.exists())
         {
             if (file.createNewFile())
-                System.out.println(ConsoleColors.GREEN + "User file was made successfully.");
+                System.out.println(ConsoleColors.GREEN_BRIGHT + "User file was saved successfully.");
         }
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -49,11 +49,11 @@ public class Save
         String path = "./resources/tweets/" + tweet.id;
         File file = new File(path);
         if(file.getParentFile().mkdirs())
-            System.out.println(ConsoleColors.GREEN + "Tweets directory was made successfully.");
+            System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweets directory was made successfully.");
         if (!file.exists())
         {
             if (file.createNewFile())
-                System.out.println(ConsoleColors.GREEN + "Tweet file was made successfully.");
+                System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweet file was saved successfully.");
         }
 
         GsonBuilder gsonBuilder = new GsonBuilder();

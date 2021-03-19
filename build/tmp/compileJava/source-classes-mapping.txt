@@ -1,25 +1,25 @@
-pages/Settings.java
- pages.Settings
-Main.java
- Main
-pages/Timeline.java
- pages.Timeline
 entry/Validations.java
  entry.Validations
+pages/Settings.java
+ pages.Settings
 pages/Explore.java
  pages.Explore
-pages/HomePage.java
- pages.HomePage
+pages/Timeline.java
+ pages.Timeline
 pages/DirectMessages.java
  pages.DirectMessages
 utils/ConsoleColors.java
  utils.ConsoleColors
 data/Save.java
  data.Save
-entry/Login.java
- entry.Login
+Main.java
+ Main
+pages/HomePage.java
+ pages.HomePage
 models/User.java
  models.User
+entry/Login.java
+ entry.Login
 entry/Enter.java
  entry.Enter
 data/Load.java

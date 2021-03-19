@@ -19,11 +19,11 @@ public class Enter
     public User user() throws IOException
     {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(ConsoleColors.WHITE + "Do you have an account? (y/n)");
-        String isRegistered = scanner.nextLine();
+        System.out.println(ConsoleColors.WHITE_BRIGHT + "Do you have an account? (y/n)");
+        String isRegistered = scanner.nextLine().toLowerCase();
         while (!Validations.yesOrNo(isRegistered))
         {
-            System.out.println(ConsoleColors.WHITE + "Do you have an account? (y/n)");
+            System.out.println(ConsoleColors.WHITE_BRIGHT + "Do you have an account? (y/n)");
             isRegistered = scanner.nextLine();
         }
         switch (isRegistered)
@@ -37,7 +37,6 @@ public class Enter
                 this.user = signUp.user;
                 break;
         }
-        scanner.close();
         return this.user;
     }
 }

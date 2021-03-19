@@ -12,11 +12,11 @@ import java.util.List;
 public class Tweet
 {
     // Tweet info
-    /* Tweet's id will be in the form "num1-num2" where "num1" is its owner's id,
+    /* Tweet's ID will be in the form "num1-num2" where "num1" is its owner's ID,
     and "num2" is its number in owner's tweets' arrangement
     */
     public final String id;
-    public final String owner;
+    public final long owner;
     public final String text;
     public final Date tweetTime;
     public boolean visible;
@@ -32,7 +32,7 @@ public class Tweet
     {
         owner.lastTweetId++;
         this.id = owner.id + "-" + owner.lastTweetId;
-        this.owner = owner.username;
+        this.owner = owner.id;
         this.text = text;
         this.reports = 0;
         this.tweetTime = new Date();
@@ -42,12 +42,14 @@ public class Tweet
         Save.saveTweet(this);
     }
 
+    // Tweet gets deleted
     public void deleted() throws IOException
     {
         this.visible = false;
         Save.saveTweet(this);
     }
 
+    // Tweet gets reported
     public void reported() throws IOException
     {
         this.reports++;
@@ -87,5 +89,38 @@ public class Tweet
     public void removeFromDownvoted(User user)
     {
         this.downvotes.remove(user.id + "");
+    }
+
+    // Returns owner's username
+    public String getOwner() throws IOException
+    {
+        return Load.findUser(owner).username;
+    }
+
+    // Returns owner's ID
+    public long getOwnerId()
+    {
+        return owner;
+    }
+
+    // Following methods are for representing tweet in CLI.
+    public String getText()
+    {
+        return text;
+    }
+
+    public int getKarma()
+    {
+        return upvotes.size() - downvotes.size();
+    }
+
+    public int getCommentsCount()
+    {
+        return comments.size();
+    }
+
+    public int getRetweetsCount()
+    {
+        return retweets.size();
     }
 }

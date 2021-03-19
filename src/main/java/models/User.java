@@ -191,10 +191,17 @@ public class User
     // User removes his/her tweet.
     public void deleteTweet(Tweet tweet) throws IOException
     {
-        this.userTweets.remove(tweet.id);
-        this.timelineTweets.remove(tweet.id);
-        tweet.deleted();
-        Save.saveUser(this);
+        if (tweet.getOwnerId() == this.id)
+        {
+            this.userTweets.remove(tweet.id);
+            this.timelineTweets.remove(tweet.id);
+            tweet.deleted();
+            Save.saveUser(this);
+        }
+        else
+        {
+            System.out.println(ConsoleColors.RED_BRIGHT + "You don't have the permission to delete this tweet.");
+        }
     }
 
     // Retweet button. It'll retweet a tweet if it's not retweeted before
@@ -276,7 +283,7 @@ public class User
             Save.saveUser(this);
         }
         else
-            System.out.println(ConsoleColors.YELLOW + "You have already saved this tweet.");
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already saved this tweet.");
     }
 
     // Unsave (?) tweet.
@@ -288,7 +295,7 @@ public class User
             Save.saveUser(this);
         }
         else
-            System.out.println(ConsoleColors.YELLOW + "This tweet isn't in your saved tweets.");
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "This tweet isn't in your saved tweets.");
     }
 
     // This user follows another user.
@@ -302,7 +309,7 @@ public class User
             Save.saveUser(this);
         }
         else
-            System.out.println(ConsoleColors.YELLOW + "You have already followed this user.");
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already followed this user.");
     }
 
     // This user unfollows another user.
@@ -316,7 +323,7 @@ public class User
             Save.saveUser(this);
         }
         else
-            System.out.println(ConsoleColors.YELLOW + "You are not following this user.");
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You are not following this user.");
     }
 
     // This user blocks another user.
@@ -333,7 +340,7 @@ public class User
             Save.saveUser(this);
         }
         else
-            System.out.println(ConsoleColors.YELLOW + "You have already blocked this user.");
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already blocked this user.");
     }
 
     // This user unblocks another user.
@@ -357,7 +364,7 @@ public class User
             Save.saveUser(this);
         }
         else
-            System.out.println(ConsoleColors.YELLOW + "You have already muted this user.");
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already muted this user.");
     }
 
     // This user unmutes (?) another user.
@@ -369,7 +376,7 @@ public class User
             Save.saveUser(this);
         }
         else
-            System.out.println(ConsoleColors.YELLOW + "This user wasn't muted.");
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "This user wasn't muted.");
     }
 
     // This user reports a tweets.
@@ -382,7 +389,7 @@ public class User
             Save.saveUser(this);
         }
         else
-            System.out.println(ConsoleColors.YELLOW + "You have already reported this tweet.");
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already reported this tweet.");
     }
 
     // This user reports another user.
@@ -395,7 +402,7 @@ public class User
             Save.saveUser(this);
         }
         else
-            System.out.println(ConsoleColors.YELLOW + "You have already reported this user.");
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already reported this user.");
     }
 
     // Additional methods

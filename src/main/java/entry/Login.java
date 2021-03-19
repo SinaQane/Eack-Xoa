@@ -20,14 +20,14 @@ public class Login
     {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println(ConsoleColors.WHITE + "Enter your username:");
+            System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your username:");
             String username = scanner.nextLine().toLowerCase();
             if (username.equals("create an account"))
             {
                 SignUp signUp = new SignUp();
                 return signUp.user;
             }
-            System.out.println(ConsoleColors.WHITE + "Enter your password:");
+            System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your password:");
             String password = scanner.nextLine();
             User result = Load.findUser(username);
             if (result != null)
@@ -41,24 +41,24 @@ public class Login
                     }
                     else
                     {
-                        System.out.println(ConsoleColors.CYAN + "This account had been deactivated." +
+                        System.out.println(ConsoleColors.YELLOW_BRIGHT + "This account has been deactivated." +
                                 "Would you like to reactivate it? (y/n)");
                         String response = scanner.nextLine();
                         while (!Validations.yesOrNo(response))
                         {
-                            System.out.println(ConsoleColors.CYAN + "This account had been deactivated." +
+                            System.out.println(ConsoleColors.YELLOW_BRIGHT + "This account has been deactivated." +
                                     "Would you like to reactivate it? (y/n)");
                             response = scanner.nextLine();
                         }
                         switch (response)
                         {
                             case "y":
-                                System.out.println(ConsoleColors.CYAN + "Your Account has been reactivated.");
+                                System.out.println(ConsoleColors.GREEN_BRIGHT + "Your Account has been reactivated.");
                                 result.reactivate();
                                 this.user = result;
                                 break;
                             case "n":
-                                System.out.println(ConsoleColors.CYAN + "Enter another account then.");
+                                System.out.println(ConsoleColors.YELLOW_BRIGHT + "Login to another account then.");
                                 System.out.println(ConsoleColors.CYAN + "Don't have an account yet? You can go to Sign Up page by typing \"" +
                                         ConsoleColors.CYAN_UNDERLINED + "Create an account" + ConsoleColors.CYAN + "\" as your username.");
                         }
@@ -66,19 +66,18 @@ public class Login
                 }
                 else
                 {
-                    System.out.println(ConsoleColors.RED + "The username or password is incorrect. Please try again...");
-                    System.out.println(ConsoleColors.RED + "Don't have an account yet? You can go to Sign Up page by typing \"" +
-                            ConsoleColors.RED_UNDERLINED + "Create an account" + ConsoleColors.RED + "\" as your username.");
+                    System.out.println(ConsoleColors.RED_BRIGHT + "The username or password is incorrect. Please try again...");
+                    System.out.println(ConsoleColors.CYAN + "Don't have an account yet? You can go to Sign Up page by typing \"" +
+                            ConsoleColors.CYAN_UNDERLINED + "Create an account" + ConsoleColors.CYAN + "\" as your username.");
                 }
             }
             else
             {
-                System.out.println(ConsoleColors.RED + "The username or password is incorrect. Please try again...");
-                System.out.println(ConsoleColors.RED + "Don't have an account yet? You can go to Sign Up page by typing \"" +
-                        ConsoleColors.RED_UNDERLINED + "Create an account" + ConsoleColors.RED + "\" as your username.");
+                System.out.println(ConsoleColors.RED_BRIGHT + "The username or password is incorrect. Please try again...");
+                System.out.println(ConsoleColors.CYAN + "Don't have an account yet? You can go to Sign Up page by typing \"" +
+                        ConsoleColors.CYAN_UNDERLINED + "Create an account" + ConsoleColors.CYAN + "\" as your username.");
             }
         }
-        scanner.close();
         return this.user;
     }
 }
