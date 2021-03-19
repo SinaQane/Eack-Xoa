@@ -1,11 +1,11 @@
 pages/Settings.java
  pages.Settings
-models/Tweet.java
- models.Tweet
+Main.java
+ Main
 pages/Timeline.java
  pages.Timeline
-utils/Config.java
- utils.Config
+entry/Validations.java
+ entry.Validations
 pages/Explore.java
  pages.Explore
 pages/HomePage.java
@@ -14,19 +14,17 @@ pages/DirectMessages.java
  pages.DirectMessages
 utils/ConsoleColors.java
  utils.ConsoleColors
-Main.java
- Main
-entry/Validations.java
- entry.Validations
 data/Save.java
  data.Save
-models/User.java
- models.User
-data/Load.java
- data.Load
 entry/Login.java
  entry.Login
+models/User.java
+ models.User
 entry/Enter.java
  entry.Enter
+data/Load.java
+ data.Load
 entry/SignUp.java
  entry.SignUp
+models/Tweet.java
+ models.Tweet

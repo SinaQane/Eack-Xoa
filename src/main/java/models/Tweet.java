@@ -1,5 +1,6 @@
 package models;
 
+import data.Load;
 import data.Save;
 
 import java.io.IOException;
@@ -36,13 +37,25 @@ public class Tweet
         this.reports = 0;
         this.tweetTime = new Date();
         this.visible = true;
-        owner.addTweet(this);
+        owner.userTweets.add(this.id);
+        owner.timelineTweets.add(this.id);
         Save.saveTweet(this);
     }
 
     public void deleted() throws IOException
     {
         this.visible = false;
+        Save.saveTweet(this);
+    }
+
+    public void reported() throws IOException
+    {
+        this.reports++;
+        if (this.reports>=10)
+        {
+            this.visible = false;
+            Load.findUser(this.owner).reported();
+        }
         Save.saveTweet(this);
     }
 
@@ -75,5 +88,4 @@ public class Tweet
     {
         this.downvotes.remove(user.id + "");
     }
-
 }

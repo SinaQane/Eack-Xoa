@@ -26,8 +26,8 @@ public class SignUp
 
         do {
             System.out.println(ConsoleColors.WHITE + "Choose a username:");
-            userName = scanner.nextLine();
-            if (userName.equals("I already have an account")) {
+            userName = scanner.nextLine().toLowerCase();
+            if (userName.equals("i already have an account")) {
                 Login login = new Login();
                 return login.user;
             }

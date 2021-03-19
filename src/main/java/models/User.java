@@ -1,6 +1,7 @@
 package models;
 
 import data.Save;
+import utils.ConsoleColors;
 
 import java.io.IOException;
 import java.util.Date;
@@ -25,19 +26,23 @@ public class User
     public Date lastSeen;
 
     public boolean isActive;
+    public boolean isPermitted;
 
     // Interactions with other users
-    public List<String> followersUsernames = new LinkedList<>();
-    public List<String> followingsUsernames = new LinkedList<>();
-    public List<String> blockedUsernames = new LinkedList<>();
-    public List<String> mutedUsernames = new LinkedList<>();
+    public List<String> followers = new LinkedList<>();
+    public List<String> followings = new LinkedList<>();
+    public List<String> blocked = new LinkedList<>();
+    public List<String> muted = new LinkedList<>();
+    public List<String> reported = new LinkedList<>();
 
     // Tweets
+    public List<String> timelineTweets = new LinkedList<>();
     public List<String> userTweets = new LinkedList<>();
+    public List<String> retweetedTweets = new LinkedList<>();
     public List<String> upvotedTweets = new LinkedList<>();
     public List<String> downvotedTweets = new LinkedList<>();
-    public List<String> retweetedTweets = new LinkedList<>();
     public List<String> savedTweets = new LinkedList<>();
+    public List<String> reportedTweets = new LinkedList<>();
     public Long lastTweetId = (long) 0;
 
     // Privacy
@@ -55,6 +60,7 @@ public class User
         this.infoState = false;
         this.lastSeenState = 1;
         this.isActive = true;
+        this.isPermitted = true; // TODO report tweet and user
         this.privateState = false;
         this.reports = 0;
         Save.changeUsername("0", this.username);
@@ -166,7 +172,13 @@ public class User
     // If the number of reports exceed a limit, the account will be limited.
     public void reported() throws IOException
     {
-        this.setReports(this.getReports() + 1);
+        this.reports++;
+        if (this.reports >= 10)
+        {
+            this.isPermitted = false;
+            // TODO user won't be able to tweet, comment and retweet for n seconds after getting suspended.
+        }
+        Save.saveUser(this);
     }
 
     // User tweets something.
@@ -180,6 +192,7 @@ public class User
     public void deleteTweet(Tweet tweet) throws IOException
     {
         this.userTweets.remove(tweet.id);
+        this.timelineTweets.remove(tweet.id);
         tweet.deleted();
         Save.saveUser(this);
     }
@@ -191,11 +204,13 @@ public class User
         if (retweetedTweets.contains(tweet.id))
         {
             this.retweetedTweets.remove(tweet.id);
+            this.timelineTweets.remove(tweet.id);
             tweet.removeFromRetweets(this.id + "");
         }
         else
         {
             this.retweetedTweets.add(tweet.id);
+            this.timelineTweets.add(tweet.id);
             tweet.addToRetweets(this.id + "");
         }
         Save.saveTweet(tweet);
@@ -252,6 +267,137 @@ public class User
         Save.saveUser(this);
     }
 
+    // Save tweet.
+    public void save(Tweet tweet) throws IOException
+    {
+        if (!savedTweets.contains(tweet.id))
+        {
+            this.savedTweets.add(tweet.id);
+            Save.saveUser(this);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW + "You have already saved this tweet.");
+    }
+
+    // Unsave (?) tweet.
+    public void unsave(Tweet tweet) throws IOException
+    {
+        if (savedTweets.contains(tweet.id))
+        {
+            this.savedTweets.remove(tweet.id);
+            Save.saveUser(this);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW + "This tweet isn't in your saved tweets.");
+    }
+
+    // This user follows another user.
+    public void follow(User user) throws IOException
+    {
+        if (!this.followings.contains(user.id + ""))
+        {
+            this.followings.add(user.id + "");
+            user.followers.add(this.id + "");
+            Save.saveUser(user);
+            Save.saveUser(this);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW + "You have already followed this user.");
+    }
+
+    // This user unfollows another user.
+    public void unfollow(User user) throws IOException
+    {
+        if (this.followings.contains(user.id + ""))
+        {
+            this.followings.remove(user.id + "");
+            user.followers.remove(this.id + "");
+            Save.saveUser(user);
+            Save.saveUser(this);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW + "You are not following this user.");
+    }
+
+    // This user blocks another user.
+    public void block(User user) throws IOException
+    {
+        if (!this.blocked.contains(user.id + ""))
+        {
+            this.blocked.add(user.id + "");
+            this.followings.remove(user.id + "");
+            this.followers.remove(user.id + "");
+            user.followings.remove(this.id + "");
+            user.followers.remove(this.id + "");
+            Save.saveUser(user);
+            Save.saveUser(this);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW + "You have already blocked this user.");
+    }
+
+    // This user unblocks another user.
+    public void unblock(User user) throws IOException
+    {
+        if (this.blocked.contains(user.id + ""))
+        {
+            this.blocked.remove(user.id + "");
+            Save.saveUser(this);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW + "This user isn't in your Blacklist.");
+    }
+
+    // This user mutes another user.
+    public void mute(User user) throws IOException
+    {
+        if (!this.muted.contains(user.id + ""))
+        {
+            this.muted.add(user.id + "");
+            Save.saveUser(this);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW + "You have already muted this user.");
+    }
+
+    // This user unmutes (?) another user.
+    public void unmute(User user) throws IOException
+    {
+        if (this.muted.contains(user.id + ""))
+        {
+            this.muted.add(user.id + "");
+            Save.saveUser(this);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW + "This user wasn't muted.");
+    }
+
+    // This user reports a tweets.
+    public void report(Tweet tweet) throws IOException
+    {
+        if (!this.reportedTweets.contains(tweet.id))
+        {
+            tweet.reported();
+            this.reportedTweets.add(tweet.id);
+            Save.saveUser(this);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW + "You have already reported this tweet.");
+    }
+
+    // This user reports another user.
+    public void report(User user) throws IOException
+    {
+        if (!this.reported.contains(user.id + ""))
+        {
+            user.reported();
+            this.reported.add(user.id + "");
+            Save.saveUser(this);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW + "You have already reported this user.");
+    }
+
     // Additional methods
     public void setIsActive(boolean isActive) throws IOException
     {
@@ -259,25 +405,9 @@ public class User
         Save.saveUser(this);
     }
 
-    public void setReports(int reports) throws IOException
-    {
-        this.reports = reports;
-        Save.saveUser(this);
-    }
-
     public boolean getIsActive()
     {
         return isActive;
-    }
-
-    public int getReports()
-    {
-        return reports;
-    }
-
-    public void addTweet(Tweet tweet)
-    {
-        this.userTweets.add(tweet.id);
     }
 
     public void addUpvote(Tweet tweet)

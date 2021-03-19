@@ -21,8 +21,8 @@ public class Login
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println(ConsoleColors.WHITE + "Enter your username:");
-            String username = scanner.nextLine();
-            if (username.equals("Create an account"))
+            String username = scanner.nextLine().toLowerCase();
+            if (username.equals("create an account"))
             {
                 SignUp signUp = new SignUp();
                 return signUp.user;
@@ -34,8 +34,35 @@ public class Login
             {
                 if (password.equals(result.password))
                 {
-                    this.user = result;
-                    break;
+                    if (result.getIsActive())
+                    {
+                        this.user = result;
+                        break;
+                    }
+                    else
+                    {
+                        System.out.println(ConsoleColors.CYAN + "This account had been deactivated." +
+                                "Would you like to reactivate it? (y/n)");
+                        String response = scanner.nextLine();
+                        while (!Validations.yesOrNo(response))
+                        {
+                            System.out.println(ConsoleColors.CYAN + "This account had been deactivated." +
+                                    "Would you like to reactivate it? (y/n)");
+                            response = scanner.nextLine();
+                        }
+                        switch (response)
+                        {
+                            case "y":
+                                System.out.println(ConsoleColors.CYAN + "Your Account has been reactivated.");
+                                result.reactivate();
+                                this.user = result;
+                                break;
+                            case "n":
+                                System.out.println(ConsoleColors.CYAN + "Enter another account then.");
+                                System.out.println(ConsoleColors.CYAN + "Don't have an account yet? You can go to Sign Up page by typing \"" +
+                                        ConsoleColors.CYAN_UNDERLINED + "Create an account" + ConsoleColors.CYAN + "\" as your username.");
+                        }
+                    }
                 }
                 else
                 {
