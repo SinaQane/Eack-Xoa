@@ -39,8 +39,7 @@ public class MainPage
                     flag = false;
                     HomePage.homePage(user);
                     break;
-                case "timeline":
-                    // TODO next
+                case "timeline": // TODO next
                 case "explore":
                 case "notifications":
                 case "direct":

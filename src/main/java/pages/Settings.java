@@ -180,29 +180,29 @@ public class Settings
                         System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your new last seen status:");
                         System.out.println(" You can choose from \"nobody\", \"followings only\" and \"everyone\".");
                         String newLastSeen = scanner.nextLine().toLowerCase();
-                        if (newLastSeen.equals("nobody"))
-                        {
-                            user.setLastSeenState(0);
-                            System.out.println(ConsoleColors.GREEN_BRIGHT + "------------------------------------------------------");
-                            System.out.println("Your last seen status is now visible to nobody.");
-                            System.out.println("------------------------------------------------------");
+                        switch (newLastSeen) {
+                            case "nobody":
+                                user.setLastSeenState(0);
+                                System.out.println(ConsoleColors.GREEN_BRIGHT + "------------------------------------------------------");
+                                System.out.println("Your last seen status is now visible to nobody.");
+                                System.out.println("------------------------------------------------------");
+                                break;
+                            case "followings only":
+                                user.setLastSeenState(1);
+                                System.out.println(ConsoleColors.GREEN_BRIGHT + "------------------------------------------------------");
+                                System.out.println("Your last seen status is now visible to your followings only.");
+                                System.out.println("------------------------------------------------------");
+                                break;
+                            case "everyone":
+                                user.setLastSeenState(2);
+                                System.out.println(ConsoleColors.GREEN_BRIGHT + "------------------------------------------------------");
+                                System.out.println("Your last seen status is now visible to everyone.");
+                                System.out.println("------------------------------------------------------");
+                                break;
+                            default:
+                                System.out.println(ConsoleColors.RED_BRIGHT + "Invalid command...");
+                                break;
                         }
-                        else if (newLastSeen.equals("followings only"))
-                        {
-                            user.setLastSeenState(1);
-                            System.out.println(ConsoleColors.GREEN_BRIGHT + "------------------------------------------------------");
-                            System.out.println("Your last seen status is now visible to your followings only.");
-                            System.out.println("------------------------------------------------------");
-                        }
-                        else if (newLastSeen.equals("everyone"))
-                        {
-                            user.setLastSeenState(2);
-                            System.out.println(ConsoleColors.GREEN_BRIGHT + "------------------------------------------------------");
-                            System.out.println("Your last seen status is now visible to everyone.");
-                            System.out.println("------------------------------------------------------");
-                        }
-                        else
-                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid command...");
                         flag = false;
                         break;
                     case "private":

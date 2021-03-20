@@ -86,7 +86,7 @@ public class HomePage
                         break;
                     case "followers":
                     case "followings":
-                        System.out.println(ConsoleColors.RED + "This function isn't available yet");
+                        System.out.println(ConsoleColors.RED + "This function isn't available yet"); // TODO
                         break;
                     case "tweet":
                         System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your tweet here:");
