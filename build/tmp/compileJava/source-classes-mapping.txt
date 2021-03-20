@@ -1,27 +1,27 @@
 entry/Validations.java
  entry.Validations
+models/Tweet.java
+ models.Tweet
+pages/DirectMessages.java
+ pages.DirectMessages
+pages/Timeline.java
+ pages.Timeline
+data/Save.java
+ data.Save
+entry/Enter.java
+ entry.Enter
+models/User.java
+ models.User
+utils/ConsoleColors.java
+ utils.ConsoleColors
 data/Load.java
  data.Load
 pages/Explore.java
  pages.Explore
-pages/Timeline.java
- pages.Timeline
-pages/DirectMessages.java
- pages.DirectMessages
-utils/ConsoleColors.java
- utils.ConsoleColors
-data/Save.java
- data.Save
-models/Tweet.java
- models.Tweet
 entry/SignUp.java
  entry.SignUp
-models/User.java
- models.User
 entry/Login.java
  entry.Login
-entry/Enter.java
- entry.Enter
 Main.java
  Main
 pages/HomePage.java

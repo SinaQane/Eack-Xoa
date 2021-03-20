@@ -16,10 +16,9 @@ public class Settings
     {
         Scanner scanner = new Scanner(System.in);
 
-        boolean active = true;
-        while (active)
+        while (true)
         {
-            System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Settings Page");
+            System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Settings");
             System.out.println("------------------------------------------------------");
 
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT +"List of available commands: \n");
@@ -38,9 +37,11 @@ public class Settings
 
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
 
+            boolean deactivated = false;
             boolean flag = true;
             while (flag)
             {
+
                 String command = scanner.nextLine().toLowerCase();
                 switch (command)
                 {
@@ -182,24 +183,29 @@ public class Settings
                         if (deactivate.equals("y"))
                         {
                             System.out.print(ConsoleColors.YELLOW_BRIGHT + "Alright then... Deactivating");
-                            Thread.sleep(500);
+                            Thread.sleep(1000);
                             System.out.print(".");
-                            Thread.sleep(500);
+                            Thread.sleep(1000);
                             System.out.print(".");
-                            Thread.sleep(500);
-                            System.out.print(".");
+                            Thread.sleep(1000);
+                            System.out.println(".");
                             user.deactivate();
                             flag = false;
-                            active = false;
+                            deactivated = true;
+                            // TODO user should go back to the Main class
                         }
+                        else if (deactivate.equals("n"))
+                            System.out.print(ConsoleColors.GREEN_BRIGHT + "Hooooof, Going back to settings page then...");
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid command...");
                         break;
                     default:
                         System.out.println(ConsoleColors.RED_BRIGHT + "Please enter a valid command:");
                         break;
                 }
             }
-
+            if (deactivated)
+                break;
         }
-
     }
 }

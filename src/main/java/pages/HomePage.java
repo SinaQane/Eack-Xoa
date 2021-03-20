@@ -50,6 +50,7 @@ public class HomePage
                     System.out.println(ConsoleColors.RED + "This function isn't available");
                     break;
                 case "settings":
+                    flag = false;
                     Settings.settings(user);
                     break;
                 case "close":

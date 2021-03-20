@@ -41,7 +41,7 @@ public class Login
                     }
                     else
                     {
-                        System.out.println(ConsoleColors.YELLOW_BRIGHT + "This account has been deactivated." +
+                        System.out.println(ConsoleColors.YELLOW_BRIGHT + "This account has been deactivated. " +
                                 "Would you like to reactivate it? (y/n)");
                         String response = scanner.nextLine();
                         while (!Validations.yesOrNo(response))
@@ -50,17 +50,19 @@ public class Login
                                     "Would you like to reactivate it? (y/n)");
                             response = scanner.nextLine();
                         }
-                        switch (response)
+                        if (response.equals("y"))
                         {
-                            case "y":
-                                System.out.println(ConsoleColors.GREEN_BRIGHT + "Your Account has been reactivated.");
-                                result.reactivate();
-                                this.user = result;
-                                break;
-                            case "n":
-                                System.out.println(ConsoleColors.YELLOW_BRIGHT + "Login to another account then.");
-                                System.out.println(ConsoleColors.CYAN + "Don't have an account yet? You can go to Sign Up page by typing \"" +
-                                        ConsoleColors.CYAN_UNDERLINED + "Create an account" + ConsoleColors.CYAN + "\" as your username.");
+                            System.out.println(ConsoleColors.GREEN_BRIGHT + "------------------------------------------------------");
+                            System.out.println("Your Account has been reactivated.");
+                            result.reactivate();
+                            this.user = result;
+                            break;
+                        }
+                        else if (response.equals("n"))
+                        {
+                            System.out.println(ConsoleColors.YELLOW_BRIGHT + "Login to another account then.");
+                            System.out.println(ConsoleColors.CYAN + "Don't have an account yet? You can go to Sign Up page by typing \"" +
+                                    ConsoleColors.CYAN_UNDERLINED + "Create an account" + ConsoleColors.CYAN + "\" as your username.");
                         }
                     }
                 }
