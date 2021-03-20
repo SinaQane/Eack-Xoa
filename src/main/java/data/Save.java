@@ -105,4 +105,12 @@ public class Save
     {
         replaceLine( "./resources/phonenumbers.txt", oldPhoneNumber, phoneNumber);
     }
+
+    public static void changeLastId(long newId) throws IOException
+    {
+        List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./resources/id.txt"), StandardCharsets.UTF_8));
+        fileContent.set(0, newId + "");
+        boolean flag = true;
+        Files.write(Paths.get("./resources/id.txt"), fileContent, StandardCharsets.UTF_8);
+    }
 }

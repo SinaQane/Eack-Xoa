@@ -1,5 +1,6 @@
 package models;
 
+import data.Load;
 import data.Save;
 import utils.ConsoleColors;
 
@@ -12,7 +13,6 @@ import java.util.Objects;
 public class User
 {
     // Account Info
-    static Long lastId = (long) 0;
     public final Long id;
     public String username;
     public String password;
@@ -53,8 +53,8 @@ public class User
 
     public User(String username, String password) throws IOException
     {
-        lastId ++;
-        this.id = lastId;
+        Save.changeLastId(Load.loadLastId() + 1);
+        this.id = Load.loadLastId();
         this.username = username;
         this.password = password;
         this.infoState = false;
