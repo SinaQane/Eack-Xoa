@@ -46,7 +46,7 @@ public class Login
                         String response = scanner.nextLine();
                         while (!Validations.yesOrNo(response))
                         {
-                            System.out.println(ConsoleColors.YELLOW_BRIGHT + "This account has been deactivated." +
+                            System.out.println(ConsoleColors.YELLOW_BRIGHT + "This account has been deactivated. " +
                                     "Would you like to reactivate it? (y/n)");
                             response = scanner.nextLine();
                         }
@@ -61,7 +61,7 @@ public class Login
                         else if (response.equals("n"))
                         {
                             System.out.println(ConsoleColors.YELLOW_BRIGHT + "Login to another account then.");
-                            System.out.println(ConsoleColors.CYAN + "Don't have an account yet? You can go to Sign Up page by typing \"" +
+                            System.out.println(ConsoleColors.CYAN + " Don't have an account yet? You can go to Sign Up page by typing \"" +
                                     ConsoleColors.CYAN_UNDERLINED + "Create an account" + ConsoleColors.CYAN + "\" as your username.");
                         }
                     }
@@ -69,14 +69,14 @@ public class Login
                 else
                 {
                     System.out.println(ConsoleColors.RED_BRIGHT + "The username or password is incorrect. Please try again...");
-                    System.out.println(ConsoleColors.CYAN + "Don't have an account yet? You can go to Sign Up page by typing \"" +
+                    System.out.println(ConsoleColors.CYAN + " Don't have an account yet? You can go to Sign Up page by typing \"" +
                             ConsoleColors.CYAN_UNDERLINED + "Create an account" + ConsoleColors.CYAN + "\" as your username.");
                 }
             }
             else
             {
                 System.out.println(ConsoleColors.RED_BRIGHT + "The username or password is incorrect. Please try again...");
-                System.out.println(ConsoleColors.CYAN + "Don't have an account yet? You can go to Sign Up page by typing \"" +
+                System.out.println(ConsoleColors.CYAN + " Don't have an account yet? You can go to Sign Up page by typing \"" +
                         ConsoleColors.CYAN_UNDERLINED + "Create an account" + ConsoleColors.CYAN + "\" as your username.");
             }
         }

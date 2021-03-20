@@ -14,17 +14,17 @@ data/Save.java
  data.Save
 models/User.java
  models.User
-pages/HomePage.java
- pages.HomePage
-entry/Login.java
- entry.Login
-pages/Settings.java
- pages.Settings
-entry/Enter.java
- entry.Enter
+models/Tweet.java
+ models.Tweet
 data/Load.java
  data.Load
 entry/SignUp.java
  entry.SignUp
-models/Tweet.java
- models.Tweet
+entry/Login.java
+ entry.Login
+entry/Enter.java
+ entry.Enter
+pages/HomePage.java
+ pages.HomePage
+pages/Settings.java
+ pages.Settings

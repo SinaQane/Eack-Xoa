@@ -35,8 +35,8 @@ public class SignUp
             if (!Validations.usernameIsAvailable(userName))
             {
                 System.out.println(ConsoleColors.RED_BRIGHT + "This username has already been used. PLease choose another one...");
-                System.out.println(ConsoleColors.CYAN + "Already have an account? You can go to the Login page by typing \"" +
-                        ConsoleColors.CYAN_UNDERLINED + "I already have an account" + ConsoleColors.CYAN + "\"");
+                System.out.println(ConsoleColors.CYAN + " Already have an account? You can go to the Login page by typing \"" +
+                        ConsoleColors.CYAN_UNDERLINED + "I already have an account" + ConsoleColors.CYAN + "\".");
             }
         } while (!Validations.usernameIsValid(userName) || !Validations.usernameIsAvailable(userName));
 
@@ -73,8 +73,8 @@ public class SignUp
             {
                 System.out.println(ConsoleColors.RED_BRIGHT + "There's already an account with this email address registered.");
                 System.out.println("PLease choose another one...");
-                System.out.println(ConsoleColors.CYAN + "Already have an account? You can go to the Login page by typing \"" +
-                        ConsoleColors.CYAN_UNDERLINED + "I already have an account" + ConsoleColors.CYAN + "\"");
+                System.out.println(ConsoleColors.CYAN + " Already have an account? You can go to the Login page by typing \"" +
+                        ConsoleColors.CYAN_UNDERLINED + "I already have an account" + ConsoleColors.CYAN + "\".");
             }
         } while (!Validations.emailIsValid(email) || !Validations.emailIsAvailable(email));
 
@@ -94,14 +94,14 @@ public class SignUp
                 if (!Validations.phoneNumberIsValid(phoneNumber))
                 {
                     System.out.println(ConsoleColors.RED_BRIGHT + "PLease enter a valid phone number..." +
-                            "\n Acceptable numbers are in the format \"+11234567890\"");
+                            "\n Acceptable numbers are in the format \"+11234567890\".");
                 }
                 if (!Validations.phoneNumberIsAvailable(phoneNumber))
                 {
                     System.out.println(ConsoleColors.RED_BRIGHT + "There's already an account with this phone number registered.");
                     System.out.println("PLease choose another one...");
-                    System.out.println(ConsoleColors.CYAN + "Already have an account? You can go to the Login page by typing \"" +
-                            ConsoleColors.CYAN_UNDERLINED + "I already have an account" + ConsoleColors.CYAN + "\"");
+                    System.out.println(ConsoleColors.CYAN + " Already have an account? You can go to the Login page by typing \"" +
+                            ConsoleColors.CYAN_UNDERLINED + "I already have an account" + ConsoleColors.CYAN + "\".");
                 }
                 if (Validations.phoneNumberIsValid(phoneNumber) && Validations.phoneNumberIsAvailable(phoneNumber))
                     break;
@@ -118,7 +118,7 @@ public class SignUp
             {
                 if (!Validations.dateIsValid(date))
                     System.out.println(ConsoleColors.RED_BRIGHT + "PLease enter a valid date..." +
-                            "\n Acceptable dates are in format \"yyyy-MM-dd\"");
+                            "\n Acceptable dates are in format \"yyyy-MM-dd\".");
                 else
                     break;
             }
