@@ -12,10 +12,10 @@ utils/ConsoleColors.java
  utils.ConsoleColors
 data/Save.java
  data.Save
-Main.java
- Main
-pages/HomePage.java
- pages.HomePage
+models/Tweet.java
+ models.Tweet
+entry/SignUp.java
+ entry.SignUp
 models/User.java
  models.User
 entry/Login.java
@@ -24,7 +24,7 @@ entry/Enter.java
  entry.Enter
 data/Load.java
  data.Load
-entry/SignUp.java
- entry.SignUp
-models/Tweet.java
- models.Tweet
+Main.java
+ Main
+pages/HomePage.java
+ pages.HomePage
