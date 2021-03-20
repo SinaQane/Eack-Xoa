@@ -19,7 +19,7 @@ public class HomePage
         System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Main Page");
         System.out.println("------------------------------------------------------");
 
-        System.out.println(ConsoleColors.BLUE_BRIGHT +"List of available commands:");
+        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT +"List of available commands: \n");
         System.out.println(ConsoleColors.PURPLE_BRIGHT + "home: go to your Home Page");
         System.out.println("timeline: read your following accounts' tweets");
         System.out.println("explore: search for other accounts and read random tweets");
@@ -27,6 +27,7 @@ public class HomePage
         System.out.println("direct: chat with other users and read their messages");
         System.out.println("settings: set your account's settings");
         System.out.println("close: close the app");
+        System.out.println("------------------------------------------------------");
 
         System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
 
@@ -68,6 +69,7 @@ public class HomePage
 
     public static void homePage(User user) throws IOException
     {
+        int num = 0;
         while (true)
         {
             Scanner scanner = new Scanner(System.in);
@@ -91,25 +93,26 @@ public class HomePage
                 System.out.println(user.bio);
             System.out.println("------------------------------------------------------");
 
-            int cnt = user.timelineTweets.size();
-            int num = 0;
+            int cnt = user.homePageTweets.size();
             Tweet tweet = null;
             if (cnt>0)
             {
                 int index = (((cnt - 1 + num) % cnt) + cnt) % cnt;
-                tweet = Load.findTweet(user.timelineTweets.get(index));
+                tweet = Load.findTweet(user.homePageTweets.get(index).substring(2));
+                if (user.homePageTweets.get(index).charAt(0)=='0')
+                    System.out.println("* Retweeted by " +user.username);
                 System.out.println("@" + tweet.getOwner() + ":");
                 System.out.println(tweet.getText());
                 System.out.println(tweet.getKarma() + " Karma - " + tweet.getCommentsCount() + " Comments - " +
                         tweet.getRetweetsCount() + " Retweets");
-                System.out.println("Tweet " + (1+num) + "/" + cnt);
+                System.out.println("Tweet " + (1+index) + "/" + cnt);
             }
             else
                 System.out.println("You Haven't tweeted anything yet...");
 
             System.out.println("------------------------------------------------------");
 
-            System.out.println(ConsoleColors.BLUE_BRIGHT + "list of available commands:");
+            System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
             System.out.println(ConsoleColors.PURPLE_BRIGHT + "main: go back to the Main Page");
             System.out.println("tweet: tweet something...");
             System.out.println("delete: delete current visible tweet");
@@ -120,6 +123,7 @@ public class HomePage
             System.out.println("next: view your next tweet");
             System.out.println("previous: view your previous tweet");
             System.out.println("close: close the app");
+            System.out.println("------------------------------------------------------");
 
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
             boolean flag = true;
@@ -133,7 +137,11 @@ public class HomePage
                     case "tweet":
                         System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your tweet here:");
                         String tweetStr = scanner.nextLine();
-                        user.tweet(tweetStr);
+                        if (!tweetStr.equals(""))
+                            user.tweet(tweetStr);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Tweets can't be empty.");
+                        num = 0;
                         flag = false;
                         break;
                     case "delete":
@@ -145,28 +153,29 @@ public class HomePage
                         break;
                     case "upvote":
                         if (tweet != null)
-                            user.upvote(tweet);
+                            tweet.upvote(user);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "downvote":
                         if (tweet != null)
-                            user.downvote(tweet);
+                            tweet.downvote(user);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "retweet":
                         if (tweet != null)
-                            user.retweet(tweet);
+                            tweet.retweet(user);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        num = 0;
                         flag = false;
                         break;
                     case "save":
                         if (tweet != null)
-                            user.save(tweet);
+                            tweet.save(user);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;

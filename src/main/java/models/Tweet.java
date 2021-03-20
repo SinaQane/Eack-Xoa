@@ -2,6 +2,7 @@ package models;
 
 import data.Load;
 import data.Save;
+import utils.ConsoleColors;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class Tweet
         this.tweetTime = new Date();
         this.visible = true;
         owner.userTweets.add(this.id);
-        owner.timelineTweets.add(this.id);
+        owner.homePageTweets.add("1-" + this.id);
         Save.saveTweet(this);
     }
 
@@ -123,4 +124,125 @@ public class Tweet
     {
         return retweets.size();
     }
+
+    // Retweet button. It'll retweet a tweet if it's not retweeted before
+    // and remove it from retweeted tweets if it had already been tweeted.
+    public void retweet(User user) throws IOException
+    {
+        if (user.retweetedTweets.contains(this.id))
+        {
+            user.retweetedTweets.remove(this.id);
+            user.homePageTweets.remove("0-" + this.id);
+            this.removeFromRetweets(user.id + "");
+        }
+        else
+        {
+            user.retweetedTweets.add(this.id);
+            user.homePageTweets.add("0-" + this.id);
+            this.addToRetweets(user.id + "");
+        }
+        Save.saveTweet(this);
+        Save.saveUser(user);
+    }
+
+    // Upvote button. It'll upvote a tweet if it hasn't been upvoted before,
+    // remove its upvote if it had been upvoted before and finally,
+    // turn the downvote to upvote if it has been downvoted before.
+    public void upvote(User user) throws IOException
+    {
+        if (user.downvotedTweets.contains(this.id))
+        {
+            user.addUpvote(this);
+            this.addToUpvotes(user);
+            user.removeDownvote(this);
+            this.removeFromDownvoted(user);
+        }
+        else if (user.upvotedTweets.contains(this.id))
+        {
+            user.removeUpvote(this);
+            this.removeFromUpvoted(user);
+        }
+        else
+        {
+            user.addUpvote(this);
+            this.addToUpvotes(user);
+        }
+        Save.saveTweet(this);
+        Save.saveUser(user);
+    }
+
+    // Downvote button. Pretty much the same as the Upvote button.
+    public void downvote(User user) throws IOException
+    {
+        if (user.upvotedTweets.contains(this.id))
+        {
+            user.addDownvote(this);
+            this.addToDownvotes(user);
+            user.removeUpvote(this);
+            this.removeFromUpvoted(user);
+        }
+        else if (user.downvotedTweets.contains(this.id))
+        {
+            user.removeDownvote(this);
+            this.removeFromDownvoted(user);
+        }
+        else
+        {
+            user.addDownvote(this);
+            this.addToDownvotes(user);
+        }
+        Save.saveTweet(this);
+        Save.saveUser(user);
+    }
+
+    // User saves this tweet.
+    public void save(User user) throws IOException
+    {
+        if (!user.savedTweets.contains(this.id))
+        {
+            user.savedTweets.add(this.id);
+            Save.saveUser(user);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already saved this tweet.");
+    }
+
+    // User unsaves (?) this tweet.
+    public void unsave(User user) throws IOException
+    {
+        if (user.savedTweets.contains(this.id))
+        {
+            user.savedTweets.remove(this.id);
+            Save.saveUser(user);
+        }
+        else
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "This tweet isn't in your saved tweets.");
+    }
+
+    // User reports this tweets.
+    public void report(User user) throws IOException
+    {
+        if (user.id != this.getOwnerId())
+        {
+            if (!user.reportedTweets.contains(this.id))
+            {
+                this.reported();
+                user.reportedTweets.add(this.id);
+                Save.saveUser(user);
+            }
+            else
+                System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already reported this tweet.");
+        }
+        else
+            System.out.println(ConsoleColors.RED_BRIGHT + "You can't report your own tweet.");
+    }
+
+    // TODO User shares this tweet with other users
+    /* public void share(User user, ArrayList<User> users)
+    {
+        for (User dest : users)
+        {
+            user.send(dest, this);
+        }
+    }*/
 }

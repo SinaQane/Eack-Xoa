@@ -36,7 +36,7 @@ public class User
     public List<String> reported = new LinkedList<>();
 
     // Tweets
-    public List<String> timelineTweets = new LinkedList<>();
+    public List<String> homePageTweets = new LinkedList<>();
     public List<String> userTweets = new LinkedList<>();
     public List<String> retweetedTweets = new LinkedList<>();
     public List<String> upvotedTweets = new LinkedList<>();
@@ -112,7 +112,8 @@ public class User
         Save.saveUser(this);
     }
 
-    // Updated by the app every n seconds.
+    // Sets everytime someone logs in
+    // TODO in login and sign up section
     public void setLastLogin(Date lastLogin) throws IOException
     {
         this.lastLogin = lastLogin;
@@ -194,7 +195,7 @@ public class User
         if (tweet.getOwnerId() == this.id)
         {
             this.userTweets.remove(tweet.id);
-            this.timelineTweets.remove(tweet.id);
+            this.homePageTweets.remove("1-" + tweet.id);
             tweet.deleted();
             Save.saveUser(this);
         }
@@ -202,100 +203,6 @@ public class User
         {
             System.out.println(ConsoleColors.RED_BRIGHT + "You don't have the permission to delete this tweet.");
         }
-    }
-
-    // Retweet button. It'll retweet a tweet if it's not retweeted before
-    // and remove it from retweeted tweets if it had already been tweeted.
-    public void retweet(Tweet tweet) throws IOException
-    {
-        if (retweetedTweets.contains(tweet.id))
-        {
-            this.retweetedTweets.remove(tweet.id);
-            this.timelineTweets.remove(tweet.id);
-            tweet.removeFromRetweets(this.id + "");
-        }
-        else
-        {
-            this.retweetedTweets.add(tweet.id);
-            this.timelineTweets.add(tweet.id);
-            tweet.addToRetweets(this.id + "");
-        }
-        Save.saveTweet(tweet);
-        Save.saveUser(this);
-    }
-
-    // Upvote button. It'll upvote a tweet if it hasn't been upvoted before,
-    // remove its upvote if it had been upvoted before and finally,
-    // turn the downvote to upvote if it has been downvoted before.
-    public void upvote(Tweet tweet) throws IOException
-    {
-        if (downvotedTweets.contains(tweet.id))
-        {
-            this.addUpvote(tweet);
-            tweet.addToUpvotes(this);
-            this.removeDownvote(tweet);
-            tweet.removeFromDownvoted(this);
-        }
-        else if (upvotedTweets.contains(tweet.id))
-        {
-            this.removeUpvote(tweet);
-            tweet.removeFromUpvoted(this);
-        }
-        else
-        {
-            this.addUpvote(tweet);
-            tweet.addToUpvotes(this);
-        }
-        Save.saveTweet(tweet);
-        Save.saveUser(this);
-    }
-
-    // Downvote button. Pretty much the same as the Upvote button.
-    public void downvote(Tweet tweet) throws IOException
-    {
-        if (upvotedTweets.contains(tweet.id))
-        {
-            this.addDownvote(tweet);
-            tweet.addToDownvotes(this);
-            this.removeUpvote(tweet);
-            tweet.removeFromUpvoted(this);
-        }
-        else if (downvotedTweets.contains(tweet.id))
-        {
-            this.removeDownvote(tweet);
-            tweet.removeFromDownvoted(this);
-        }
-        else
-        {
-            this.addDownvote(tweet);
-            tweet.addToDownvotes(this);
-        }
-        Save.saveTweet(tweet);
-        Save.saveUser(this);
-    }
-
-    // Save tweet.
-    public void save(Tweet tweet) throws IOException
-    {
-        if (!savedTweets.contains(tweet.id))
-        {
-            this.savedTweets.add(tweet.id);
-            Save.saveUser(this);
-        }
-        else
-            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already saved this tweet.");
-    }
-
-    // Unsave (?) tweet.
-    public void unsave(Tweet tweet) throws IOException
-    {
-        if (savedTweets.contains(tweet.id))
-        {
-            this.savedTweets.remove(tweet.id);
-            Save.saveUser(this);
-        }
-        else
-            System.out.println(ConsoleColors.YELLOW_BRIGHT + "This tweet isn't in your saved tweets.");
     }
 
     // This user follows another user.
@@ -377,19 +284,6 @@ public class User
         }
         else
             System.out.println(ConsoleColors.YELLOW_BRIGHT + "This user wasn't muted.");
-    }
-
-    // This user reports a tweets.
-    public void report(Tweet tweet) throws IOException
-    {
-        if (!this.reportedTweets.contains(tweet.id))
-        {
-            tweet.reported();
-            this.reportedTweets.add(tweet.id);
-            Save.saveUser(this);
-        }
-        else
-            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already reported this tweet.");
     }
 
     // This user reports another user.
