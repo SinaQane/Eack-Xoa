@@ -1,7 +1,7 @@
 entry/Validations.java
  entry.Validations
-Main.java
- Main
+entry/Enter.java
+ entry.Enter
 pages/DirectMessages.java
  pages.DirectMessages
 pages/Timeline.java
@@ -22,8 +22,12 @@ entry/SignUp.java
  entry.SignUp
 entry/Login.java
  entry.Login
-entry/Enter.java
- entry.Enter
+Main.java
+ Main
+pages/MainPage.java
+ pages.MainPage
+pages/FirstPage.java
+ pages.FirstPage
 pages/HomePage.java
  pages.HomePage
 pages/Settings.java
