@@ -1,7 +1,7 @@
 entry/Validations.java
  entry.Validations
-pages/Settings.java
- pages.Settings
+data/Load.java
+ data.Load
 pages/Explore.java
  pages.Explore
 pages/Timeline.java
@@ -22,9 +22,9 @@ entry/Login.java
  entry.Login
 entry/Enter.java
  entry.Enter
-data/Load.java
- data.Load
 Main.java
  Main
 pages/HomePage.java
  pages.HomePage
+pages/Settings.java
+ pages.Settings

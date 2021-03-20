@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class HomePage
 {
-    public static void mainPage(User user) throws NoSuchElementException, IOException
+    public static void mainPage(User user) throws NoSuchElementException, IOException, InterruptedException
     {
         Scanner scanner = new Scanner(System.in);
 
@@ -63,7 +63,7 @@ public class HomePage
         }
     }
 
-    public static void homePage(User user) throws IOException
+    public static void homePage(User user) throws IOException, InterruptedException
     {
         int num = 0;
         while (true)

@@ -12,7 +12,8 @@ import java.util.Scanner;
 
 public class Settings
 {
-    public static void settings(User user) throws IOException, InterruptedException {
+    public static void settings(User user) throws IOException, InterruptedException
+    {
         Scanner scanner = new Scanner(System.in);
 
         boolean active = true;
