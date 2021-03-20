@@ -57,6 +57,7 @@ public class MainPage
                 case "close":
                     flag = false;
                     System.out.print(ConsoleColors.WHITE_BRIGHT + "Closing the app...");
+                    System.exit(0);
                     break;
                 default:
                     System.out.println(ConsoleColors.RED_BRIGHT + "Please enter a valid command:");
