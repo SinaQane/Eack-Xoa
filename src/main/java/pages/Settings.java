@@ -14,10 +14,10 @@ public class Settings
 {
     public static void settings(User user) throws IOException, InterruptedException
     {
-        Scanner scanner = new Scanner(System.in);
-
-        while (true)
+        boolean settingsFlag = true;
+        while (settingsFlag)
         {
+            Scanner scanner = new Scanner(System.in);
             System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Settings");
             System.out.println("------------------------------------------------------");
 
@@ -42,13 +42,13 @@ public class Settings
             boolean flag = true;
             while (flag)
             {
-
                 String command = scanner.nextLine().toLowerCase();
                 switch (command)
                 {
                     case "main":
                         flag = false;
-                        HomePage.mainPage(user);
+                        settingsFlag = false;
+                        MainPage.mainPage(user);
                         break;
                     case "name":
                         System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your new name:");
@@ -303,7 +303,7 @@ public class Settings
                             System.out.println("------------------------------------------------------");
                             flag = false;
                             deactivated = true;
-                            // TODO user should go back to the Main class
+
                         }
                         else if (deactivate.equals("n"))
                             System.out.print(ConsoleColors.GREEN_BRIGHT + "Hooooof, Going back to settings page then...");
@@ -316,7 +316,8 @@ public class Settings
                 }
             }
             if (deactivated)
-                break;
+                settingsFlag = false; // break;
         }
+        FirstPage.firstPage();
     }
 }

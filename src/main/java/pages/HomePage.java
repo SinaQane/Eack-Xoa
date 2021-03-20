@@ -7,67 +7,15 @@ import utils.ConsoleColors;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class HomePage
 {
-    public static void mainPage(User user) throws NoSuchElementException, IOException, InterruptedException
-    {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Main Page");
-        System.out.println("------------------------------------------------------");
-
-        System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT +"List of available commands: \n");
-        System.out.println(ConsoleColors.PURPLE_BRIGHT + "home: go to your Home Page");
-        System.out.println("timeline: read your following accounts' tweets");
-        System.out.println("explore: search for other accounts and read random tweets");
-        System.out.println("notifications: read your latest notifications");
-        System.out.println("direct: chat with other users and read their messages");
-        System.out.println("settings: set your account's settings");
-        System.out.println("log out: log out of your account");
-        System.out.println("close: close the app");
-        System.out.println("------------------------------------------------------");
-
-        System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
-
-        boolean flag = true;
-        while (flag)
-        {
-            String command = scanner.nextLine().toLowerCase();
-            switch (command)
-            {
-                case "home":
-                    flag = false;
-                    homePage(user);
-                    break;
-                case "timeline":
-                case "log out":
-                case "explore":
-                case "notifications":
-                case "direct":
-                    System.out.println(ConsoleColors.RED + "This function isn't available");
-                    break;
-                case "settings":
-                    flag = false;
-                    Settings.settings(user);
-                    break;
-                case "close":
-                    flag = false;
-                    System.out.println(ConsoleColors.WHITE_BRIGHT + "Closing the app...");
-                    break;
-                default:
-                    System.out.println(ConsoleColors.RED_BRIGHT + "Please enter a valid command:");
-                    break;
-            }
-        }
-    }
-
     public static void homePage(User user) throws IOException, InterruptedException
     {
         int num = 0;
-        while (true)
+        boolean homeFlag = true;
+        while (homeFlag)
         {
             Scanner scanner = new Scanner(System.in);
             System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Home Page");
@@ -75,6 +23,8 @@ public class HomePage
 
             System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + user.name);
             System.out.println(ConsoleColors.CYAN_BRIGHT + "@" + user.username);
+            System.out.println("Followers: " + user.followers.size() + "          " +
+                    "Followings: " + user.followings.size());
             if (user.birthDate != null)
             {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MMM/dd");
@@ -111,7 +61,8 @@ public class HomePage
 
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
             System.out.println(ConsoleColors.PURPLE_BRIGHT + "main: go back to the Main Page");
-            // TODO following and followers list on the home page
+            System.out.println("followers: view your followers");
+            System.out.println("followings: view your followings");
             System.out.println("tweet: tweet something...");
             System.out.println("delete: delete current visible tweet");
             System.out.println("upvote: upvote current visible tweet");
@@ -123,13 +74,19 @@ public class HomePage
             System.out.println("------------------------------------------------------");
 
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
+
             boolean flag = true;
             while (flag) {
                 String command = scanner.nextLine().toLowerCase();
                 switch (command) {
                     case "main":
                         flag = false;
-                        mainPage(user);
+                        homeFlag = false;
+                        MainPage.mainPage(user);
+                        break;
+                    case "followers":
+                    case "followings":
+                        System.out.println(ConsoleColors.RED + "This function isn't available yet");
                         break;
                     case "tweet":
                         System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your tweet here:");
