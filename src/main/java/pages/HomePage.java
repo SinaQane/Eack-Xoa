@@ -26,6 +26,7 @@ public class HomePage
         System.out.println("notifications: read your latest notifications");
         System.out.println("direct: chat with other users and read their messages");
         System.out.println("settings: set your account's settings");
+        System.out.println("log out: log out of your account");
         System.out.println("close: close the app");
         System.out.println("------------------------------------------------------");
 
@@ -34,7 +35,7 @@ public class HomePage
         boolean flag = true;
         while (flag)
         {
-            String command = scanner.nextLine();
+            String command = scanner.nextLine().toLowerCase();
             switch (command)
             {
                 case "home":
@@ -42,19 +43,14 @@ public class HomePage
                     homePage(user);
                     break;
                 case "timeline":
-                    System.out.println(ConsoleColors.RED + "This function isn't available");
-                    break;
+                case "log out":
                 case "explore":
-                    System.out.println(ConsoleColors.RED + "This function isn't available");
-                    break;
                 case "notifications":
-                    System.out.println(ConsoleColors.RED + "This function isn't available");
-                    break;
                 case "direct":
                     System.out.println(ConsoleColors.RED + "This function isn't available");
                     break;
                 case "settings":
-                    System.out.println(ConsoleColors.RED + "This function isn't available");
+                    Settings.settings(user);
                     break;
                 case "close":
                     flag = false;
@@ -114,6 +110,7 @@ public class HomePage
 
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
             System.out.println(ConsoleColors.PURPLE_BRIGHT + "main: go back to the Main Page");
+            // TODO following and followers list on the home page
             System.out.println("tweet: tweet something...");
             System.out.println("delete: delete current visible tweet");
             System.out.println("upvote: upvote current visible tweet");
@@ -122,13 +119,12 @@ public class HomePage
             System.out.println("save: save current visible tweet");
             System.out.println("next: view your next tweet");
             System.out.println("previous: view your previous tweet");
-            System.out.println("close: close the app");
             System.out.println("------------------------------------------------------");
 
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
             boolean flag = true;
             while (flag) {
-                String command = scanner.nextLine();
+                String command = scanner.nextLine().toLowerCase();
                 switch (command) {
                     case "main":
                         flag = false;
@@ -187,10 +183,6 @@ public class HomePage
                     case "previous":
                         num--;
                         flag = false;
-                        break;
-                    case "close":
-                        flag = false;
-                        System.out.println(ConsoleColors.WHITE_BRIGHT + "Closing the app...");
                         break;
                     default:
                         System.out.println(ConsoleColors.RED_BRIGHT + "Please enter a valid command:");

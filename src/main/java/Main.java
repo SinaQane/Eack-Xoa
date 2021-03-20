@@ -6,7 +6,8 @@ import java.io.IOException;
 
 public class Main
 {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException
+    {
         // Greetings
         System.out.println(ConsoleColors.BLUE_BRIGHT + "Welcome to " +
                 ConsoleColors.BLUE_BOLD_BRIGHT + " Eack Xoa" +
