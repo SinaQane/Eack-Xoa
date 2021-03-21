@@ -1,25 +1,25 @@
 entry/Validations.java
  entry.Validations
-entry/Enter.java
- entry.Enter
-pages/DirectMessages.java
- pages.DirectMessages
-pages/Timeline.java
- pages.Timeline
-utils/ConsoleColors.java
- utils.ConsoleColors
 pages/Explore.java
  pages.Explore
-data/Save.java
- data.Save
-Main.java
- Main
-entry/SignUp.java
- entry.SignUp
-pages/MainPage.java
- pages.MainPage
+pages/DirectMessages.java
+ pages.DirectMessages
+utils/ConsoleColors.java
+ utils.ConsoleColors
+pages/User.java
+ pages.User
+utils/Input.java
+ utils.Input
+pages/Tweet.java
+ pages.Tweet
 pages/FirstPage.java
  pages.FirstPage
+Main.java
+ Main
+models/Tweet.java
+ models.Tweet
+data/Save.java
+ data.Save
 models/User.java
  models.User
 pages/HomePage.java
@@ -28,7 +28,15 @@ entry/Login.java
  entry.Login
 pages/Settings.java
  pages.Settings
+utils/MapUtil.java
+ utils.MapUtil
+entry/Enter.java
+ entry.Enter
+entry/SignUp.java
+ entry.SignUp
 data/Load.java
  data.Load
-models/Tweet.java
- models.Tweet
+pages/MainPage.java
+ pages.MainPage
+pages/Timeline.java
+ pages.Timeline

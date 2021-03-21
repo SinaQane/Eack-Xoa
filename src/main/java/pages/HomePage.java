@@ -5,6 +5,7 @@ import models.Tweet;
 import models.User;
 import utils.ConsoleColors;
 import utils.Input;
+import utils.MapUtil;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -45,10 +46,12 @@ public class HomePage
 
             List<String> homePageTweets = new LinkedList<>();
 
-            for(String tweetString : user.homePageTweets)
+            for(String tweetString : MapUtil.sortByValue(user.homePageTweets).keySet())
             {
-                Tweet tempTweet = Load.findTweet(tweetString.substring(2));
-                if (tempTweet.visible)
+                String[] homepageTweetParts = tweetString.split("-");
+                String homepageTweetId = homepageTweetParts[2] + "-" + homepageTweetParts[3];
+                Tweet tempTweet = Load.findTweet(homepageTweetId);
+                if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive())
                     homePageTweets.add(tweetString);
             }
 
@@ -57,9 +60,11 @@ public class HomePage
             if (cnt>0)
             {
                 int index = (((cnt - 1 + num) % cnt) + cnt) % cnt;
-                tweet = Load.findTweet(homePageTweets.get(index).substring(2));
-                if (homePageTweets.get(index).charAt(0)=='0')
-                    System.out.println("* Retweeted by " +user.username);
+                String[] tweetParts = homePageTweets.get(index).split("-");
+                String tweetId = tweetParts[2] + "-" + tweetParts[3];
+                tweet = Load.findTweet(tweetId);
+                if (tweetParts[0].equals("0"))
+                    System.out.println("* Retweeted by " +Load.findUser(Long.parseLong(tweetParts[1])).username);
                 System.out.println("@" + tweet.getOwner() + ":");
                 System.out.println(tweet.getText());
                 System.out.println(tweet.getKarma() + " Karma - " + tweet.getCommentsCount() + " Comments - " +
@@ -76,13 +81,18 @@ public class HomePage
             System.out.println("followers: view your followers");
             System.out.println("followings: view your followings");
             System.out.println("tweet: tweet something...");
+            System.out.println("view: view current visible tweet and its comments");
+            System.out.println("owner: view current visible tweet's owner's page");
             System.out.println("delete: delete current visible tweet");
             System.out.println("upvote: upvote current visible tweet");
             System.out.println("downvote: downvote current visible tweet");
             System.out.println("retweet: retweet current visible tweet");
             System.out.println("save: save current visible tweet");
+            System.out.println("comment: leave a comment under current visible tweet");
             System.out.println("next: view your next tweet");
             System.out.println("previous: view your previous tweet");
+            // TODO comments
+            // TODO ? report ???
             System.out.println("------------------------------------------------------");
 
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
@@ -98,6 +108,9 @@ public class HomePage
                         break;
                     case "followers":
                     case "followings":
+                    case "view": // Tweet class, takes a user and a string as argument, uses string for back button
+                    case "owner": // User class, takes a user and a string as argument, uses string for back button
+                    case "comment":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet"); // TODO
                         break;
                     case "tweet":

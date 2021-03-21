@@ -5,10 +5,7 @@ import data.Save;
 import utils.ConsoleColors;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class User
 {
@@ -36,7 +33,8 @@ public class User
     public List<String> reported = new LinkedList<>();
 
     // Tweets
-    public List<String> homePageTweets = new LinkedList<>();
+    //public List<String> homePageTweets = new LinkedList<>();
+    public HashMap<String, Long> homePageTweets = new HashMap<>();
     public List<String> userTweets = new LinkedList<>();
     public List<String> retweetedTweets = new LinkedList<>();
     public List<String> upvotedTweets = new LinkedList<>();
@@ -195,7 +193,7 @@ public class User
         if (tweet.getOwnerId() == this.id)
         {
             this.userTweets.remove(tweet.id);
-            this.homePageTweets.remove("1-" + tweet.id);
+            this.homePageTweets.remove("1-" + this.id + "-" + tweet.id);
             tweet.deleted();
             Save.saveUser(this);
         }

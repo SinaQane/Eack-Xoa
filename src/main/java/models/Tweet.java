@@ -5,12 +5,9 @@ import data.Save;
 import utils.ConsoleColors;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-public class Tweet
+public class Tweet implements Comparable<Tweet>
 {
     // Tweet info
     /* Tweet's ID will be in the form "num1-num2" where "num1" is its owner's ID,
@@ -39,7 +36,8 @@ public class Tweet
         this.tweetTime = new Date();
         this.visible = true;
         owner.userTweets.add(this.id);
-        owner.homePageTweets.add("1-" + this.id);
+        Date date = new Date();
+        owner.homePageTweets.put("1-" + owner.id + "-" + this.id, date.getTime());
         Save.saveTweet(this);
     }
 
@@ -132,13 +130,14 @@ public class Tweet
         if (user.retweetedTweets.contains(this.id))
         {
             user.retweetedTweets.remove(this.id);
-            user.homePageTweets.remove("0-" + this.id);
+            user.homePageTweets.remove("0-" + user.id + "-" + this.id);
             this.removeFromRetweets(user.id + "");
         }
         else
         {
             user.retweetedTweets.add(this.id);
-            user.homePageTweets.add("0-" + this.id);
+            Date date = new Date();
+            user.homePageTweets.put("0-" + user.id + "-" + this.id, date.getTime());
             this.addToRetweets(user.id + "");
         }
         Save.saveTweet(this);
@@ -236,6 +235,15 @@ public class Tweet
         else
             System.out.println(ConsoleColors.RED_BRIGHT + "You can't report your own tweet.");
     }
+
+    @Override
+    public int compareTo(Tweet compareTweet)
+    {
+        // Ascending order
+        return (int) (this.tweetTime.getTime() - compareTweet.tweetTime.getTime());
+    }
+
+    public static Comparator<Tweet> tweetTimeComparator = Comparator.naturalOrder();
 
     // TODO User shares this tweet with other users
     /* public void share(User user, ArrayList<User> users)
