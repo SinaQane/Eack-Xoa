@@ -100,7 +100,6 @@ public class Timeline
                         System.out.println(ConsoleColors.CYAN_BRIGHT + cli.printTweet(cli.page(page, perPage), i));
                         System.out.println("------------------------------------------------------");
                     }
-
                 }
                 System.out.println("Page " + (page + 1) + "/" +
                         numberOfPages + " - Tweet " + (cli.page(page, perPage).size() - currentTweet) +
@@ -120,7 +119,7 @@ public class Timeline
             System.out.println("upvote: upvote current visible tweet");
             System.out.println("downvote: downvote current visible tweet");
             System.out.println("retweet: retweet current visible tweet");
-            System.out.println("save: save current visible tweet");
+            System.out.println("save: save/unsave current visible tweet");
             System.out.println("comment: leave a comment under current visible tweet");
             System.out.println("report owner: report current visible tweet's owner");
             System.out.println("report tweet: report current visible tweet");
@@ -141,6 +140,67 @@ public class Timeline
                         timelineFlag = false;
                         MainPage.mainPage(user);
                         break;
+                    case "owner":
+                    case "view":
+                    case "comment":
+                        System.out.println(ConsoleColors.RED + "This function isn't available yet");
+                        // TODO add these
+                        break;
+                    case "upvote":
+                        if (currentVisibleTweet != null)
+                            currentVisibleTweet.upvote(user);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "downvote":
+                        if (currentVisibleTweet != null)
+                            currentVisibleTweet.downvote(user);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "retweet":
+                        if (currentVisibleTweet != null)
+                            currentVisibleTweet.retweet(user);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        page = 0;
+                        viewLastTweet = true;
+                        flag = false;
+                        break;
+                    case "save":
+                        if (currentVisibleTweet != null)
+                        {
+                            if(user.savedTweets.contains(currentVisibleTweet.id))
+                            {
+                                currentVisibleTweet.unsave(user);
+                                System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweet unsaved");
+                            }
+                            else
+                            {
+                                currentVisibleTweet.save(user);
+                                System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweet saved");
+                            }
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "report owner":
+                        if (currentVisibleTweet != null)
+                            Load.findUser(currentVisibleTweet.getOwner()).reported(user);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "report tweet":
+                        if (currentVisibleTweet != null)
+                            currentVisibleTweet.report(user);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
                     case "next":
                         currentTweet--;
                         flag = false;
@@ -160,7 +220,8 @@ public class Timeline
                         flag = false;
                         break;
                     default:
-                        System.out.println("Still Working on it...");
+                        System.out.println(ConsoleColors.RED_BRIGHT + "Please enter a valid command:");
+                        break;
                 }
             }
         }

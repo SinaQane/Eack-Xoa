@@ -3,21 +3,24 @@ package pages;
 import data.Load;
 import models.Tweet;
 import models.User;
+import utils.Cli;
 import utils.ConsoleColors;
 import utils.Input;
 import utils.MapUtil;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class HomePage
 {
     public static void homePage(User user) throws IOException, InterruptedException
     {
-        int num = 0;
+        int page = 0;
+        int perPage = 5;
+        int currentTweet = perPage - 1;
+        boolean viewLastTweet = false;
         boolean homeFlag = true;
         while (homeFlag)
         {
@@ -27,8 +30,10 @@ public class HomePage
 
             System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + user.name);
             System.out.println(ConsoleColors.CYAN_BRIGHT + "@" + user.username);
-            System.out.println("Followers: " + user.followers.size() + "          " +
+            System.out.println("Followers: " + user.followers.size() + " & " +
                     "Followings: " + user.followings.size());
+            System.out.println();
+            System.out.println("Email: " + user.email);
             if (user.birthDate != null)
             {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MMM/dd");
@@ -37,14 +42,14 @@ public class HomePage
             else
                 System.out.println("Birthday: N/A");
             if (!user.phoneNumber.equals(""))
-                System.out.println("Email: " + user.email + " & Phone Number: " + user.phoneNumber);
+                System.out.println("Phone Number: " + user.phoneNumber);
             else
-                System.out.println("Email: " + user.email + " & Phone Number: N/A");
+                System.out.println("Phone Number: N/A");
             if (!user.bio.equals(""))
-                System.out.println(user.bio);
+                System.out.println("\n" + user.bio);
             System.out.println("------------------------------------------------------");
 
-            List<String> homePageTweets = new LinkedList<>();
+            ArrayList<String> homePageTweets = new ArrayList<>();
 
             for(String tweetString : MapUtil.sortByValue(user.homePageTweets).keySet())
             {
@@ -55,26 +60,58 @@ public class HomePage
                     homePageTweets.add(tweetString);
             }
 
-            int cnt = homePageTweets.size();
-            Tweet tweet = null;
-            if (cnt>0)
+            Tweet currentVisibleTweet = null;
+
+            if (homePageTweets.size()>0)
             {
-                int index = (((cnt - 1 + num) % cnt) + cnt) % cnt;
-                String[] tweetParts = homePageTweets.get(index).split("-");
-                String tweetId = tweetParts[2] + "-" + tweetParts[3];
-                tweet = Load.findTweet(tweetId);
-                if (tweetParts[0].equals("0"))
-                    System.out.println("* Retweeted by " +Load.findUser(Long.parseLong(tweetParts[1])).username);
-                System.out.println("@" + tweet.getOwner() + ":");
-                System.out.println(tweet.getText());
-                System.out.println(tweet.getKarma() + " Karma - " + tweet.getCommentsCount() + " Comments - " +
-                        tweet.getRetweetsCount() + " Retweets");
-                System.out.println("Tweet " + (1+index) + "/" + cnt);
+                Cli cli = new Cli(homePageTweets);
+
+                int numberOfPages = cli.numberOfPages(perPage);
+
+                page = (((numberOfPages + page) % numberOfPages) + numberOfPages) % numberOfPages;
+                int numberOfTweets = cli.page(page, perPage).size();
+                if (viewLastTweet)
+                {
+                    currentTweet = numberOfTweets - 1;
+                    viewLastTweet = false;
+                }
+                else
+                    currentTweet = (((numberOfTweets + currentTweet) % numberOfTweets) + numberOfTweets) % numberOfTweets;
+
+                for (int i = 5; i > currentTweet; i--)
+                {
+                    if (!cli.printTweet(cli.page(page, perPage), i).equals(""))
+                    {
+                        System.out.println(ConsoleColors.CYAN_BRIGHT + cli.printTweet(cli.page(page, perPage), i));
+                        System.out.println("------------------------------------------------------");
+                    }
+                }
+                if (!cli.printTweet(cli.page(page, perPage), currentTweet).equals(""))
+                {
+                    String[] currentVisibleTweetParts = cli.page(page, perPage).get(currentTweet).split("-");
+                    String currentVisibleTweetId = currentVisibleTweetParts[2] + "-" + currentVisibleTweetParts[3];
+                    currentVisibleTweet = Load.findTweet(currentVisibleTweetId);
+                    System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + cli.printTweet(cli.page(page, perPage), currentTweet));
+                    System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
+                }
+                for (int i = currentTweet - 1; i >= 0; i--)
+                {
+                    if (!cli.printTweet(cli.page(page, perPage), i).equals(""))
+                    {
+                        System.out.println(ConsoleColors.CYAN_BRIGHT + cli.printTweet(cli.page(page, perPage), i));
+                        System.out.println("------------------------------------------------------");
+                    }
+                }
+                System.out.println("Page " + (page + 1) + "/" +
+                        numberOfPages + " - Tweet " + (cli.page(page, perPage).size() - currentTweet) +
+                        "/" + cli.page(page, perPage).size());
+                System.out.println("------------------------------------------------------");
             }
             else
-                System.out.println("You Haven't tweeted anything yet...");
-
-            System.out.println("------------------------------------------------------");
+            {
+                System.out.println(ConsoleColors.CYAN_BRIGHT + "You haven't tweeted anything yet...");
+                System.out.println("------------------------------------------------------");
+            }
 
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
             System.out.println(ConsoleColors.PURPLE_BRIGHT + "main: go back to the Main Page");
@@ -87,12 +124,13 @@ public class HomePage
             System.out.println("upvote: upvote current visible tweet");
             System.out.println("downvote: downvote current visible tweet");
             System.out.println("retweet: retweet current visible tweet");
-            System.out.println("save: save current visible tweet");
+            System.out.println("save: save/unsave current visible tweet");
             System.out.println("comment: leave a comment under current visible tweet");
-            System.out.println("next: view your next tweet");
-            System.out.println("previous: view your previous tweet");
-            // TODO comments
-            // TODO ? report ???
+            System.out.println("next: view your next tweet in this page");
+            System.out.println("previous: view your previous tweet in this page");
+            System.out.println("next: view the next page");
+            System.out.println("previous: view the previous page");
+            // TODO report (?)
             System.out.println("------------------------------------------------------");
 
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
@@ -111,7 +149,8 @@ public class HomePage
                     case "view": // Tweet class, takes a user and a string as argument, uses string for back button
                     case "owner": // User class, takes a user and a string as argument, uses string for back button
                     case "comment":
-                        System.out.println(ConsoleColors.RED + "This function isn't available yet"); // TODO
+                        System.out.println(ConsoleColors.RED + "This function isn't available yet");
+                        // TODO add these
                         break;
                     case "tweet":
                         System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your tweet here:");
@@ -120,51 +159,74 @@ public class HomePage
                             user.tweet(tweetStr);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Tweets can't be empty.");
-                        num = 0;
+                        page = 0;
+                        viewLastTweet = true;
                         flag = false;
                         break;
                     case "delete":
-                        if (tweet != null)
-                            user.deleteTweet(tweet);
+                        if (currentVisibleTweet != null)
+                            user.deleteTweet(currentVisibleTweet);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "upvote":
-                        if (tweet != null)
-                            tweet.upvote(user);
+                        if (currentVisibleTweet != null)
+                            currentVisibleTweet.upvote(user);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "downvote":
-                        if (tweet != null)
-                            tweet.downvote(user);
+                        if (currentVisibleTweet != null)
+                            currentVisibleTweet.downvote(user);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "retweet":
-                        if (tweet != null)
-                            tweet.retweet(user);
+                        if (currentVisibleTweet != null)
+                            currentVisibleTweet.retweet(user);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
-                        num = 0;
+                        page = 0;
+                        viewLastTweet = true;
                         flag = false;
                         break;
                     case "save":
-                        if (tweet != null)
-                            tweet.save(user);
+                        if (currentVisibleTweet != null)
+                        {
+                            if(user.savedTweets.contains(currentVisibleTweet.id))
+                            {
+                                currentVisibleTweet.unsave(user);
+                                System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweet unsaved");
+                            }
+                            else
+                            {
+                                currentVisibleTweet.save(user);
+                                System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweet saved");
+                            }
+                        }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "next":
-                        num++;
+                        currentTweet--;
                         flag = false;
                         break;
                     case "previous":
-                        num--;
+                        currentTweet++;
+                        flag = false;
+                        break;
+                    case "next page":
+                        page++;
+                        viewLastTweet = true;
+                        flag = false;
+                        break;
+                    case "previous page":
+                        page--;
+                        viewLastTweet = true;
                         flag = false;
                         break;
                     default:

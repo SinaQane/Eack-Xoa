@@ -169,15 +169,21 @@ public class User
 
     // User gets reported by someone.
     // If the number of reports exceed a limit, the account will be limited.
-    public void reported() throws IOException
+    public void reported(User user) throws IOException //
     {
-        this.reports++;
-        if (this.reports >= 10)
+        if (!user.reported.contains(this.id + ""))
         {
-            this.isPermitted = false;
-            // TODO user won't be able to tweet, comment and retweet for n seconds after getting suspended.
+            user.reported.add(this.id + "");
+            this.reports++;
+            if (this.reports >= 10)
+            {
+                this.isPermitted = false;
+                // TODO user won't be able to tweet, comment and retweet for n seconds after getting suspended.
+            }
+            Save.saveUser(this);
         }
-        Save.saveUser(this);
+        else
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already reported this user.");
     }
 
     // User tweets something.
@@ -282,19 +288,6 @@ public class User
         }
         else
             System.out.println(ConsoleColors.YELLOW_BRIGHT + "This user wasn't muted.");
-    }
-
-    // This user reports another user.
-    public void report(User user) throws IOException
-    {
-        if (!this.reported.contains(user.id + ""))
-        {
-            user.reported();
-            this.reported.add(user.id + "");
-            Save.saveUser(this);
-        }
-        else
-            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already reported this user.");
     }
 
     // Additional methods

@@ -48,18 +48,6 @@ public class Tweet implements Comparable<Tweet>
         Save.saveTweet(this);
     }
 
-    // Tweet gets reported
-    public void reported() throws IOException
-    {
-        this.reports++;
-        if (this.reports>=10)
-        {
-            this.visible = false;
-            Load.findUser(this.owner).reported();
-        }
-        Save.saveTweet(this);
-    }
-
     public void addToRetweets(String string)
     {
         retweets.add(string);
@@ -225,7 +213,13 @@ public class Tweet implements Comparable<Tweet>
         {
             if (!user.reportedTweets.contains(this.id))
             {
-                this.reported();
+                this.reports++;
+                if (this.reports>=10)
+                {
+                    this.visible = false;
+                    Load.findUser(this.owner).reported(user);
+                }
+                Save.saveTweet(this);
                 user.reportedTweets.add(this.id);
                 Save.saveUser(user);
             }
