@@ -3,6 +3,7 @@ package pages;
 import data.Load;
 import models.Tweet;
 import models.User;
+import utils.Cli;
 import utils.ConsoleColors;
 import utils.Input;
 import utils.MapUtil;
@@ -14,7 +15,10 @@ public class Timeline
 {
     public static void timeLine(User user) throws IOException, InterruptedException
     {
-        int num = 0;
+        int page = 0;
+        int perPage = 5;
+        int currentTweet = perPage - 1;
+        boolean viewLastTweet = false;
         boolean timelineFlag = true;
         while (timelineFlag) {
             Scanner scanner = Input.scanner();
@@ -55,44 +59,60 @@ public class Timeline
             Set<String> keySet = timelineTweets.keySet();
             ArrayList<String> listOfKeys = new ArrayList<>(keySet);
 
-            int cnt = listOfKeys.size();
-            for (int i = listOfKeys.size() - 1; i >= 0 ; i--)
+            Tweet currentVisibleTweet = null;
+
+            if (listOfKeys.size()>0)
             {
-                String[] tweetParts = listOfKeys.get(i).split("-");
-                String tweetId = tweetParts[2] + "-" + tweetParts[3];
-                Tweet tweet = Load.findTweet(tweetId);
-                if (tweetParts[0].equals("0"))
-                    System.out.println("* Retweeted by " +Load.findUser(Long.parseLong(tweetParts[1])).username);
-                System.out.println("@" + tweet.getOwner() + ":");
-                System.out.println(tweet.getText());
-                System.out.println(tweet.getKarma() + " Karma - " + tweet.getCommentsCount() + " Comments - " +
-                        tweet.getRetweetsCount() + " Retweets");
+                Cli cli = new Cli(listOfKeys);
+
+                int numberOfPages = cli.numberOfPages(perPage);
+
+                page = (((numberOfPages + page) % numberOfPages) + numberOfPages) % numberOfPages;
+                int numberOfTweets = cli.page(page, perPage).size();
+                if (viewLastTweet)
+                {
+                    currentTweet = numberOfTweets - 1;
+                    viewLastTweet = false;
+                }
+                else
+                    currentTweet = (((numberOfTweets + currentTweet) % numberOfTweets) + numberOfTweets) % numberOfTweets;
+
+                for (int i = 5; i > currentTweet; i--)
+                {
+                    if (!cli.printTweet(cli.page(page, perPage), i).equals(""))
+                    {
+                        System.out.println(ConsoleColors.CYAN_BRIGHT + cli.printTweet(cli.page(page, perPage), i));
+                        System.out.println("------------------------------------------------------");
+                    }
+                }
+                if (!cli.printTweet(cli.page(page, perPage), currentTweet).equals(""))
+                {
+                    String[] currentVisibleTweetParts = cli.page(page, perPage).get(currentTweet).split("-");
+                    String currentVisibleTweetId = currentVisibleTweetParts[2] + "-" + currentVisibleTweetParts[3];
+                    currentVisibleTweet = Load.findTweet(currentVisibleTweetId);
+                    System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + cli.printTweet(cli.page(page, perPage), currentTweet));
+                    System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
+                }
+                for (int i = currentTweet - 1; i >= 0; i--)
+                {
+                    if (!cli.printTweet(cli.page(page, perPage), i).equals(""))
+                    {
+                        System.out.println(ConsoleColors.CYAN_BRIGHT + cli.printTweet(cli.page(page, perPage), i));
+                        System.out.println("------------------------------------------------------");
+                    }
+
+                }
+                System.out.println("Page " + (page + 1) + "/" +
+                        numberOfPages + " - Tweet " + (cli.page(page, perPage).size() - currentTweet) +
+                        "/" + cli.page(page, perPage).size());
                 System.out.println("------------------------------------------------------");
             }
-            /*
-            Should I use this?
-
-            int cnt = listOfKeys.size();
-            Tweet tweet = null;
-            if (cnt>0)
-            {
-                int index = (((cnt - 1 + num) % cnt) + cnt) % cnt;
-                String[] tweetParts = listOfKeys.get(index).split("-");
-                String tweetId = tweetParts[2] + "-" + tweetParts[3];
-                tweet = Load.findTweet(tweetId);
-                if (tweetParts[0].equals("0"))
-                    System.out.println("* Retweeted by " +Load.findUser(Long.parseLong(tweetParts[1])).username);
-                System.out.println("@" + tweet.getOwner() + ":");
-                System.out.println(tweet.getText());
-                System.out.println(tweet.getKarma() + " Karma - " + tweet.getCommentsCount() + " Comments - " +
-                        tweet.getRetweetsCount() + " Retweets");
-                System.out.println("Tweet " + (1+index) + "/" + cnt);
-            }
             else
-                System.out.println("You Haven't tweeted anything yet...");
-            */
+            {
+                System.out.println(ConsoleColors.CYAN_BRIGHT + "Your timeline is empty...");
+                System.out.println("------------------------------------------------------");
+            }
 
-            // System.out.println("------------------------------------------------------");
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "List of available commands: \n");
             System.out.println(ConsoleColors.PURPLE_BRIGHT + "main: go back to the Main Page");
             System.out.println("owner: visit tweet's owner's page");
@@ -106,6 +126,8 @@ public class Timeline
             System.out.println("report tweet: report current visible tweet");
             System.out.println("next: view next tweet in the timeline");
             System.out.println("previous: view previous tweet in the timeline");
+            System.out.println("next page: view next page in the timeline");
+            System.out.println("previous page: view previous page in the timeline");
             System.out.println("------------------------------------------------------");
 
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
@@ -119,9 +141,26 @@ public class Timeline
                         timelineFlag = false;
                         MainPage.mainPage(user);
                         break;
+                    case "next":
+                        currentTweet--;
+                        flag = false;
+                        break;
+                    case "previous":
+                        currentTweet++;
+                        flag = false;
+                        break;
+                    case "next page":
+                        page++;
+                        viewLastTweet = true;
+                        flag = false;
+                        break;
+                    case "previous page":
+                        page--;
+                        viewLastTweet = true;
+                        flag = false;
+                        break;
                     default:
                         System.out.println("Still Working on it...");
-
                 }
             }
         }
