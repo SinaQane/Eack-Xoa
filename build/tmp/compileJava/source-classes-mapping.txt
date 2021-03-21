@@ -12,23 +12,23 @@ pages/Explore.java
  pages.Explore
 data/Save.java
  data.Save
-models/User.java
- models.User
-models/Tweet.java
- models.Tweet
-data/Load.java
- data.Load
-entry/SignUp.java
- entry.SignUp
-entry/Login.java
- entry.Login
 Main.java
  Main
+entry/SignUp.java
+ entry.SignUp
 pages/MainPage.java
  pages.MainPage
 pages/FirstPage.java
  pages.FirstPage
+models/User.java
+ models.User
 pages/HomePage.java
  pages.HomePage
+entry/Login.java
+ entry.Login
 pages/Settings.java
  pages.Settings
+data/Load.java
+ data.Load
+models/Tweet.java
+ models.Tweet

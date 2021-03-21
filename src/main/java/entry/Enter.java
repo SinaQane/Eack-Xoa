@@ -2,13 +2,14 @@ package entry;
 
 import models.User;
 import utils.ConsoleColors;
+import utils.Input;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Enter
 {
-    // Check if the user is a member or already has an account
+    // Check if the user is new to the app or already has an account
     public User user;
 
     public Enter() throws IOException
@@ -18,9 +19,12 @@ public class Enter
 
     public User user() throws IOException
     {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = Input.scanner();
+
         System.out.println(ConsoleColors.WHITE_BRIGHT + "Do you have an account? (y/n)");
+
         String isRegistered = scanner.nextLine().toLowerCase();
+
         while (!Validations.yesOrNo(isRegistered))
         {
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Do you have an account? (y/n)");

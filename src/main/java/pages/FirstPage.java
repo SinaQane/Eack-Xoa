@@ -17,7 +17,6 @@ public class FirstPage {
         Enter enter = new Enter();
         if (enter.user != null)
         {
-
             System.out.println(ConsoleColors.GREEN_BOLD_BRIGHT + "------------------------------------------------------");
             System.out.println("Logged in successfully.");
             System.out.println("------------------------------------------------------");

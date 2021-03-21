@@ -4,9 +4,12 @@ import data.Load;
 import models.Tweet;
 import models.User;
 import utils.ConsoleColors;
+import utils.Input;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class HomePage
@@ -17,7 +20,7 @@ public class HomePage
         boolean homeFlag = true;
         while (homeFlag)
         {
-            Scanner scanner = new Scanner(System.in);
+            Scanner scanner = Input.scanner();
             System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Home Page");
             System.out.println("------------------------------------------------------");
 
@@ -40,13 +43,22 @@ public class HomePage
                 System.out.println(user.bio);
             System.out.println("------------------------------------------------------");
 
-            int cnt = user.homePageTweets.size();
+            List<String> homePageTweets = new LinkedList<>();
+
+            for(String tweetString : user.homePageTweets)
+            {
+                Tweet tempTweet = Load.findTweet(tweetString.substring(2));
+                if (tempTweet.visible)
+                    homePageTweets.add(tweetString);
+            }
+
+            int cnt = homePageTweets.size();
             Tweet tweet = null;
             if (cnt>0)
             {
                 int index = (((cnt - 1 + num) % cnt) + cnt) % cnt;
-                tweet = Load.findTweet(user.homePageTweets.get(index).substring(2));
-                if (user.homePageTweets.get(index).charAt(0)=='0')
+                tweet = Load.findTweet(homePageTweets.get(index).substring(2));
+                if (homePageTweets.get(index).charAt(0)=='0')
                     System.out.println("* Retweeted by " +user.username);
                 System.out.println("@" + tweet.getOwner() + ":");
                 System.out.println(tweet.getText());

@@ -3,6 +3,7 @@ package pages;
 import entry.Validations;
 import models.User;
 import utils.ConsoleColors;
+import utils.Input;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -17,7 +18,7 @@ public class Settings
         boolean settingsFlag = true;
         while (settingsFlag)
         {
-            Scanner scanner = new Scanner(System.in);
+            Scanner scanner = Input.scanner();
             System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Settings");
             System.out.println("------------------------------------------------------");
 

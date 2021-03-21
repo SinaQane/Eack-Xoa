@@ -2,6 +2,7 @@ package pages;
 
 import models.User;
 import utils.ConsoleColors;
+import utils.Input;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
@@ -11,7 +12,7 @@ public class MainPage
 {
     public static void mainPage(User user) throws NoSuchElementException, IOException, InterruptedException
     {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = Input.scanner();
 
         System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Main Page");
         System.out.println("------------------------------------------------------");

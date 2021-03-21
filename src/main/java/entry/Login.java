@@ -3,6 +3,7 @@ package entry;
 import data.Load;
 import models.User;
 import utils.ConsoleColors;
+import utils.Input;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -18,7 +19,8 @@ public class Login
 
     public User getUser() throws IOException
     {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = Input.scanner();
+
         while (true) {
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your username:");
             String username = scanner.nextLine().toLowerCase();

@@ -2,6 +2,7 @@ package entry;
 
 import models.User;
 import utils.ConsoleColors;
+import utils.Input;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -20,7 +21,7 @@ public class SignUp
 
     public User makeUser() throws IOException
     {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = Input.scanner();
         String userName, password, name, email, phoneNumber, date;
 
         do {
