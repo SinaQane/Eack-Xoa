@@ -1,4 +1,4 @@
-package entry;
+package utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,6 +8,9 @@ import java.util.regex.Pattern;
 
 public class Validations
 {
+    // Natural number regex
+    public static final Pattern NUMBER = Pattern.compile("^[0-9]+$");
+
     // Date regex yyyy-MM-dd
     public static final Pattern DATE_REGEX =
             Pattern.compile("^\\d{4}\\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$");
@@ -95,6 +98,12 @@ public class Validations
     public static boolean dateIsValid(String date)
     {
         Matcher matcher = DATE_REGEX.matcher(date);
+        return matcher.find();
+    }
+
+    public static boolean isNaturalNumber(String number)
+    {
+        Matcher matcher = NUMBER.matcher(number);
         return matcher.find();
     }
 }

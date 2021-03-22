@@ -4,8 +4,10 @@ import data.Load;
 import models.User;
 import utils.ConsoleColors;
 import utils.Input;
+import utils.Validations;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Login
@@ -82,6 +84,8 @@ public class Login
                         ConsoleColors.CYAN_UNDERLINED + "Create an account" + ConsoleColors.CYAN + "\" as your username.");
             }
         }
+        Date loginDate = new Date();
+        this.user.setLastLogin(loginDate);
         return this.user;
     }
 }

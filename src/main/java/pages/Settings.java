@@ -1,6 +1,6 @@
 package pages;
 
-import entry.Validations;
+import utils.Validations;
 import models.User;
 import utils.ConsoleColors;
 import utils.Input;
@@ -33,6 +33,7 @@ public class Settings
             System.out.println("last seen: change your last seen status privacy");
             System.out.println("private: change your account's public/private status");
             System.out.println("info: change your info share privacy status");
+            System.out.println("cli: change how many tweets you want to see in each page");
             System.out.println("password: change your password");
             System.out.println("deactivate: deactivate your account");
             System.out.println("------------------------------------------------------");
@@ -248,6 +249,27 @@ public class Settings
                         }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid command...");
+                        flag = false;
+                        break;
+                    case "cli":
+                        System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a number (Default = 5):");
+                        boolean number = true;
+                        while (number)
+                        {
+                            String naturalNumber = scanner.nextLine();
+                            if (naturalNumber.equals(""))
+                                user.setPerPage(5);
+                            else
+                            {
+                                if (Validations.isNaturalNumber(naturalNumber))
+                                {
+                                    number = false;
+                                    user.setPerPage(Integer.parseInt(naturalNumber));
+                                }
+                                else
+                                    System.out.println(ConsoleColors.RED_BRIGHT + "Please enter a natural number:");
+                            }
+                        }
                         flag = false;
                         break;
                     case "password":

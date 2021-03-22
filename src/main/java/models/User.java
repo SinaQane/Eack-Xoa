@@ -49,6 +49,9 @@ public class User
     public boolean privateState;
     private int reports;
 
+    // Preferences
+    public int perPage;
+
     public User(String username, String password) throws IOException
     {
         Save.changeLastId(Load.loadLastId() + 1);
@@ -61,6 +64,7 @@ public class User
         this.isPermitted = true; // TODO report tweet and user
         this.privateState = false;
         this.reports = 0;
+        this.perPage = 5;
         Save.changeUsername("0", this.username);
         Save.saveUser(this);
     }
@@ -111,7 +115,6 @@ public class User
     }
 
     // Sets everytime someone logs in
-    // TODO in login and sign up section
     public void setLastLogin(Date lastLogin) throws IOException
     {
         this.lastLogin = lastLogin;
@@ -171,19 +174,24 @@ public class User
     // If the number of reports exceed a limit, the account will be limited.
     public void reported(User user) throws IOException //
     {
-        if (!user.reported.contains(this.id + ""))
+        if (!this.equals(user))
         {
-            user.reported.add(this.id + "");
-            this.reports++;
-            if (this.reports >= 10)
+            if (!user.reported.contains(this.id + ""))
             {
-                this.isPermitted = false;
-                // TODO user won't be able to tweet, comment and retweet for n seconds after getting suspended.
+                user.reported.add(this.id + "");
+                this.reports++;
+                if (this.reports >= 10)
+                {
+                    this.isPermitted = false;
+                    // TODO user won't be able to tweet, comment and retweet for n seconds after getting suspended.
+                }
+                Save.saveUser(this);
             }
-            Save.saveUser(this);
+            else
+                System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already reported this user.");
         }
         else
-            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already reported this user.");
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You can't report yourself!");
     }
 
     // User tweets something.
@@ -288,6 +296,13 @@ public class User
         }
         else
             System.out.println(ConsoleColors.YELLOW_BRIGHT + "This user wasn't muted.");
+    }
+
+    // Sets the number of tweets per page
+    public void setPerPage(int perPage) throws IOException
+    {
+        this.perPage = perPage;
+        Save.saveUser(this);
     }
 
     // Additional methods

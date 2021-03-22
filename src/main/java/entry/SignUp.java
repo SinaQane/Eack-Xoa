@@ -3,6 +3,7 @@ package entry;
 import models.User;
 import utils.ConsoleColors;
 import utils.Input;
+import utils.Validations;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -148,6 +149,8 @@ public class SignUp
                 System.out.println(ConsoleColors.RED + "Parsing date failed...");
             }
         }
+        Date loginDate = new Date();
+        this.user.setLastLogin(loginDate);
         return this.user;
     }
 }

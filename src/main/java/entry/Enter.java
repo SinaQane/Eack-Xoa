@@ -3,6 +3,7 @@ package entry;
 import models.User;
 import utils.ConsoleColors;
 import utils.Input;
+import utils.Validations;
 
 import java.io.IOException;
 import java.util.Scanner;

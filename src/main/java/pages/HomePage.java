@@ -18,7 +18,7 @@ public class HomePage
     public static void homePage(User user) throws IOException, InterruptedException
     {
         int page = 0;
-        int perPage = 5;
+        int perPage = user.perPage;
         int currentTweet = perPage - 1;
         boolean viewLastTweet = false;
         boolean homeFlag = true;
@@ -82,8 +82,8 @@ public class HomePage
                 {
                     if (!cli.printTweet(cli.page(page, perPage), i).equals(""))
                     {
-                        System.out.println(ConsoleColors.CYAN_BRIGHT + cli.printTweet(cli.page(page, perPage), i));
-                        System.out.println("------------------------------------------------------");
+                        System.out.println(ConsoleColors.CYAN + cli.printTweet(cli.page(page, perPage), i));
+                        System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
                 }
                 if (!cli.printTweet(cli.page(page, perPage), currentTweet).equals(""))
@@ -91,15 +91,15 @@ public class HomePage
                     String[] currentVisibleTweetParts = cli.page(page, perPage).get(currentTweet).split("-");
                     String currentVisibleTweetId = currentVisibleTweetParts[2] + "-" + currentVisibleTweetParts[3];
                     currentVisibleTweet = Load.findTweet(currentVisibleTweetId);
-                    System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + cli.printTweet(cli.page(page, perPage), currentTweet));
+                    System.out.println(ConsoleColors.CYAN_BRIGHT + cli.printTweet(cli.page(page, perPage), currentTweet));
                     System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                 }
                 for (int i = currentTweet - 1; i >= 0; i--)
                 {
                     if (!cli.printTweet(cli.page(page, perPage), i).equals(""))
                     {
-                        System.out.println(ConsoleColors.CYAN_BRIGHT + cli.printTweet(cli.page(page, perPage), i));
-                        System.out.println("------------------------------------------------------");
+                        System.out.println(ConsoleColors.CYAN + cli.printTweet(cli.page(page, perPage), i));
+                        System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
                 }
                 System.out.println("Page " + (page + 1) + "/" +
@@ -109,8 +109,8 @@ public class HomePage
             }
             else
             {
-                System.out.println(ConsoleColors.CYAN_BRIGHT + "You haven't tweeted anything yet...");
-                System.out.println("------------------------------------------------------");
+                System.out.println(ConsoleColors.CYAN + "You haven't tweeted anything yet...");
+                System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
             }
 
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
@@ -120,17 +120,18 @@ public class HomePage
             System.out.println("tweet: tweet something...");
             System.out.println("view: view current visible tweet and its comments");
             System.out.println("owner: view current visible tweet's owner's page");
+            System.out.println("comment: leave a comment under current visible tweet");
             System.out.println("delete: delete current visible tweet");
             System.out.println("upvote: upvote current visible tweet");
             System.out.println("downvote: downvote current visible tweet");
             System.out.println("retweet: retweet current visible tweet");
             System.out.println("save: save/unsave current visible tweet");
-            System.out.println("comment: leave a comment under current visible tweet");
-            System.out.println("next: view your next tweet in this page");
-            System.out.println("previous: view your previous tweet in this page");
-            System.out.println("next: view the next page");
-            System.out.println("previous: view the previous page");
-            // TODO report (?)
+            System.out.println("report owner: report current visible tweet's owner");
+            System.out.println("report tweet: report current visible tweet");
+            System.out.println("next: view next tweet in this page");
+            System.out.println("previous: view previous tweet in this page");
+            System.out.println("next page: view next page");
+            System.out.println("previous page: view previous page");
             System.out.println("------------------------------------------------------");
 
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
@@ -207,6 +208,20 @@ public class HomePage
                                 System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweet saved");
                             }
                         }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "report owner":
+                        if (currentVisibleTweet != null)
+                            Load.findUser(currentVisibleTweet.getOwner()).reported(user);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "report tweet":
+                        if (currentVisibleTweet != null)
+                            currentVisibleTweet.report(user);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;

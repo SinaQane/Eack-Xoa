@@ -227,7 +227,7 @@ public class Tweet implements Comparable<Tweet>
                 System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already reported this tweet.");
         }
         else
-            System.out.println(ConsoleColors.RED_BRIGHT + "You can't report your own tweet.");
+            System.out.println(ConsoleColors.RED_BRIGHT + "You can't report your own tweet!");
     }
 
     @Override

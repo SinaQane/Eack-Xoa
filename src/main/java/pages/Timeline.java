@@ -16,7 +16,7 @@ public class Timeline
     public static void timeLine(User user) throws IOException, InterruptedException
     {
         int page = 0;
-        int perPage = 5;
+        int perPage = user.perPage;
         int currentTweet = perPage - 1;
         boolean viewLastTweet = false;
         boolean timelineFlag = true;
