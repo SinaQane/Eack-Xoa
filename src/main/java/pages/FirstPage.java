@@ -5,7 +5,8 @@ import utils.ConsoleColors;
 
 import java.io.IOException;
 
-public class FirstPage {
+public class FirstPage
+{
     public static void firstPage() throws IOException, InterruptedException
     {
         // Greetings

@@ -100,7 +100,7 @@ public class Followings
                         flag = false;
                         if (lastPLace.equals("home"))
                             HomePage.homePage(user);
-                        else if (lastPLace.charAt(0)=='u')
+                        else if (lastPLace.charAt(0)=='u') // TODO ?
                             ViewUser.viewUser(user, Load.findUser(Long.parseLong(lastPLace.substring(1))), "u" + user.id);
                         break;
                     case "view":
@@ -113,8 +113,10 @@ public class Followings
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         break;
-                    case "dm": // TODO dm
+                    case "dm":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
+                        // TODO dm
+                        flag = false;
                         break;
                     case "unfollow":
                         if (currentVisiblePerson != null)

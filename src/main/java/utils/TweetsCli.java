@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class TweetsCli
 {
     ArrayList<String> tweets;
+
     public TweetsCli(ArrayList<String> tweets)
     {
         this.tweets = tweets;

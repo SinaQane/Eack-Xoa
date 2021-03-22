@@ -48,6 +48,7 @@ public class MainPage
                 case "notifications":
                 case "direct":
                     System.out.println(ConsoleColors.RED + "This function isn't available yet");
+                    flag = false;
                     break;
                 case "log out":
                     System.out.println(ConsoleColors.WHITE_BRIGHT + "Logging out...");

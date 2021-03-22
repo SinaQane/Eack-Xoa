@@ -78,9 +78,6 @@ public class ViewUser
                                     HomePage.homePage(me);
                                 else if (lastPLace.equals("time line"))
                                     Timeline.timeLine(me);
-                                else if (lastPLace.charAt(0)=='u')
-                                    ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.substring(1))), "u" + user.id);
-                                // TODO if (lastPLace.charAt(0)=='t')
                                 break;
                             case "mute":
                                 me.mute(user);
@@ -116,9 +113,6 @@ public class ViewUser
                                     HomePage.homePage(me);
                                 else if (lastPLace.equals("time line"))
                                     Timeline.timeLine(me);
-                                else if (lastPLace.charAt(0)=='u')
-                                    ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.substring(1))), "u" + user.id);
-                                // TODO if (lastPLace.charAt(0)=='t')
                                 break;
                             case "follow":
                                 me.follow(user); // TODO request
@@ -144,7 +138,10 @@ public class ViewUser
                         String[] homepageTweetParts = tweetString.split("-");
                         String homepageTweetId = homepageTweetParts[2] + "-" + homepageTweetParts[3];
                         Tweet tempTweet = Load.findTweet(homepageTweetId);
-                        if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive())
+                        if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive()
+                                && !me.muted.contains(Load.findUser(tempTweet.getOwner()).id + "")
+                                && !Load.findUser(tempTweet.getOwner()).blocked.contains(me.id + "")
+                                && !(Load.findUser(tempTweet.getOwner()).privateState && !Load.findUser(tempTweet.getOwner()).followers.contains(me.id + "")))
                             homePageTweets.add(tweetString);
                     }
 
@@ -239,20 +236,26 @@ public class ViewUser
                                     HomePage.homePage(me);
                                 else if (lastPLace.equals("time line"))
                                     Timeline.timeLine(me);
-                                else if (lastPLace.charAt(0)=='u')
-                                    ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.substring(1))), "u" + user.id);
-                                // TODO if (lastPLace.charAt(0)=='t')
                                 break;
                             case "dm":
-                            case "view tweet": // ViewTweet class, takes a user and a string as argument, uses string for back button
                             case "comment":
                                 System.out.println(ConsoleColors.RED + "This function isn't available yet");
                                 // TODO add these
+                                flag = false;
                                 break;
                             case "view owner":
                                 if (currentVisibleTweet != null)
                                 {
                                     ViewUser.viewUser(me, Load.findUser(currentVisibleTweet.getOwnerId()), "u" + user.id);
+                                }
+                                else
+                                    System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                                flag = false;
+                                break;
+                            case "view tweet":
+                                if (currentVisibleTweet != null)
+                                {
+                                    ViewTweet.viewTweet(me, currentVisibleTweet, "u" + user.id);
                                 }
                                 else
                                     System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");

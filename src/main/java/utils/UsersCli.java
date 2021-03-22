@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class UsersCli
 {
     User user;
+
     public UsersCli(User user)
     {
         this.user = user;
