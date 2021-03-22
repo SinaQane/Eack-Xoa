@@ -51,7 +51,7 @@ public class Followers
                 }
                 if (!usersCli.printFollower(usersCli.followersPage(page, perPage), currentPerson).equals(""))
                 {
-                    currentVisiblePerson = Load.findUser((usersCli.followersPage(page, perPage).get(currentPerson)));
+                    currentVisiblePerson = Load.findUser(Long.parseLong(usersCli.followersPage(page, perPage).get(currentPerson)));
                     System.out.println(usersCli.printCurrentFollower(usersCli.followersPage(page, perPage), currentPerson));
                     System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                 }
@@ -64,7 +64,7 @@ public class Followers
                     }
                 }
                 System.out.println("Page " + (page + 1) + "/" +
-                        numberOfPages + " - Tweet " + (usersCli.followersPage(page, perPage).size() - currentPerson) +
+                        numberOfPages + " - User " + (usersCli.followersPage(page, perPage).size() - currentPerson) +
                         "/" + usersCli.followersPage(page, perPage).size());
                 System.out.println("------------------------------------------------------");
             }
