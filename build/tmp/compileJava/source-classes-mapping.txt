@@ -1,44 +1,50 @@
-utils/ConsoleColors.java
- utils.ConsoleColors
-utils/Input.java
- utils.Input
-pages/Tweet.java
- pages.Tweet
-pages/User.java
- pages.User
-pages/Explore.java
- pages.Explore
-utils/MapUtil.java
- utils.MapUtil
-pages/DirectMessages.java
- pages.DirectMessages
-pages/FirstPage.java
- pages.FirstPage
-utils/Validations.java
- utils.Validations
-Main.java
- Main
 pages/MainPage.java
  pages.MainPage
-data/Save.java
- data.Save
-models/User.java
- models.User
-pages/HomePage.java
- pages.HomePage
-entry/Login.java
- entry.Login
+utils/TweetsCli.java
+ utils.TweetsCli
 pages/Settings.java
  pages.Settings
-entry/Enter.java
- entry.Enter
-utils/Cli.java
- utils.Cli
-pages/Timeline.java
- pages.Timeline
+pages/ViewTweet.java
+ pages.ViewTweet
+pages/FirstPage.java
+ pages.FirstPage
+Main.java
+ Main
+models/User.java
+ models.User
+pages/Explore.java
+ pages.Explore
 data/Load.java
  data.Load
 entry/SignUp.java
  entry.SignUp
+utils/ConsoleColors.java
+ utils.ConsoleColors
+pages/ViewUser.java
+ pages.ViewUser
+utils/Input.java
+ utils.Input
+pages/DirectMessages.java
+ pages.DirectMessages
+entry/Enter.java
+ entry.Enter
+utils/MapUtil.java
+ utils.MapUtil
+pages/Timeline.java
+ pages.Timeline
+data/Save.java
+ data.Save
+utils/Validations.java
+ utils.Validations
+utils/UsersCli.java
+ utils.UsersCli
 models/Tweet.java
  models.Tweet
+entry/Login.java
+ entry.Login
+pages/HomePage.java
+ pages.HomePage
+pages/Followers.java
+ pages.Followers
+pages/Followings.java
+ pages.Followings
