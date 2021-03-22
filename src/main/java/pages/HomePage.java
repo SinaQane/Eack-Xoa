@@ -109,7 +109,7 @@ public class HomePage
             }
             else
             {
-                System.out.println(ConsoleColors.CYAN + "You haven't tweeted anything yet...");
+                System.out.println(ConsoleColors.YELLOW_BRIGHT + "You haven't tweeted anything yet...");
                 System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
             }
 

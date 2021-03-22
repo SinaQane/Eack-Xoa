@@ -70,7 +70,7 @@ public class Followers
             }
             else
             {
-                System.out.println(ConsoleColors.CYAN + "You don't have any followers...");
+                System.out.println(ConsoleColors.YELLOW_BRIGHT + "You don't have any followers...");
                 System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
             }
 
@@ -102,8 +102,10 @@ public class Followers
                         flag = false;
                         if (lastPLace.equals("home"))
                             HomePage.homePage(user);
-                        else if (lastPLace.charAt(0)=='u') // TODO ?
-                            ViewUser.viewUser(user, Load.findUser(Long.parseLong(lastPLace.substring(1))), "u" + user.id);
+                        else if (lastPLace.charAt(0)=='u')
+                            ViewUser.viewUser(user, Load.findUser(Long.parseLong(lastPLace.substring(1))), "home");
+                        else if (lastPLace.charAt(0)=='w')
+                            ViewTweet.viewTweet(user, Load.findTweet(lastPLace.substring(1)), "home");
                         break;
                     case "view":
                         if (currentVisiblePerson != null)

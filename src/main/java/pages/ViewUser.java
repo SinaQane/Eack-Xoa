@@ -194,7 +194,7 @@ public class ViewUser
                     }
                     else
                     {
-                        System.out.println(ConsoleColors.CYAN + "This user hasn't tweeted anything yet...");
+                        System.out.println(ConsoleColors.YELLOW_BRIGHT + "This user hasn't tweeted anything yet...");
                         System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
 
@@ -236,6 +236,10 @@ public class ViewUser
                                     HomePage.homePage(me);
                                 else if (lastPLace.equals("time line"))
                                     Timeline.timeLine(me);
+                                else if (lastPLace.charAt(0)=='u')
+                                    ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.substring(1))), "home");
+                                else if (lastPLace.charAt(0)=='w')
+                                    ViewTweet.viewTweet(me, Load.findTweet(lastPLace.substring(1)), "home");
                                 break;
                             case "dm":
                             case "comment":

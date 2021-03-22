@@ -108,7 +108,7 @@ public class Timeline
             }
             else
             {
-                System.out.println(ConsoleColors.CYAN_BRIGHT + "Your timeline is empty...");
+                System.out.println(ConsoleColors.YELLOW_BRIGHT + "Your timeline is empty...");
                 System.out.println("------------------------------------------------------");
             }
 

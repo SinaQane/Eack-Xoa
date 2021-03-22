@@ -94,12 +94,9 @@ public class ViewTweet
             }
             else
             {
-                System.out.println(ConsoleColors.CYAN + "This tweet doesn't have any comments yet...");
+                System.out.println(ConsoleColors.YELLOW_BRIGHT + "This tweet doesn't have any comments yet...");
                 System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
             }
-
-            System.out.println(ConsoleColors.RED_BRIGHT + "This page is private. Follow it to view its content...");
-            System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
 
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
 
@@ -140,9 +137,13 @@ public class ViewTweet
                             HomePage.homePage(me);
                         else if (lastPLace.equals("time line"))
                             Timeline.timeLine(me);
+                        else if (lastPLace.charAt(0)=='u')
+                            ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.substring(1))), "home");
+                        else if (lastPLace.charAt(0)=='w')
+                            ViewTweet.viewTweet(me, Load.findTweet(lastPLace.substring(1)), "home");
                         break;
                     case "main owner":
-                        ViewUser.viewUser(me, Load.findUser(tweet.getOwnerId()), "t" + tweet.id);
+                        ViewUser.viewUser(me, Load.findUser(tweet.getOwnerId()), "w" + tweet.id);
                         flag = false;
                         break;
                     case "main comment":
@@ -186,14 +187,14 @@ public class ViewTweet
                         break;
                     case "tweet":
                         if (currentVisibleTweet != null)
-                            ViewTweet.viewTweet(me, currentVisibleTweet, "t" + tweet.id);
+                            ViewTweet.viewTweet(me, currentVisibleTweet, "w" + tweet.id);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "owner":
                         if (currentVisibleTweet != null)
-                            ViewUser.viewUser(me, Load.findUser(currentVisibleTweet.getOwnerId()), "t" + tweet.id);
+                            ViewUser.viewUser(me, Load.findUser(currentVisibleTweet.getOwnerId()), "w" + tweet.id);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
