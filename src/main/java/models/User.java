@@ -193,7 +193,7 @@ public class User
                 System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already reported this user.");
         }
         else
-            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You can't report yourself!");
+            System.out.println(ConsoleColors.RED_BRIGHT + "You can't report yourself!");
     }
 
     // User tweets something.
@@ -247,53 +247,61 @@ public class User
             System.out.println(ConsoleColors.YELLOW_BRIGHT + "You are not following this user.");
     }
 
-    // This user blocks another user.
+    // Block button. This user blocks/unblocks another user.
     public void block(User user) throws IOException
     {
-        if (!this.blocked.contains(user.id + ""))
+        if (this.equals(user))
+            System.out.println(ConsoleColors.RED_BRIGHT + "You can't block yourself!");
+        else
         {
-            this.blocked.add(user.id + "");
-            this.followings.remove(user.id + "");
+            if (!this.blocked.contains(user.id + ""))
+            {
+                this.blocked.add(user.id + "");
+                this.followings.remove(user.id + "");
+                this.followers.remove(user.id + "");
+                user.followings.remove(this.id + "");
+                user.followers.remove(this.id + "");
+                Save.saveUser(user);
+                Save.saveUser(this);
+            }
+            else
+            {
+                this.blocked.remove(user.id + "");
+                Save.saveUser(this);
+            }
+        }
+    }
+
+    public void removeFollower(User user) throws IOException
+    {
+        if (this.followers.contains(user.id + ""))
+        {
             this.followers.remove(user.id + "");
-            user.followings.remove(this.id + "");
-            user.followers.remove(this.id + "");
             Save.saveUser(user);
             Save.saveUser(this);
         }
         else
-            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already blocked this user.");
-    }
-
-    // This user unblocks another user.
-    public void unblock(User user) throws IOException
-    {
-        if (this.blocked.contains(user.id + ""))
-        {
-            this.blocked.remove(user.id + "");
-            Save.saveUser(this);
-        }
-        else
-            System.out.println(ConsoleColors.YELLOW + "This user isn't in your Blacklist.");
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "This user doesn't follow you.");
     }
 
     // Mute button. This user mutes/unmutes another user.
     public void mute(User user) throws IOException
     {
         if (this.equals(user))
-            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You can't mute yourself!");
+            System.out.println(ConsoleColors.RED_BRIGHT + "You can't mute yourself!");
         else
             {
             if (!this.muted.contains(user.id + ""))
             {
                 this.muted.add(user.id + "");
                 Save.saveUser(this);
-                System.out.println(ConsoleColors.YELLOW_BRIGHT + "User muted.");
+                System.out.println(ConsoleColors.GREEN_BRIGHT + "User muted.");
             }
             else
             {
                 this.muted.remove(user.id + "");
                 Save.saveUser(this);
-                System.out.println(ConsoleColors.YELLOW_BRIGHT + "User unmuted.");
+                System.out.println(ConsoleColors.GREEN_BRIGHT + "User unmuted.");
             }
         }
     }

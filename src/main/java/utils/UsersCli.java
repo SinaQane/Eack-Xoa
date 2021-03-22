@@ -81,7 +81,7 @@ public class UsersCli
             result.append(ConsoleColors.CYAN).append(loaded.name).append("\n")
                     .append("@").append(loaded.username).append("\n").append(loaded.bio);
             if (user.muted.contains(loaded.id + ""))
-                result.append("\n").append(ConsoleColors.RED + "Muted");
+                result.append("\n").append(ConsoleColors.YELLOW + "Muted");
             return result.toString();
         }
         return "";
@@ -96,7 +96,7 @@ public class UsersCli
             result.append(ConsoleColors.CYAN).append(loaded.name).append("\n")
                     .append("@").append(loaded.username).append("\n").append(loaded.bio);
             if (user.muted.contains(loaded.id + ""))
-                result.append("\n").append(ConsoleColors.RED + "Muted");
+                result.append("\n").append(ConsoleColors.YELLOW + "Muted");
             return result.toString();
         }
         return "";
@@ -115,7 +115,7 @@ public class UsersCli
             result.append(ConsoleColors.CYAN_BRIGHT).append(loaded.name).append("\n")
                     .append("@").append(loaded.username).append("\n").append(loaded.bio);
             if (user.muted.contains(loaded.id + ""))
-                result.append("\n").append(ConsoleColors.RED_BRIGHT + "Muted");
+                result.append("\n").append(ConsoleColors.YELLOW_BRIGHT + "Muted");
             return result.toString();
         }
         return "";
@@ -130,7 +130,7 @@ public class UsersCli
             result.append(ConsoleColors.CYAN_BRIGHT).append(loaded.name).append("\n")
                     .append("@").append(loaded.username).append("\n").append(loaded.bio);
             if (user.muted.contains(loaded.id + ""))
-                result.append("\n").append(ConsoleColors.RED_BRIGHT + "Muted");
+                result.append("\n").append(ConsoleColors.YELLOW_BRIGHT + "Muted");
             return result.toString();
         }
         return "";

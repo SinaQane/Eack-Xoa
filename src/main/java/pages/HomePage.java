@@ -156,10 +156,19 @@ public class HomePage
                         Followings.followings(user, "home");
                         break;
                     case "view tweet": // ViewTweet class, takes a user and a string as argument, uses string for back button
-                    case "view owner": // ViewUser class, takes a user and a string as argument, uses string for back button
                     case "comment":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
                         // TODO add these
+                        break;
+                    case "view owner":
+                        if (currentVisibleTweet != null)
+                        {
+                            homeFlag = false;
+                            ViewUser.viewUser(user, Load.findUser(currentVisibleTweet.getOwnerId()), "home");
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
                         break;
                     case "tweet":
                         System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your tweet here:");

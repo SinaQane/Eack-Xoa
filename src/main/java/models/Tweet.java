@@ -7,7 +7,7 @@ import utils.ConsoleColors;
 import java.io.IOException;
 import java.util.*;
 
-public class Tweet implements Comparable<Tweet>
+public class Tweet
 {
     // Tweet info
     /* Tweet's ID will be in the form "num1-num2" where "num1" is its owner's ID,
@@ -229,15 +229,6 @@ public class Tweet implements Comparable<Tweet>
         else
             System.out.println(ConsoleColors.RED_BRIGHT + "You can't report your own tweet!");
     }
-
-    @Override
-    public int compareTo(Tweet compareTweet)
-    {
-        // Ascending order
-        return (int) (this.tweetTime.getTime() - compareTweet.tweetTime.getTime());
-    }
-
-    public static Comparator<Tweet> tweetTimeComparator = Comparator.naturalOrder();
 
     // TODO User shares this tweet with other users
     /* public void share(User user, ArrayList<User> users)

@@ -82,7 +82,7 @@ public class Followers
             System.out.println("unfollow: unfollow current visible account");
             System.out.println("mute: mute/unmute current visible account");
             System.out.println("block: block current visible account");
-            // TODO block unblock...
+            System.out.println("remove: remove current visible account from your followers");
             System.out.println("next: view next account in this page");
             System.out.println("previous: view previous account in this page");
             System.out.println("next page: view next page");
@@ -102,13 +102,23 @@ public class Followers
                         flag = false;
                         if (lastPLace.equals("home"))
                             HomePage.homePage(user);
-                        // TODO otherwise "lastPLace" would be someone's id. Use ViewTweet class
+                        else if (lastPLace.charAt(0)=='u')
+                            ViewUser.viewUser(user, Load.findUser(Long.parseLong(lastPLace.substring(1))), "u" + user.id);
                         break;
                     case "view":
-                    case "dm":
+                        if (currentVisiblePerson != null)
+                        {
+                            followersFlag = false;
+                            flag = false;
+                            ViewUser.viewUser(user, currentVisiblePerson, "u" + user.id);
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        break;
+                    case "dm": // TODO dm
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
                         break;
-                    case "follow":
+                    case "follow": // TODO request
                         if (currentVisiblePerson != null)
                             user.follow(currentVisiblePerson);
                         else
@@ -132,6 +142,13 @@ public class Followers
                     case "block":
                         if (currentVisiblePerson != null)
                             user.block(currentVisiblePerson);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "remove":
+                        if (currentVisiblePerson != null)
+                            user.removeFollower(currentVisiblePerson);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;

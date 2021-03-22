@@ -100,10 +100,20 @@ public class Followings
                         flag = false;
                         if (lastPLace.equals("home"))
                             HomePage.homePage(user);
-                        // TODO otherwise "lastPLace" would be someone's id. Use ViewTweet class
+                        else if (lastPLace.charAt(0)=='u')
+                            ViewUser.viewUser(user, Load.findUser(Long.parseLong(lastPLace.substring(1))), "u" + user.id);
                         break;
                     case "view":
-                    case "dm":
+                        if (currentVisiblePerson != null)
+                        {
+                            followingsFlag = false;
+                            flag = false;
+                            ViewUser.viewUser(user, currentVisiblePerson, "u" + user.id);
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        break;
+                    case "dm": // TODO dm
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
                         break;
                     case "unfollow":

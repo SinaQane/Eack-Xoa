@@ -64,8 +64,8 @@ public class SignUp
 
         do {
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your email address:");
-            email = scanner.nextLine();
-            if (email.equals("I already have an account")) {
+            email = scanner.nextLine().toLowerCase();
+            if (email.equals("i already have an account")) {
                 Login login = new Login();
                 return login.user;
             }
@@ -83,12 +83,12 @@ public class SignUp
         while (true)
         {
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your phone number (optional):");
-            phoneNumber = scanner.nextLine();
+            phoneNumber = scanner.nextLine().toLowerCase();
             if (phoneNumber.equals(""))
                 break;
             else
             {
-                if (phoneNumber.equals("I already have an account"))
+                if (phoneNumber.equals("i already have an account"))
                 {
                     Login login = new Login();
                     return login.user;

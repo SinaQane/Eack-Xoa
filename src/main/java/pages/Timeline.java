@@ -142,11 +142,20 @@ public class Timeline
                         timelineFlag = false;
                         MainPage.mainPage(user);
                         break;
-                    case "view owner":
                     case "view tweet":
                     case "comment":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
                         // TODO add these
+                        break;
+                    case "view owner":
+                        if (currentVisibleTweet != null)
+                        {
+                            timelineFlag = false;
+                            ViewUser.viewUser(user, Load.findUser(currentVisibleTweet.getOwnerId()), "timeline");
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
                         break;
                     case "upvote":
                         if (currentVisibleTweet != null)
@@ -229,4 +238,3 @@ public class Timeline
         }
     }
 }
-
