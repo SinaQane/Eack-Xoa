@@ -6,10 +6,10 @@ import models.Tweet;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Cli
+public class TweetsCli
 {
     ArrayList<String> tweets;
-    public Cli (ArrayList<String> tweets)
+    public TweetsCli(ArrayList<String> tweets)
     {
         this.tweets = tweets;
     }

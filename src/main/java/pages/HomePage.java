@@ -3,7 +3,7 @@ package pages;
 import data.Load;
 import models.Tweet;
 import models.User;
-import utils.Cli;
+import utils.TweetsCli;
 import utils.ConsoleColors;
 import utils.Input;
 import utils.MapUtil;
@@ -64,12 +64,12 @@ public class HomePage
 
             if (homePageTweets.size()>0)
             {
-                Cli cli = new Cli(homePageTweets);
+                TweetsCli tweetsCli = new TweetsCli(homePageTweets);
 
-                int numberOfPages = cli.numberOfPages(perPage);
+                int numberOfPages = tweetsCli.numberOfPages(perPage);
 
                 page = (((numberOfPages + page) % numberOfPages) + numberOfPages) % numberOfPages;
-                int numberOfTweets = cli.page(page, perPage).size();
+                int numberOfTweets = tweetsCli.page(page, perPage).size();
                 if (viewLastTweet)
                 {
                     currentTweet = numberOfTweets - 1;
@@ -80,31 +80,31 @@ public class HomePage
 
                 for (int i = 5; i > currentTweet; i--)
                 {
-                    if (!cli.printTweet(cli.page(page, perPage), i).equals(""))
+                    if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), i).equals(""))
                     {
-                        System.out.println(ConsoleColors.CYAN + cli.printTweet(cli.page(page, perPage), i));
+                        System.out.println(ConsoleColors.CYAN + tweetsCli.printTweet(tweetsCli.page(page, perPage), i));
                         System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
                 }
-                if (!cli.printTweet(cli.page(page, perPage), currentTweet).equals(""))
+                if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), currentTweet).equals(""))
                 {
-                    String[] currentVisibleTweetParts = cli.page(page, perPage).get(currentTweet).split("-");
+                    String[] currentVisibleTweetParts = tweetsCli.page(page, perPage).get(currentTweet).split("-");
                     String currentVisibleTweetId = currentVisibleTweetParts[2] + "-" + currentVisibleTweetParts[3];
                     currentVisibleTweet = Load.findTweet(currentVisibleTweetId);
-                    System.out.println(ConsoleColors.CYAN_BRIGHT + cli.printTweet(cli.page(page, perPage), currentTweet));
+                    System.out.println(ConsoleColors.CYAN_BRIGHT + tweetsCli.printTweet(tweetsCli.page(page, perPage), currentTweet));
                     System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                 }
                 for (int i = currentTweet - 1; i >= 0; i--)
                 {
-                    if (!cli.printTweet(cli.page(page, perPage), i).equals(""))
+                    if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), i).equals(""))
                     {
-                        System.out.println(ConsoleColors.CYAN + cli.printTweet(cli.page(page, perPage), i));
+                        System.out.println(ConsoleColors.CYAN + tweetsCli.printTweet(tweetsCli.page(page, perPage), i));
                         System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
                 }
                 System.out.println("Page " + (page + 1) + "/" +
-                        numberOfPages + " - Tweet " + (cli.page(page, perPage).size() - currentTweet) +
-                        "/" + cli.page(page, perPage).size());
+                        numberOfPages + " - Tweet " + (tweetsCli.page(page, perPage).size() - currentTweet) +
+                        "/" + tweetsCli.page(page, perPage).size());
                 System.out.println("------------------------------------------------------");
             }
             else
