@@ -14,14 +14,14 @@ public class UsersCli
         this.user = user;
     }
 
-    public int followersPages(int perPage)
+    public int numberOfFollowersPages(int perPage)
     {
         if (user.followers.size() % perPage == 0)
             return user.followers.size()/perPage;
         return user.followers.size()/perPage + 1;
     }
 
-    public int followingsPages(int perPage)
+    public int numberOfFollowingsPages(int perPage)
     {
         if (user.followings.size() % perPage == 0)
             return user.followings.size()/perPage;
@@ -75,9 +75,9 @@ public class UsersCli
             User loaded = Load.findUser(Long.parseLong(page.get(index)));
             StringBuilder result = new StringBuilder();
             if (user.followings.contains(loaded.id + ""))
-                result.append(ConsoleColors.CYAN).append("Following").append("\n");
+                result.append(ConsoleColors.GREEN).append("Following").append("\n");
             else
-                result.append(ConsoleColors.CYAN).append("Not Following").append("\n");
+                result.append(ConsoleColors.RED).append("Not Following").append("\n");
             result.append(ConsoleColors.CYAN).append(loaded.name).append("\n")
                     .append("@").append(loaded.username).append("\n").append(loaded.bio);
             if (user.muted.contains(loaded.id + ""))
@@ -97,6 +97,40 @@ public class UsersCli
                     .append("@").append(loaded.username).append("\n").append(loaded.bio);
             if (user.muted.contains(loaded.id + ""))
                 result.append("\n").append(ConsoleColors.RED + "Muted");
+            return result.toString();
+        }
+        return "";
+    }
+
+    public String printCurrentFollower(ArrayList<String> page, int index) throws IOException
+    {
+        if (index < page.size())
+        {
+            User loaded = Load.findUser(Long.parseLong(page.get(index)));
+            StringBuilder result = new StringBuilder();
+            if (user.followings.contains(loaded.id + ""))
+                result.append(ConsoleColors.GREEN_BRIGHT).append("Following").append("\n");
+            else
+                result.append(ConsoleColors.RED_BRIGHT).append("Not Following").append("\n");
+            result.append(ConsoleColors.CYAN_BRIGHT).append(loaded.name).append("\n")
+                    .append("@").append(loaded.username).append("\n").append(loaded.bio);
+            if (user.muted.contains(loaded.id + ""))
+                result.append("\n").append(ConsoleColors.RED_BRIGHT + "Muted");
+            return result.toString();
+        }
+        return "";
+    }
+
+    public String printCurrentFollowing(ArrayList<String> page, int index) throws IOException
+    {
+        if (index < page.size())
+        {
+            User loaded = Load.findUser(Long.parseLong(page.get(index)));
+            StringBuilder result = new StringBuilder();
+            result.append(ConsoleColors.CYAN_BRIGHT).append(loaded.name).append("\n")
+                    .append("@").append(loaded.username).append("\n").append(loaded.bio);
+            if (user.muted.contains(loaded.id + ""))
+                result.append("\n").append(ConsoleColors.RED_BRIGHT + "Muted");
             return result.toString();
         }
         return "";

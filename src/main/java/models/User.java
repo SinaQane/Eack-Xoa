@@ -50,7 +50,8 @@ public class User
     private int reports;
 
     // Preferences
-    public int perPage;
+    public int tweetsPerPage;
+    public int peoplePerPage;
 
     public User(String username, String password) throws IOException
     {
@@ -64,7 +65,8 @@ public class User
         this.isPermitted = true; // TODO report tweet and user
         this.privateState = false;
         this.reports = 0;
-        this.perPage = 5;
+        this.tweetsPerPage = 5;
+        this.peoplePerPage = 10;
         Save.changeUsername("0", this.username);
         Save.saveUser(this);
     }
@@ -274,34 +276,39 @@ public class User
             System.out.println(ConsoleColors.YELLOW + "This user isn't in your Blacklist.");
     }
 
-    // This user mutes another user.
+    // Mute button. This user mutes/unmutes another user.
     public void mute(User user) throws IOException
     {
-        if (!this.muted.contains(user.id + ""))
-        {
-            this.muted.add(user.id + "");
-            Save.saveUser(this);
-        }
+        if (this.equals(user))
+            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You can't mute yourself!");
         else
-            System.out.println(ConsoleColors.YELLOW_BRIGHT + "You have already muted this user.");
-    }
-
-    // This user unmutes (?) another user.
-    public void unmute(User user) throws IOException
-    {
-        if (this.muted.contains(user.id + ""))
-        {
-            this.muted.add(user.id + "");
-            Save.saveUser(this);
+            {
+            if (!this.muted.contains(user.id + ""))
+            {
+                this.muted.add(user.id + "");
+                Save.saveUser(this);
+                System.out.println(ConsoleColors.YELLOW_BRIGHT + "User muted.");
+            }
+            else
+            {
+                this.muted.remove(user.id + "");
+                Save.saveUser(this);
+                System.out.println(ConsoleColors.YELLOW_BRIGHT + "User unmuted.");
+            }
         }
-        else
-            System.out.println(ConsoleColors.YELLOW_BRIGHT + "This user wasn't muted.");
     }
 
     // Sets the number of tweets per page
-    public void setPerPage(int perPage) throws IOException
+    public void setTweetsPerPage(int tweetsPerPage) throws IOException
     {
-        this.perPage = perPage;
+        this.tweetsPerPage = tweetsPerPage;
+        Save.saveUser(this);
+    }
+
+    // Sets the number of people per page
+    public void setPeoplePerPage(int peoplePerPage) throws IOException
+    {
+        this.peoplePerPage = peoplePerPage;
         Save.saveUser(this);
     }
 

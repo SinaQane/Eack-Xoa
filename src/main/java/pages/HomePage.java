@@ -18,7 +18,7 @@ public class HomePage
     public static void homePage(User user) throws IOException, InterruptedException
     {
         int page = 0;
-        int perPage = user.perPage;
+        int perPage = user.tweetsPerPage;
         int currentTweet = perPage - 1;
         boolean viewLastTweet = false;
         boolean homeFlag = true;
@@ -78,7 +78,7 @@ public class HomePage
                 else
                     currentTweet = (((numberOfTweets + currentTweet) % numberOfTweets) + numberOfTweets) % numberOfTweets;
 
-                for (int i = 5; i > currentTweet; i--)
+                for (int i = perPage; i > currentTweet; i--)
                 {
                     if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), i).equals(""))
                     {
@@ -118,8 +118,8 @@ public class HomePage
             System.out.println("followers: view your followers");
             System.out.println("followings: view your followings");
             System.out.println("tweet: tweet something...");
-            System.out.println("view: view current visible tweet and its comments");
-            System.out.println("owner: view current visible tweet's owner's page");
+            System.out.println("view tweet: view current visible tweet and its comments");
+            System.out.println("view owner: view current visible tweet's owner's page");
             System.out.println("comment: leave a comment under current visible tweet");
             System.out.println("delete: delete current visible tweet");
             System.out.println("upvote: upvote current visible tweet");
@@ -146,9 +146,17 @@ public class HomePage
                         MainPage.mainPage(user);
                         break;
                     case "followers":
+                        flag = false;
+                        homeFlag = false;
+                        Followers.followers(user, "home");
+                        break;
                     case "followings":
-                    case "view": // Tweet class, takes a user and a string as argument, uses string for back button
-                    case "owner": // User class, takes a user and a string as argument, uses string for back button
+                        flag = false;
+                        homeFlag = false;
+                        Followings.followings(user, "home");
+                        break;
+                    case "view tweet": // ViewTweet class, takes a user and a string as argument, uses string for back button
+                    case "view owner": // ViewUser class, takes a user and a string as argument, uses string for back button
                     case "comment":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
                         // TODO add these

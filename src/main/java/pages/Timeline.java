@@ -16,7 +16,7 @@ public class Timeline
     public static void timeLine(User user) throws IOException, InterruptedException
     {
         int page = 0;
-        int perPage = user.perPage;
+        int perPage = user.tweetsPerPage;
         int currentTweet = perPage - 1;
         boolean viewLastTweet = false;
         boolean timelineFlag = true;
@@ -77,7 +77,7 @@ public class Timeline
                 else
                     currentTweet = (((numberOfTweets + currentTweet) % numberOfTweets) + numberOfTweets) % numberOfTweets;
 
-                for (int i = 5; i > currentTweet; i--)
+                for (int i = perPage; i > currentTweet; i--)
                 {
                     if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), i).equals(""))
                     {
@@ -114,8 +114,8 @@ public class Timeline
 
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "List of available commands: \n");
             System.out.println(ConsoleColors.PURPLE_BRIGHT + "main: go back to the Main Page");
-            System.out.println("owner: visit tweet's owner's page");
-            System.out.println("view: view current visible tweet and its comments");
+            System.out.println("view owner: visit tweet's owner's page");
+            System.out.println("view tweet: view current visible tweet and its comments");
             System.out.println("upvote: upvote current visible tweet");
             System.out.println("downvote: downvote current visible tweet");
             System.out.println("retweet: retweet current visible tweet");
@@ -132,16 +132,18 @@ public class Timeline
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
 
             boolean flag = true;
-            while (flag) {
+            while (flag)
+            {
                 String command = scanner.nextLine().toLowerCase();
-                switch (command) {
+                switch (command)
+                {
                     case "main":
                         flag = false;
                         timelineFlag = false;
                         MainPage.mainPage(user);
                         break;
-                    case "owner":
-                    case "view":
+                    case "view owner":
+                    case "view tweet":
                     case "comment":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
                         // TODO add these

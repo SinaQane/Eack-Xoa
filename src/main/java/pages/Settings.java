@@ -33,7 +33,8 @@ public class Settings
             System.out.println("last seen: change your last seen status privacy");
             System.out.println("private: change your account's public/private status");
             System.out.println("info: change your info share privacy status");
-            System.out.println("cli: change how many tweets you want to see in each page");
+            System.out.println("cli tweet: change how many tweets you want to see in each page");
+            System.out.println("cli people: change how many people you want to see in each page");
             System.out.println("password: change your password");
             System.out.println("deactivate: deactivate your account");
             System.out.println("------------------------------------------------------");
@@ -251,20 +252,41 @@ public class Settings
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid command...");
                         flag = false;
                         break;
-                    case "cli":
+                    case "cli tweet":
                         System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a number (Default = 5):");
-                        boolean number = true;
-                        while (number)
+                        boolean tweetNumber = true;
+                        while (tweetNumber)
                         {
                             String naturalNumber = scanner.nextLine();
                             if (naturalNumber.equals(""))
-                                user.setPerPage(5);
+                                user.setTweetsPerPage(5);
                             else
                             {
                                 if (Validations.isNaturalNumber(naturalNumber))
                                 {
-                                    number = false;
-                                    user.setPerPage(Integer.parseInt(naturalNumber));
+                                    tweetNumber = false;
+                                    user.setTweetsPerPage(Integer.parseInt(naturalNumber));
+                                }
+                                else
+                                    System.out.println(ConsoleColors.RED_BRIGHT + "Please enter a natural number:");
+                            }
+                        }
+                        flag = false;
+                        break;
+                    case "cli people":
+                        System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a number (Default = 10):");
+                        boolean peopleNumber = true;
+                        while (peopleNumber)
+                        {
+                            String naturalNumber = scanner.nextLine();
+                            if (naturalNumber.equals(""))
+                                user.setPeoplePerPage(10);
+                            else
+                            {
+                                if (Validations.isNaturalNumber(naturalNumber))
+                                {
+                                    peopleNumber = false;
+                                    user.setPeoplePerPage(Integer.parseInt(naturalNumber));
                                 }
                                 else
                                     System.out.println(ConsoleColors.RED_BRIGHT + "Please enter a natural number:");
