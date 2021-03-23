@@ -20,11 +20,19 @@ public class ViewTweet
         int currentTweet = perPage - 1;
         boolean viewLastTweet = false;
         boolean tweetFlag = true;
-        while (tweetFlag)
-        {
+        while (tweetFlag) {
             Scanner scanner = Input.scanner();
             System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Tweet");
             System.out.println("------------------------------------------------------");
+            Tweet upperTweet = null;
+            if (!tweet.upperTweet.equals("")) {
+                upperTweet = Load.findTweet(tweet.upperTweet);
+                System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + "In reply to @" + upperTweet.getOwner() + ":");
+                System.out.println(tweet.getText());
+                System.out.println(tweet.getKarma() + " Karma - " + tweet.getCommentsCount() + " Comments - "
+                        + tweet.getRetweetsCount() + " Retweets");
+                System.out.println("------------------------------------------------------");
+            }
             String response = "@" + tweet.getOwner() + ":\n" +
                     tweet.getText() + "\n" +
                     tweet.getKarma() + " Karma - " +
@@ -35,8 +43,7 @@ public class ViewTweet
 
             ArrayList<String> comments = new ArrayList<>();
 
-            for(String tweetString : tweet.comments)
-            {
+            for (String tweetString : tweet.comments) {
                 Tweet tempTweet = Load.findTweet(tweetString);
                 if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive()
                         && !me.muted.contains(Load.findUser(tempTweet.getOwner()).id + "")
@@ -47,42 +54,34 @@ public class ViewTweet
 
             Tweet currentVisibleTweet = null;
 
-            if (comments.size()>0)
-            {
+            if (comments.size() > 0) {
                 TweetsCli tweetsCli = new TweetsCli(comments);
 
                 int numberOfPages = tweetsCli.numberOfPages(perPage);
 
                 page = (((numberOfPages + page) % numberOfPages) + numberOfPages) % numberOfPages;
                 int numberOfTweets = tweetsCli.page(page, perPage).size();
-                if (viewLastTweet)
-                {
+                if (viewLastTweet) {
                     currentTweet = numberOfTweets - 1;
                     viewLastTweet = false;
-                }
-                else
+                } else
                     currentTweet = (((numberOfTweets + currentTweet) % numberOfTweets) + numberOfTweets) % numberOfTweets;
 
-                for (int i = perPage; i > currentTweet; i--)
-                {
-                    if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), i).equals(""))
-                    {
+                for (int i = perPage; i > currentTweet; i--) {
+                    if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), i).equals("")) {
                         System.out.println(ConsoleColors.CYAN + tweetsCli.printTweet(tweetsCli.page(page, perPage), i));
                         System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
                 }
-                if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), currentTweet).equals(""))
-                {
+                if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), currentTweet).equals("")) {
                     String[] currentVisibleTweetParts = tweetsCli.page(page, perPage).get(currentTweet).split("-");
                     String currentVisibleTweetId = currentVisibleTweetParts[2] + "-" + currentVisibleTweetParts[3];
                     currentVisibleTweet = Load.findTweet(currentVisibleTweetId);
                     System.out.println(ConsoleColors.CYAN_BRIGHT + tweetsCli.printTweet(tweetsCli.page(page, perPage), currentTweet));
                     System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                 }
-                for (int i = currentTweet - 1; i >= 0; i--)
-                {
-                    if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), i).equals(""))
-                    {
+                for (int i = currentTweet - 1; i >= 0; i--) {
+                    if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), i).equals("")) {
                         System.out.println(ConsoleColors.CYAN + tweetsCli.printTweet(tweetsCli.page(page, perPage), i));
                         System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
@@ -91,9 +90,7 @@ public class ViewTweet
                         numberOfPages + " - Tweet " + (tweetsCli.page(page, perPage).size() - currentTweet) +
                         "/" + tweetsCli.page(page, perPage).size());
                 System.out.println("------------------------------------------------------");
-            }
-            else
-            {
+            } else {
                 System.out.println(ConsoleColors.YELLOW_BRIGHT + "This tweet doesn't have any comments yet...");
                 System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
             }
@@ -101,6 +98,19 @@ public class ViewTweet
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
 
             System.out.println(ConsoleColors.PURPLE_BRIGHT + "back: go back to the last page");
+
+            if (upperTweet != null) {
+                System.out.println("upper tweet: view upper tweet and its comments");
+                System.out.println("upper owner: view upper tweet's owner's page");
+                System.out.println("upper comment: leave a comment under upper tweet");
+                System.out.println("upper upvote: upvote upper tweet");
+                System.out.println("upper downvote: downvote upper tweet");
+                System.out.println("upper retweet: retweet upper tweet");
+                System.out.println("upper save: save/unsave upper tweet");
+                System.out.println("upper report owner: report upper tweet's owner");
+                System.out.println("upper report tweet: report upper tweet");
+            }
+
             System.out.println("main owner: view main tweet's owner's page");
             System.out.println("main comment: leave a comment under main tweet");
             System.out.println("main upvote: upvote main tweet");
@@ -110,15 +120,18 @@ public class ViewTweet
             System.out.println("main report owner: report main tweet's owner");
             System.out.println("main report tweet: report main tweet");
 
-            System.out.println("tweet: view current visible tweet and its comments");
-            System.out.println("owner: view current visible tweet's owner's page");
-            System.out.println("comment: leave a comment under current visible tweet");
-            System.out.println("upvote: upvote current visible tweet");
-            System.out.println("downvote: downvote current visible tweet");
-            System.out.println("retweet: retweet current visible tweet");
-            System.out.println("save: save/unsave current visible tweet");
-            System.out.println("report owner: report current visible tweet's owner");
-            System.out.println("report tweet: report current visible tweet");
+            if (currentVisibleTweet != null)
+            {
+                System.out.println("tweet: view current visible tweet and its comments");
+                System.out.println("owner: view current visible tweet's owner's page");
+                System.out.println("comment: leave a comment under current visible tweet");
+                System.out.println("upvote: upvote current visible tweet");
+                System.out.println("downvote: downvote current visible tweet");
+                System.out.println("retweet: retweet current visible tweet");
+                System.out.println("save: save/unsave current visible tweet");
+                System.out.println("report owner: report current visible tweet's owner");
+                System.out.println("report tweet: report current visible tweet");
+            }
 
             System.out.println("next: view next tweet in this page");
             System.out.println("previous: view previous tweet in this page");
@@ -133,7 +146,7 @@ public class ViewTweet
                     case "back":
                         flag = false;
                         tweetFlag = false;
-                        if (lastPLace.equals("home"))
+                        if (lastPLace.equals("home")) // TODO last place
                             HomePage.homePage(me);
                         else if (lastPLace.equals("time line"))
                             Timeline.timeLine(me);
@@ -143,13 +156,13 @@ public class ViewTweet
                             ViewTweet.viewTweet(me, Load.findTweet(lastPLace.substring(1)), "home");
                         break;
                     case "main owner":
-                        ViewUser.viewUser(me, Load.findUser(tweet.getOwnerId()), "w" + tweet.id);
+                        ViewUser.viewUser(me, Load.findUser(tweet.getOwnerId()), "w" + tweet.id); // TODO last place
                         flag = false;
                         break;
                     case "main comment":
                     case "comment":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                        // TODO
+                        // TODO add these
                         flag = false;
                         break;
                     case "main upvote":
@@ -187,14 +200,14 @@ public class ViewTweet
                         break;
                     case "tweet":
                         if (currentVisibleTweet != null)
-                            ViewTweet.viewTweet(me, currentVisibleTweet, "w" + tweet.id);
+                            ViewTweet.viewTweet(me, currentVisibleTweet, "w" + tweet.id); // TODO last place
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "owner":
                         if (currentVisibleTweet != null)
-                            ViewUser.viewUser(me, Load.findUser(currentVisibleTweet.getOwnerId()), "w" + tweet.id);
+                            ViewUser.viewUser(me, Load.findUser(currentVisibleTweet.getOwnerId()), "w" + tweet.id); // TODO last place
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;

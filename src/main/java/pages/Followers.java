@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Followers
 {
-    public static void followers(User user, String lastPLace) throws IOException, InterruptedException
+    public static void followers(User user, String lastPLace) throws IOException, InterruptedException // TODO add argument "me"
     {
         int page = 0;
         int perPage = user.peoplePerPage;
@@ -76,17 +76,22 @@ public class Followers
 
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
             System.out.println(ConsoleColors.PURPLE_BRIGHT + "back: go back to the last page");
-            System.out.println("view: view current visible account");
-            System.out.println("dm: send a direct message to current visible account");
-            System.out.println("follow: follow current visible account");
-            System.out.println("unfollow: unfollow current visible account");
-            System.out.println("mute: mute/unmute current visible account");
-            System.out.println("block: block current visible account");
-            System.out.println("remove: remove current visible account from your followers");
-            System.out.println("next: view next account in this page");
-            System.out.println("previous: view previous account in this page");
-            System.out.println("next page: view next page");
-            System.out.println("previous page: view previous page");
+
+            if (currentVisiblePerson != null)
+            {
+                System.out.println("view: view current visible account");
+                System.out.println("dm: send a direct message to current visible account");
+                System.out.println("follow: follow current visible account");
+                System.out.println("unfollow: unfollow current visible account");
+                System.out.println("mute: mute/unmute current visible account");
+                System.out.println("block: block current visible account");
+                System.out.println("remove: remove current visible account from your followers");
+                System.out.println("next: view next account in this page");
+                System.out.println("previous: view previous account in this page");
+                System.out.println("next page: view next page");
+                System.out.println("previous page: view previous page");
+            }
+
             System.out.println("------------------------------------------------------");
 
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
@@ -100,7 +105,7 @@ public class Followers
                     case "back":
                         followersFlag = false;
                         flag = false;
-                        if (lastPLace.equals("home"))
+                        if (lastPLace.equals("home")) // TODO last place
                             HomePage.homePage(user);
                         else if (lastPLace.charAt(0)=='u')
                             ViewUser.viewUser(user, Load.findUser(Long.parseLong(lastPLace.substring(1))), "home");
@@ -112,14 +117,14 @@ public class Followers
                         {
                             followersFlag = false;
                             flag = false;
-                            ViewUser.viewUser(user, currentVisiblePerson, "u" + user.id);
+                            ViewUser.viewUser(user, currentVisiblePerson, "u" + user.id); // TODO last place
                         }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         break;
                     case "dm":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                        // TODO dm
+                        // TODO add dm
                         flag = false;
                         break;
                     case "follow": // TODO request

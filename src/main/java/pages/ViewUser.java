@@ -74,7 +74,7 @@ public class ViewUser
                             case "back":
                                 flag = false;
                                 userFlag = false;
-                                if (lastPLace.equals("home"))
+                                if (lastPLace.equals("home")) // TODO last place
                                     HomePage.homePage(me);
                                 else if (lastPLace.equals("time line"))
                                     Timeline.timeLine(me);
@@ -109,7 +109,7 @@ public class ViewUser
                             case "back":
                                 flag = false;
                                 userFlag = false;
-                                if (lastPLace.equals("home"))
+                                if (lastPLace.equals("home")) // TODO last place
                                     HomePage.homePage(me);
                                 else if (lastPLace.equals("time line"))
                                     Timeline.timeLine(me);
@@ -141,7 +141,8 @@ public class ViewUser
                         if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive()
                                 && !me.muted.contains(Load.findUser(tempTweet.getOwner()).id + "")
                                 && !Load.findUser(tempTweet.getOwner()).blocked.contains(me.id + "")
-                                && !(Load.findUser(tempTweet.getOwner()).privateState && !Load.findUser(tempTweet.getOwner()).followers.contains(me.id + "")))
+                                && !(Load.findUser(tempTweet.getOwner()).privateState && !Load.findUser(tempTweet.getOwner()).followers.contains(me.id + ""))
+                                && tempTweet.upperTweet.equals(""))
                             homePageTweets.add(tweetString);
                     }
 
@@ -200,27 +201,33 @@ public class ViewUser
 
                     System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
                     System.out.println(ConsoleColors.PURPLE_BRIGHT + "back: go back to the last page");
+
                     System.out.println("dm: send a direct message to current visible account");
                     System.out.println("follow: follow current visible account");
                     System.out.println("unfollow: unfollow current visible account");
                     System.out.println("mute: mute/unmute current visible account");
                     System.out.println("block: block current visible account");
                     System.out.println("remove: remove current visible account from your followers");
-                    System.out.println("followers: view your followers");
-                    System.out.println("followings: view your followings");
-                    System.out.println("view tweet: view current visible tweet and its comments");
-                    System.out.println("view owner: view current visible tweet's owner's page");
-                    System.out.println("comment: leave a comment under current visible tweet");
-                    System.out.println("upvote: upvote current visible tweet");
-                    System.out.println("downvote: downvote current visible tweet");
-                    System.out.println("retweet: retweet current visible tweet");
-                    System.out.println("save: save/unsave current visible tweet");
-                    System.out.println("report owner: report current visible tweet's owner");
-                    System.out.println("report tweet: report current visible tweet");
-                    System.out.println("next: view next tweet in this page");
-                    System.out.println("previous: view previous tweet in this page");
-                    System.out.println("next page: view next page");
-                    System.out.println("previous page: view previous page");
+                    System.out.println("followers: view current visible account's followers");
+                    System.out.println("followings: view current visible account's followings");
+
+                    if (currentVisibleTweet != null)
+                    {
+                        System.out.println("view tweet: view current visible tweet and its comments");
+                        System.out.println("view owner: view current visible tweet's owner's page");
+                        System.out.println("comment: leave a comment under current visible tweet");
+                        System.out.println("upvote: upvote current visible tweet");
+                        System.out.println("downvote: downvote current visible tweet");
+                        System.out.println("retweet: retweet current visible tweet");
+                        System.out.println("save: save/unsave current visible tweet");
+                        System.out.println("report owner: report current visible tweet's owner");
+                        System.out.println("report tweet: report current visible tweet");
+                        System.out.println("next: view next tweet in this page");
+                        System.out.println("previous: view previous tweet in this page");
+                        System.out.println("next page: view next page");
+                        System.out.println("previous page: view previous page");
+                    }
+
                     System.out.println("------------------------------------------------------");
 
                     System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
@@ -232,7 +239,7 @@ public class ViewUser
                             case "back":
                                 flag = false;
                                 userFlag = false;
-                                if (lastPLace.equals("home"))
+                                if (lastPLace.equals("home")) // TODO last place
                                     HomePage.homePage(me);
                                 else if (lastPLace.equals("time line"))
                                     Timeline.timeLine(me);
@@ -288,12 +295,12 @@ public class ViewUser
                             case "followers":
                                 flag = false;
                                 userFlag = false;
-                                Followers.followers(user, "home");
+                                Followers.followers(user, "home"); // TODO last place
                                 break;
                             case "followings":
                                 flag = false;
                                 userFlag = false;
-                                Followings.followings(user, "home");
+                                Followings.followings(user, "home"); // TODO last place
                                 break;
                             case "upvote":
                                 if (currentVisibleTweet != null)

@@ -18,6 +18,7 @@ public class Tweet
     public final String text;
     public final Date tweetTime;
     public boolean visible;
+    public String upperTweet;
 
     // Interactions of users with this tweet
     public List<String> upvotes = new ArrayList<>();
@@ -38,6 +39,7 @@ public class Tweet
         owner.userTweets.add(this.id);
         Date date = new Date();
         owner.homePageTweets.put("1-" + owner.id + "-" + this.id, date.getTime());
+        this.upperTweet = "";
         Save.saveTweet(this);
     }
 

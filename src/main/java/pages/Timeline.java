@@ -39,7 +39,8 @@ public class Timeline
                         String tempTweetId = tempTweetParts[2] + "-" + tempTweetParts[3];
                         Tweet tempTweet = Load.findTweet(tempTweetId);
                         if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive()
-                                && !Load.findUser(tempTweet.getOwner()).blocked.contains(user.id + ""))
+                                && !Load.findUser(tempTweet.getOwner()).blocked.contains(user.id + "")
+                                && tempTweet.upperTweet.equals(""))
                             tempTweets.put(entry.getKey(), entry.getValue());
                     }
                 }
@@ -51,7 +52,7 @@ public class Timeline
                 String[] userTempTweetParts = userTweet.split("-");
                 String userTempTweetId = userTempTweetParts[2] + "-" + userTempTweetParts[3];
                 Tweet userTempTweet = Load.findTweet(userTempTweetId);
-                if (userTempTweet.visible && Load.findUser(userTempTweet.getOwner()).getIsActive())
+                if (userTempTweet.visible && Load.findUser(userTempTweet.getOwner()).getIsActive() && userTempTweet.upperTweet.equals(""))
                     tempTweets.put(entry.getKey(), entry.getValue());
             }
 
@@ -114,19 +115,24 @@ public class Timeline
 
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "List of available commands: \n");
             System.out.println(ConsoleColors.PURPLE_BRIGHT + "main: go back to the Main Page");
-            System.out.println("view owner: visit tweet's owner's page");
-            System.out.println("view tweet: view current visible tweet and its comments");
-            System.out.println("upvote: upvote current visible tweet");
-            System.out.println("downvote: downvote current visible tweet");
-            System.out.println("retweet: retweet current visible tweet");
-            System.out.println("save: save/unsave current visible tweet");
-            System.out.println("comment: leave a comment under current visible tweet");
-            System.out.println("report owner: report current visible tweet's owner");
-            System.out.println("report tweet: report current visible tweet");
-            System.out.println("next: view next tweet in the timeline");
-            System.out.println("previous: view previous tweet in the timeline");
-            System.out.println("next page: view next page in the timeline");
-            System.out.println("previous page: view previous page in the timeline");
+
+            if (currentVisibleTweet != null)
+            {
+                System.out.println("view owner: visit tweet's owner's page");
+                System.out.println("view tweet: view current visible tweet and its comments");
+                System.out.println("upvote: upvote current visible tweet");
+                System.out.println("downvote: downvote current visible tweet");
+                System.out.println("retweet: retweet current visible tweet");
+                System.out.println("save: save/unsave current visible tweet");
+                System.out.println("comment: leave a comment under current visible tweet");
+                System.out.println("report owner: report current visible tweet's owner");
+                System.out.println("report tweet: report current visible tweet");
+                System.out.println("next: view next tweet in the timeline");
+                System.out.println("previous: view previous tweet in the timeline");
+                System.out.println("next page: view next page in the timeline");
+                System.out.println("previous page: view previous page in the timeline");
+            }
+
             System.out.println("------------------------------------------------------");
 
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
@@ -149,14 +155,14 @@ public class Timeline
                         break;
                     case "view owner":
                         if (currentVisibleTweet != null)
-                            ViewUser.viewUser(user, Load.findUser(currentVisibleTweet.getOwnerId()), "timeline");
+                            ViewUser.viewUser(user, Load.findUser(currentVisibleTweet.getOwnerId()), "timeline"); // TODO last place
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "view tweet":
                         if (currentVisibleTweet != null)
-                            ViewTweet.viewTweet(user, currentVisibleTweet, "timeline");
+                            ViewTweet.viewTweet(user, currentVisibleTweet, "timeline"); // TODO last place
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;

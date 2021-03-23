@@ -56,7 +56,7 @@ public class HomePage
                 String[] homepageTweetParts = tweetString.split("-");
                 String homepageTweetId = homepageTweetParts[2] + "-" + homepageTweetParts[3];
                 Tweet tempTweet = Load.findTweet(homepageTweetId);
-                if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive())
+                if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive() && tempTweet.upperTweet.equals(""))
                     homePageTweets.add(tweetString);
             }
 
@@ -118,20 +118,25 @@ public class HomePage
             System.out.println("followers: view your followers");
             System.out.println("followings: view your followings");
             System.out.println("tweet: tweet something...");
-            System.out.println("view tweet: view current visible tweet and its comments");
-            System.out.println("view owner: view current visible tweet's owner's page");
-            System.out.println("comment: leave a comment under current visible tweet");
-            System.out.println("delete: delete current visible tweet");
-            System.out.println("upvote: upvote current visible tweet");
-            System.out.println("downvote: downvote current visible tweet");
-            System.out.println("retweet: retweet current visible tweet");
-            System.out.println("save: save/unsave current visible tweet");
-            System.out.println("report owner: report current visible tweet's owner");
-            System.out.println("report tweet: report current visible tweet");
-            System.out.println("next: view next tweet in this page");
-            System.out.println("previous: view previous tweet in this page");
-            System.out.println("next page: view next page");
-            System.out.println("previous page: view previous page");
+
+            if (currentVisibleTweet != null)
+            {
+                System.out.println("view tweet: view current visible tweet and its comments");
+                System.out.println("view owner: view current visible tweet's owner's page");
+                System.out.println("comment: leave a comment under current visible tweet");
+                System.out.println("delete: delete current visible tweet");
+                System.out.println("upvote: upvote current visible tweet");
+                System.out.println("downvote: downvote current visible tweet");
+                System.out.println("retweet: retweet current visible tweet");
+                System.out.println("save: save/unsave current visible tweet");
+                System.out.println("report owner: report current visible tweet's owner");
+                System.out.println("report tweet: report current visible tweet");
+                System.out.println("next: view next tweet in this page");
+                System.out.println("previous: view previous tweet in this page");
+                System.out.println("next page: view next page");
+                System.out.println("previous page: view previous page");
+            }
+
             System.out.println("------------------------------------------------------");
 
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
@@ -148,12 +153,12 @@ public class HomePage
                     case "followers":
                         flag = false;
                         homeFlag = false;
-                        Followers.followers(user, "home");
+                        Followers.followers(user, "home"); // TODO last place
                         break;
                     case "followings":
                         flag = false;
                         homeFlag = false;
-                        Followings.followings(user, "home");
+                        Followings.followings(user, "home"); // TODO last place
                         break;
                     case "comment":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
@@ -163,7 +168,7 @@ public class HomePage
                     case "view owner":
                         if (currentVisibleTweet != null)
                         {
-                            ViewUser.viewUser(user, Load.findUser(currentVisibleTweet.getOwnerId()), "home");
+                            ViewUser.viewUser(user, Load.findUser(currentVisibleTweet.getOwnerId()), "home"); // TODO last place
                         }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
@@ -172,7 +177,7 @@ public class HomePage
                     case "view tweet":
                         if (currentVisibleTweet != null)
                         {
-                            ViewTweet.viewTweet(user, currentVisibleTweet, "home");
+                            ViewTweet.viewTweet(user, currentVisibleTweet, "home"); // TODO last place
                         }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
