@@ -40,15 +40,17 @@ public class ViewUser
                     System.out.println(ConsoleColors.YELLOW_BRIGHT + "Pending");
                 else
                     System.out.println(ConsoleColors.RED_BRIGHT + "Not following");
+                if (user.followings.contains(me.id + ""))
+                    System.out.println(ConsoleColors.WHITE_BRIGHT + "Follows you");
+                System.out.println();
+                System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + user.name);
                 System.out.println(ConsoleColors.CYAN_BRIGHT + "@" + user.username);
                 System.out.println("Followers: " + user.followers.size() + " & " +
                         "Followings: " + user.followings.size());
-                if (user.followings.contains(me.id + ""))
-                    System.out.println(ConsoleColors.WHITE_BRIGHT + "Follows you");
                 if (user.infoState)
                 {
                     System.out.println();
-                    System.out.println("Email: " + user.email);
+                    System.out.println(ConsoleColors.CYAN_BRIGHT + "Email: " + user.email);
                     if (user.birthDate != null)
                     {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM/dd");
@@ -60,10 +62,10 @@ public class ViewUser
                         System.out.println("Phone Number: " + user.phoneNumber);
                     else
                         System.out.println("Phone Number: N/A");
-                    if (!user.bio.equals(""))
-                        System.out.println("\n" + user.bio);
                 }
-                System.out.println("------------------------------------------------------");
+                if (!user.bio.equals(""))
+                    System.out.println(ConsoleColors.CYAN_BRIGHT + "\n" + user.bio);
+                System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                 if (user.blocked.contains(me.id + ""))
                 {
                     System.out.println(ConsoleColors.RED_BRIGHT + "This user has blocked you. Adios...");

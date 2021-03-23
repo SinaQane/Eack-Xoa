@@ -14,39 +14,39 @@ pages/Notifications.java
  pages.Notifications
 pages/Explore.java
  pages.Explore
-pages/ViewUser.java
- pages.ViewUser
+utils/UsersCli.java
+ utils.UsersCli
 pages/MainPage.java
  pages.MainPage
 utils/TweetsCli.java
  utils.TweetsCli
 pages/Settings.java
  pages.Settings
-pages/Followers.java
- pages.Followers
+entry/SignUp.java
+ entry.SignUp
 entry/Enter.java
  entry.Enter
+entry/Login.java
+ entry.Login
+data/Load.java
+ data.Load
+models/User.java
+ models.User
+data/Save.java
+ data.Save
+pages/FirstPage.java
+ pages.FirstPage
+models/Tweet.java
+ models.Tweet
+pages/ViewUser.java
+ pages.ViewUser
+pages/HomePage.java
+ pages.HomePage
+pages/Followers.java
+ pages.Followers
 pages/ViewTweet.java
  pages.ViewTweet
 pages/Followings.java
  pages.Followings
 pages/Timeline.java
  pages.Timeline
-data/Save.java
- data.Save
-pages/FirstPage.java
- pages.FirstPage
-utils/UsersCli.java
- utils.UsersCli
-models/User.java
- models.User
-pages/HomePage.java
- pages.HomePage
-entry/Login.java
- entry.Login
-data/Load.java
- data.Load
-entry/SignUp.java
- entry.SignUp
-models/Tweet.java
- models.Tweet
