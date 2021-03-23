@@ -141,6 +141,10 @@ public class Timeline
             while (flag)
             {
                 String command = scanner.nextLine().toLowerCase();
+
+                List<String> lastPlace = new LinkedList<>();
+                lastPlace.add("timeline");
+
                 switch (command)
                 {
                     case "main":
@@ -155,14 +159,14 @@ public class Timeline
                         break;
                     case "view owner":
                         if (currentVisibleTweet != null)
-                            ViewUser.viewUser(user, Load.findUser(currentVisibleTweet.getOwnerId()), "timeline"); // TODO last place
+                            ViewUser.viewUser(user, Load.findUser(currentVisibleTweet.getOwnerId()), lastPlace);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "view tweet":
                         if (currentVisibleTweet != null)
-                            ViewTweet.viewTweet(user, currentVisibleTweet, "timeline"); // TODO last place
+                            ViewTweet.viewTweet(user, currentVisibleTweet, lastPlace);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;

@@ -11,11 +11,12 @@ import utils.TweetsCli;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ViewUser
 {
-    public static void viewUser(User me, User user, String lastPLace) throws IOException, InterruptedException
+    public static void viewUser(User me, User user, List<String> lastPLace) throws IOException, InterruptedException
     {
         if (user.id.equals(me.id))
         {
@@ -74,10 +75,18 @@ public class ViewUser
                             case "back":
                                 flag = false;
                                 userFlag = false;
-                                if (lastPLace.equals("home")) // TODO last place
+                                if (lastPLace.get(lastPLace.size() - 1).equals("home"))
                                     HomePage.homePage(me);
-                                else if (lastPLace.equals("time line"))
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("time line"))
                                     Timeline.timeLine(me);
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
+                                    ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
+                                    ViewTweet.viewTweet(me, Load.findTweet(lastPLace.get(lastPLace.size() - 1).substring(1)), lastPLace.subList(0, lastPLace.size() - 1));
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='e') // Followers
+                                    Followers.followers(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
+                                    Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 break;
                             case "mute":
                                 me.mute(user);
@@ -109,13 +118,22 @@ public class ViewUser
                             case "back":
                                 flag = false;
                                 userFlag = false;
-                                if (lastPLace.equals("home")) // TODO last place
+                                if (lastPLace.get(lastPLace.size() - 1).equals("home"))
                                     HomePage.homePage(me);
-                                else if (lastPLace.equals("time line"))
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("time line"))
                                     Timeline.timeLine(me);
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
+                                    ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
+                                    ViewTweet.viewTweet(me, Load.findTweet(lastPLace.get(lastPLace.size() - 1).substring(1)), lastPLace.subList(0, lastPLace.size() - 1));
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='e') // Followers
+                                    Followers.followers(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
+                                    Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 break;
                             case "follow":
-                                me.follow(user); // TODO request
+                                me.follow(user);
+                                // TODO request
                                 flag = false;
                                 break;
                             case "mute":
@@ -239,14 +257,18 @@ public class ViewUser
                             case "back":
                                 flag = false;
                                 userFlag = false;
-                                if (lastPLace.equals("home")) // TODO last place
+                                if (lastPLace.get(lastPLace.size() - 1).equals("home"))
                                     HomePage.homePage(me);
-                                else if (lastPLace.equals("time line"))
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("timeline"))
                                     Timeline.timeLine(me);
-                                else if (lastPLace.charAt(0)=='u')
-                                    ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.substring(1))), "home");
-                                else if (lastPLace.charAt(0)=='w')
-                                    ViewTweet.viewTweet(me, Load.findTweet(lastPLace.substring(1)), "home");
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
+                                    ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
+                                    ViewTweet.viewTweet(me, Load.findTweet(lastPLace.get(lastPLace.size() - 1).substring(1)), lastPLace.subList(0, lastPLace.size() - 1));
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='e') // Followers
+                                    Followers.followers(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
+                                    Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 break;
                             case "dm":
                             case "comment":
@@ -257,7 +279,8 @@ public class ViewUser
                             case "view owner":
                                 if (currentVisibleTweet != null)
                                 {
-                                    ViewUser.viewUser(me, Load.findUser(currentVisibleTweet.getOwnerId()), "u" + user.id);
+                                    lastPLace.add("u" + user.id);
+                                    ViewUser.viewUser(me, Load.findUser(currentVisibleTweet.getOwnerId()), lastPLace);
                                 }
                                 else
                                     System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
@@ -266,14 +289,16 @@ public class ViewUser
                             case "view tweet":
                                 if (currentVisibleTweet != null)
                                 {
-                                    ViewTweet.viewTweet(me, currentVisibleTweet, "u" + user.id);
+                                    lastPLace.add("u" + user.id);
+                                    ViewTweet.viewTweet(me, currentVisibleTweet, lastPLace);
                                 }
                                 else
                                     System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                                 flag = false;
                                 break;
-                            case "follow": // TODO request
+                            case "follow":
                                 me.follow(user);
+                                // TODO request
                                 flag = false;
                                 break;
                             case "unfollow":
@@ -295,12 +320,14 @@ public class ViewUser
                             case "followers":
                                 flag = false;
                                 userFlag = false;
-                                Followers.followers(user, "home"); // TODO last place
+                                lastPLace.add("u" + user.id);
+                                Followers.followers(me, user, lastPLace);
                                 break;
                             case "followings":
                                 flag = false;
                                 userFlag = false;
-                                Followings.followings(user, "home"); // TODO last place
+                                lastPLace.add("u" + user.id);
+                                Followings.followings(me, user, lastPLace);
                                 break;
                             case "upvote":
                                 if (currentVisibleTweet != null)

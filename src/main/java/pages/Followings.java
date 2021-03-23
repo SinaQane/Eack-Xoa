@@ -7,11 +7,12 @@ import utils.Input;
 import utils.UsersCli;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Followings
 {
-    public static void followings(User user, String lastPLace) throws IOException, InterruptedException // TODO add argument "me"
+    public static void followings(User me, User user, List<String> lastPLace) throws IOException, InterruptedException
     {
         int page = 0;
         int perPage = user.peoplePerPage;
@@ -28,7 +29,7 @@ public class Followings
 
             if (user.followings.size()>0)
             {
-                UsersCli usersCli = new UsersCli(user);
+                UsersCli usersCli = new UsersCli(me, user);
                 int numberOfPages = usersCli.numberOfFollowingsPages(perPage);
 
                 page = (((numberOfPages + page) % numberOfPages) + numberOfPages) % numberOfPages;
@@ -43,23 +44,23 @@ public class Followings
 
                 for (int i = perPage; i > currentPerson; i--)
                 {
-                    if (!usersCli.printFollowing(usersCli.followingsPage(page, perPage), i).equals(""))
+                    if (!usersCli.printUser(usersCli.followingsPage(page, perPage), i).equals(""))
                     {
-                        System.out.println(usersCli.printFollowing(usersCli.followingsPage(page, perPage), i));
+                        System.out.println(usersCli.printUser(usersCli.followingsPage(page, perPage), i));
                         System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
                 }
-                if (!usersCli.printFollowing(usersCli.followingsPage(page, perPage), currentPerson).equals(""))
+                if (!usersCli.printUser(usersCli.followingsPage(page, perPage), currentPerson).equals(""))
                 {
                     currentVisiblePerson = Load.findUser(Long.parseLong(usersCli.followingsPage(page, perPage).get(currentPerson)));
-                    System.out.println(usersCli.printCurrentFollowing(usersCli.followingsPage(page, perPage), currentPerson));
+                    System.out.println(usersCli.printCurrentUser(usersCli.followingsPage(page, perPage), currentPerson));
                     System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                 }
                 for (int i = currentPerson - 1; i >= 0; i--)
                 {
-                    if (!usersCli.printFollowing(usersCli.followingsPage(page, perPage), i).equals(""))
+                    if (!usersCli.printUser(usersCli.followingsPage(page, perPage), i).equals(""))
                     {
-                        System.out.println(usersCli.printFollowing(usersCli.followingsPage(page, perPage), i));
+                        System.out.println(usersCli.printUser(usersCli.followingsPage(page, perPage), i));
                         System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
                 }
@@ -81,6 +82,7 @@ public class Followings
             {
                 System.out.println("view: view current visible account");
                 System.out.println("dm: send a direct message to current visible account");
+                System.out.println("follow: follow current visible account");
                 System.out.println("unfollow: unfollow current visible account");
                 System.out.println("mute: mute/unmute current visible account");
                 System.out.println("block: block current visible account");
@@ -103,19 +105,24 @@ public class Followings
                     case "back":
                         followingsFlag = false;
                         flag = false;
-                        if (lastPLace.equals("home")) // TODO last place
-                            HomePage.homePage(user);
-                        else if (lastPLace.charAt(0)=='u')
-                            ViewUser.viewUser(user, Load.findUser(Long.parseLong(lastPLace.substring(1))), "home");
-                        else if (lastPLace.charAt(0)=='w')
-                            ViewTweet.viewTweet(user, Load.findTweet(lastPLace.substring(1)), "home");
+                        if (lastPLace.get(lastPLace.size() - 1).equals("home"))
+                            HomePage.homePage(me);
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
+                            ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
+                            ViewTweet.viewTweet(me, Load.findTweet(lastPLace.get(lastPLace.size() - 1).substring(1)), lastPLace.subList(0, lastPLace.size() - 1));
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='e') // Followers
+                            Followers.followers(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
+                            Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                         break;
                     case "view":
                         if (currentVisiblePerson != null)
                         {
                             followingsFlag = false;
                             flag = false;
-                            ViewUser.viewUser(user, currentVisiblePerson, "u" + user.id); // TODO last place
+                            lastPLace.add("i" + user.id);
+                            ViewUser.viewUser(me, currentVisiblePerson, lastPLace);
                         }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
@@ -125,23 +132,30 @@ public class Followings
                         // TODO add dm
                         flag = false;
                         break;
+                    case "follow":
+                        if (currentVisiblePerson != null)
+                            me.follow(currentVisiblePerson);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
                     case "unfollow":
                         if (currentVisiblePerson != null)
-                            user.unfollow(currentVisiblePerson);
+                            me.unfollow(currentVisiblePerson);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "mute":
                         if (currentVisiblePerson != null)
-                            user.mute(currentVisiblePerson);
+                            me.mute(currentVisiblePerson);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "block":
                         if (currentVisiblePerson != null)
-                            user.block(currentVisiblePerson);
+                            me.block(currentVisiblePerson);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;

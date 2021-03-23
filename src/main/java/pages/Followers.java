@@ -7,11 +7,12 @@ import utils.Input;
 import utils.UsersCli;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Followers
 {
-    public static void followers(User user, String lastPLace) throws IOException, InterruptedException // TODO add argument "me"
+    public static void followers(User me, User user, List<String> lastPLace) throws IOException, InterruptedException
     {
         int page = 0;
         int perPage = user.peoplePerPage;
@@ -28,7 +29,7 @@ public class Followers
 
             if (user.followers.size()>0)
             {
-                UsersCli usersCli = new UsersCli(user);
+                UsersCli usersCli = new UsersCli(me, user);
                 int numberOfPages = usersCli.numberOfFollowersPages(perPage);
 
                 page = (((numberOfPages + page) % numberOfPages) + numberOfPages) % numberOfPages;
@@ -43,23 +44,23 @@ public class Followers
 
                 for (int i = perPage; i > currentPerson; i--)
                 {
-                    if (!usersCli.printFollower(usersCli.followersPage(page, perPage), i).equals(""))
+                    if (!usersCli.printUser(usersCli.followersPage(page, perPage), i).equals(""))
                     {
-                        System.out.println(usersCli.printFollower(usersCli.followersPage(page, perPage), i));
+                        System.out.println(usersCli.printUser(usersCli.followersPage(page, perPage), i));
                         System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
                 }
-                if (!usersCli.printFollower(usersCli.followersPage(page, perPage), currentPerson).equals(""))
+                if (!usersCli.printUser(usersCli.followersPage(page, perPage), currentPerson).equals(""))
                 {
                     currentVisiblePerson = Load.findUser(Long.parseLong(usersCli.followersPage(page, perPage).get(currentPerson)));
-                    System.out.println(usersCli.printCurrentFollower(usersCli.followersPage(page, perPage), currentPerson));
+                    System.out.println(usersCli.printCurrentUser(usersCli.followersPage(page, perPage), currentPerson));
                     System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                 }
                 for (int i = currentPerson - 1; i >= 0; i--)
                 {
-                    if (!usersCli.printFollower(usersCli.followersPage(page, perPage), i).equals(""))
+                    if (!usersCli.printUser(usersCli.followersPage(page, perPage), i).equals(""))
                     {
-                        System.out.println(usersCli.printFollower(usersCli.followersPage(page, perPage), i));
+                        System.out.println(usersCli.printUser(usersCli.followersPage(page, perPage), i));
                         System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
                 }
@@ -70,7 +71,7 @@ public class Followers
             }
             else
             {
-                System.out.println(ConsoleColors.YELLOW_BRIGHT + "You don't have any followers...");
+                System.out.println(ConsoleColors.YELLOW_BRIGHT + "Followers list is empty...");
                 System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
             }
 
@@ -105,19 +106,24 @@ public class Followers
                     case "back":
                         followersFlag = false;
                         flag = false;
-                        if (lastPLace.equals("home")) // TODO last place
-                            HomePage.homePage(user);
-                        else if (lastPLace.charAt(0)=='u')
-                            ViewUser.viewUser(user, Load.findUser(Long.parseLong(lastPLace.substring(1))), "home");
-                        else if (lastPLace.charAt(0)=='w')
-                            ViewTweet.viewTweet(user, Load.findTweet(lastPLace.substring(1)), "home");
+                        if (lastPLace.get(lastPLace.size() - 1).equals("home"))
+                            HomePage.homePage(me);
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
+                            ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
+                            ViewTweet.viewTweet(me, Load.findTweet(lastPLace.get(lastPLace.size() - 1).substring(1)), lastPLace.subList(0, lastPLace.size() - 1));
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='e') // Followers
+                            Followers.followers(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
+                            Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                         break;
                     case "view":
                         if (currentVisiblePerson != null)
                         {
                             followersFlag = false;
                             flag = false;
-                            ViewUser.viewUser(user, currentVisiblePerson, "u" + user.id); // TODO last place
+                            lastPLace.add("e" + user.id);
+                            ViewUser.viewUser(me, currentVisiblePerson, lastPLace);
                         }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
@@ -127,37 +133,38 @@ public class Followers
                         // TODO add dm
                         flag = false;
                         break;
-                    case "follow": // TODO request
+                    case "follow":
                         if (currentVisiblePerson != null)
-                            user.follow(currentVisiblePerson);
+                            me.follow(currentVisiblePerson);
+                            // TODO request
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "unfollow":
                         if (currentVisiblePerson != null)
-                            user.unfollow(currentVisiblePerson);
+                            me.unfollow(currentVisiblePerson);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "mute":
                         if (currentVisiblePerson != null)
-                            user.mute(currentVisiblePerson);
+                            me.mute(currentVisiblePerson);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "block":
                         if (currentVisiblePerson != null)
-                            user.block(currentVisiblePerson);
+                            me.block(currentVisiblePerson);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "remove":
                         if (currentVisiblePerson != null)
-                            user.removeFollower(currentVisiblePerson);
+                            me.removeFollower(currentVisiblePerson);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;

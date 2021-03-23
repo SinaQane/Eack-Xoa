@@ -11,6 +11,8 @@ import utils.MapUtil;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class HomePage
@@ -144,6 +146,10 @@ public class HomePage
             boolean flag = true;
             while (flag) {
                 String command = scanner.nextLine().toLowerCase();
+
+                List<String> lastPlace = new LinkedList<>();
+                lastPlace.add("home");
+
                 switch (command) {
                     case "main":
                         flag = false;
@@ -153,22 +159,22 @@ public class HomePage
                     case "followers":
                         flag = false;
                         homeFlag = false;
-                        Followers.followers(user, "home"); // TODO last place
+                        Followers.followers(user, user, lastPlace);
                         break;
                     case "followings":
                         flag = false;
                         homeFlag = false;
-                        Followings.followings(user, "home"); // TODO last place
+                        Followings.followings(user, user, lastPlace);
                         break;
                     case "comment":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                        // TODO add this
+                        // TODO add comment
                         flag = false;
                         break;
                     case "view owner":
                         if (currentVisibleTweet != null)
                         {
-                            ViewUser.viewUser(user, Load.findUser(currentVisibleTweet.getOwnerId()), "home"); // TODO last place
+                            ViewUser.viewUser(user, Load.findUser(currentVisibleTweet.getOwnerId()), lastPlace);
                         }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
@@ -177,7 +183,7 @@ public class HomePage
                     case "view tweet":
                         if (currentVisibleTweet != null)
                         {
-                            ViewTweet.viewTweet(user, currentVisibleTweet, "home"); // TODO last place
+                            ViewTweet.viewTweet(user, currentVisibleTweet, lastPlace);
                         }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");

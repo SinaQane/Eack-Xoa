@@ -31,9 +31,10 @@ public class User
     public List<String> blocked = new LinkedList<>();
     public List<String> muted = new LinkedList<>();
     public List<String> reported = new LinkedList<>();
+    public List<String> requests = new LinkedList<>();
+    public List<String> pending = new LinkedList<>();
 
     // Tweets
-    //public List<String> homePageTweets = new LinkedList<>();
     public HashMap<String, Long> homePageTweets = new HashMap<>();
     public List<String> userTweets = new LinkedList<>();
     public List<String> retweetedTweets = new LinkedList<>();
@@ -245,6 +246,11 @@ public class User
         }
         else
             System.out.println(ConsoleColors.YELLOW_BRIGHT + "You are not following this user.");
+    }
+
+    public void request(User user) throws IOException
+    {
+        // TODO request
     }
 
     // Block button. This user blocks/unblocks another user.

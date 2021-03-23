@@ -9,11 +9,12 @@ import utils.TweetsCli;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ViewTweet
 {
-    public static void viewTweet(User me, Tweet tweet, String lastPLace) throws IOException, InterruptedException
+    public static void viewTweet(User me, Tweet tweet, List<String> lastPLace) throws IOException, InterruptedException
     {
         int page = 0;
         int perPage = me.tweetsPerPage;
@@ -146,23 +147,102 @@ public class ViewTweet
                     case "back":
                         flag = false;
                         tweetFlag = false;
-                        if (lastPLace.equals("home")) // TODO last place
+                        if (lastPLace.get(lastPLace.size() - 1).equals("home"))
                             HomePage.homePage(me);
-                        else if (lastPLace.equals("time line"))
+                        else if (lastPLace.get(lastPLace.size() - 1).equals("timeline"))
                             Timeline.timeLine(me);
-                        else if (lastPLace.charAt(0)=='u')
-                            ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.substring(1))), "home");
-                        else if (lastPLace.charAt(0)=='w')
-                            ViewTweet.viewTweet(me, Load.findTweet(lastPLace.substring(1)), "home");
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
+                            ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
+                            ViewTweet.viewTweet(me, Load.findTweet(lastPLace.get(lastPLace.size() - 1).substring(1)), lastPLace.subList(0, lastPLace.size() - 1));
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='e') // Followers
+                            Followers.followers(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
+                            Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                         break;
-                    case "main owner":
-                        ViewUser.viewUser(me, Load.findUser(tweet.getOwnerId()), "w" + tweet.id); // TODO last place
-                        flag = false;
-                        break;
+                    case "upper comment":
                     case "main comment":
                     case "comment":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
                         // TODO add these
+                        flag = false;
+                        break;
+                    case "upper tweet":
+                        if (upperTweet != null)
+                        {
+                            lastPLace.add("w" + tweet.id);
+                            ViewTweet.viewTweet(me, upperTweet, lastPLace);
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "upper owner":
+                        if (upperTweet != null)
+                        {
+                            lastPLace.add("w" + tweet.id);
+                            ViewUser.viewUser(me, Load.findUser(upperTweet.getOwnerId()), lastPLace);
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "upper upvote":
+                        if (upperTweet != null)
+                            upperTweet.upvote(me);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "upper downvote":
+                        if (upperTweet != null)
+                            upperTweet.downvote(me);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "upper retweet":
+                        if (upperTweet != null)
+                            upperTweet.retweet(me);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "upper save":
+                        if (upperTweet != null)
+                        {
+                            if(me.savedTweets.contains(upperTweet.id))
+                            {
+                                upperTweet.unsave(me);
+                                System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweet unsaved");
+                            }
+                            else
+                            {
+                                upperTweet.save(me);
+                                System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweet saved");
+                            }
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "upper report owner":
+                        if (upperTweet != null)
+                            upperTweet.report(me);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "upper report tweet":
+                        if (upperTweet != null)
+                            Load.findUser(upperTweet.getOwnerId()).reported(me);
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "main owner":
+                        lastPLace.add("u" + tweet.id);
+                        ViewUser.viewUser(me, Load.findUser(tweet.getOwnerId()), lastPLace);
                         flag = false;
                         break;
                     case "main upvote":
@@ -200,14 +280,20 @@ public class ViewTweet
                         break;
                     case "tweet":
                         if (currentVisibleTweet != null)
-                            ViewTweet.viewTweet(me, currentVisibleTweet, "w" + tweet.id); // TODO last place
+                        {
+                            lastPLace.add("w" + tweet.id);
+                            ViewTweet.viewTweet(me, currentVisibleTweet, lastPLace);
+                        }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "owner":
                         if (currentVisibleTweet != null)
-                            ViewUser.viewUser(me, Load.findUser(currentVisibleTweet.getOwnerId()), "w" + tweet.id); // TODO last place
+                        {
+                            lastPLace.add("w" + tweet.id);
+                            ViewUser.viewUser(me, Load.findUser(currentVisibleTweet.getOwnerId()), lastPLace);
+                        }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
