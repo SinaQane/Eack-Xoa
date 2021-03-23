@@ -186,7 +186,7 @@ public class User
                 if (this.reports >= 10)
                 {
                     this.isPermitted = false;
-                    // TODO user won't be able to tweet, comment and retweet for n seconds after getting suspended.
+                    // TODO user won't be able to tweet and leave comments for n seconds after getting suspended.
                 }
                 Save.saveUser(this);
             }
@@ -248,9 +248,58 @@ public class User
             System.out.println(ConsoleColors.YELLOW_BRIGHT + "You are not following this user.");
     }
 
+    // Request button. This user sends/unsends a request to follow another user.
     public void request(User user) throws IOException
     {
-        // TODO request
+        if (this.equals(user))
+            System.out.println(ConsoleColors.RED_BRIGHT + "You can't follow yourself!");
+        else
+        {
+            if (!user.privateState)
+                System.out.println(ConsoleColors.YELLOW_BRIGHT + "This page isn't private.");
+            else
+            {
+                if (this.pending.contains(user.id + "")) {
+                    this.pending.remove(user.id + "");
+                    user.requests.remove(this.id + "");
+                } else {
+                    this.pending.add(user.id + "");
+                    user.requests.add(this.id + "");
+                }
+                Save.saveUser(user);
+                Save.saveUser(this);
+            }
+        }
+    }
+
+    // This user accepts someone's request
+    public void accept(User user) throws IOException
+    {
+        this.requests.remove(user.id + "");
+        this.followers.add(user.id + "");
+        user.pending.remove(user.id + "");
+        user.followings.add(user.id + "");
+        Save.saveUser(user);
+        Save.saveUser(this);
+    }
+
+    // This user rejects someone's request
+    public void reject(User user) throws IOException
+    {
+        this.requests.remove(user.id + "");
+        user.pending.remove(user.id + "");
+        Save.saveUser(user);
+        Save.saveUser(this);
+    }
+
+    // This user accepts all the request
+    public void acceptAll() throws IOException
+    {
+        for (String userId : this.requests)
+        {
+            User user = Load.findUser(Long.parseLong(userId));
+            this.accept(user);
+        }
     }
 
     // Block button. This user blocks/unblocks another user.

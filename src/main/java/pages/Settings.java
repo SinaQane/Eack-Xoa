@@ -212,9 +212,10 @@ public class Settings
                         System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your new page public/private status:");
                         System.out.println(" You can choose from \"public\" or \"private\".");
                         String newPrivateState = scanner.nextLine().toLowerCase();
-                        if (newPrivateState.equals("public")) // TODO Accept all reqs
+                        if (newPrivateState.equals("public"))
                         {
                             user.setPrivateState(false);
+                            user.acceptAll();
                             System.out.println(ConsoleColors.GREEN_BRIGHT + "------------------------------------------------------");
                             System.out.println("Your page is now public.");
                             System.out.println("------------------------------------------------------");

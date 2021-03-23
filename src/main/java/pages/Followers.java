@@ -135,8 +135,10 @@ public class Followers
                         break;
                     case "follow":
                         if (currentVisiblePerson != null)
-                            me.follow(currentVisiblePerson);
-                            // TODO request
+                            if (currentVisiblePerson.privateState)
+                                me.request(currentVisiblePerson);
+                            else
+                                me.follow(currentVisiblePerson);
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;

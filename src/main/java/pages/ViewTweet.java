@@ -164,7 +164,7 @@ public class ViewTweet
                     case "main comment":
                     case "comment":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                        // TODO add these
+                        // TODO add comment
                         flag = false;
                         break;
                     case "upper tweet":

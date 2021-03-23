@@ -79,12 +79,16 @@ public class UsersCli
             StringBuilder result = new StringBuilder();
             if (me.followings.contains(loaded.id + ""))
                 result.append(ConsoleColors.GREEN).append("Following").append("\n");
+            else if (me.pending.contains(user.id + ""))
+                result.append(ConsoleColors.YELLOW).append("Pending").append("\n");
             else
                 result.append(ConsoleColors.RED).append("Not Following").append("\n");
             result.append(ConsoleColors.CYAN).append(loaded.name).append("\n")
                     .append("@").append(loaded.username).append("\n").append(loaded.bio);
             if (me.muted.contains(loaded.id + ""))
                 result.append("\n").append(ConsoleColors.YELLOW + "Muted");
+            if (user.followings.contains(me.id + ""))
+                result.append("\n").append(ConsoleColors.WHITE + "Follows you");
             return result.toString();
         }
         return "";
@@ -98,12 +102,16 @@ public class UsersCli
             StringBuilder result = new StringBuilder();
             if (me.followings.contains(loaded.id + ""))
                 result.append(ConsoleColors.GREEN_BRIGHT).append("Following").append("\n");
+            else if (me.pending.contains(user.id + ""))
+                result.append(ConsoleColors.YELLOW_BRIGHT).append("Pending").append("\n");
             else
                 result.append(ConsoleColors.RED_BRIGHT).append("Not Following").append("\n");
             result.append(ConsoleColors.CYAN_BRIGHT).append(loaded.name).append("\n")
                     .append("@").append(loaded.username).append("\n").append(loaded.bio);
             if (me.muted.contains(loaded.id + ""))
                 result.append("\n").append(ConsoleColors.YELLOW_BRIGHT + "Muted");
+            if (user.followings.contains(me.id + ""))
+                result.append("\n").append(ConsoleColors.WHITE_BRIGHT + "Follows you");
             return result.toString();
         }
         return "";

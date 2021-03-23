@@ -34,10 +34,17 @@ public class ViewUser
                 Scanner scanner = Input.scanner();
                 System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + user.username + "'s Page");
                 System.out.println("------------------------------------------------------");
-                System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + user.name);
+                if (me.followings.contains(user.id + ""))
+                    System.out.println(ConsoleColors.GREEN_BRIGHT + "Following");
+                else if (me.pending.contains(user.id + ""))
+                    System.out.println(ConsoleColors.YELLOW_BRIGHT + "Pending");
+                else
+                    System.out.println(ConsoleColors.RED_BRIGHT + "Not following");
                 System.out.println(ConsoleColors.CYAN_BRIGHT + "@" + user.username);
                 System.out.println("Followers: " + user.followers.size() + " & " +
                         "Followings: " + user.followings.size());
+                if (user.followings.contains(me.id + ""))
+                    System.out.println(ConsoleColors.WHITE_BRIGHT + "Follows you");
                 if (user.infoState)
                 {
                     System.out.println();
@@ -106,7 +113,7 @@ public class ViewUser
 
                     System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
                     System.out.println(ConsoleColors.PURPLE_BRIGHT + "back: go back to the last page");
-                    System.out.println("follow: follow current visible account");
+                    System.out.println("request: send a follow request to current visible account");
                     System.out.println("mute: mute/unmute current visible account");
                     System.out.println("block: block current visible account");
                     boolean flag = true;
@@ -120,7 +127,7 @@ public class ViewUser
                                 userFlag = false;
                                 if (lastPLace.get(lastPLace.size() - 1).equals("home"))
                                     HomePage.homePage(me);
-                                else if (lastPLace.get(lastPLace.size() - 1).equals("time line"))
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("timeline"))
                                     Timeline.timeLine(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
                                     ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
@@ -131,9 +138,8 @@ public class ViewUser
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
                                     Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 break;
-                            case "follow":
-                                me.follow(user);
-                                // TODO request
+                            case "request":
+                                me.request(user);
                                 flag = false;
                                 break;
                             case "mute":
@@ -273,7 +279,7 @@ public class ViewUser
                             case "dm":
                             case "comment":
                                 System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                                // TODO add these
+                                // TODO add dm & comment
                                 flag = false;
                                 break;
                             case "view owner":
@@ -297,8 +303,10 @@ public class ViewUser
                                 flag = false;
                                 break;
                             case "follow":
-                                me.follow(user);
-                                // TODO request
+                                if (user.privateState)
+                                    me.request(user);
+                                else
+                                    me.follow(user);
                                 flag = false;
                                 break;
                             case "unfollow":
