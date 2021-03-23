@@ -79,7 +79,7 @@ public class UsersCli
             StringBuilder result = new StringBuilder();
             if (me.followings.contains(loaded.id + ""))
                 result.append(ConsoleColors.GREEN).append("Following").append("\n");
-            else if (me.pending.contains(user.id + ""))
+            else if (me.pending.contains(loaded.id + ""))
                 result.append(ConsoleColors.YELLOW).append("Pending").append("\n");
             else
                 result.append(ConsoleColors.RED).append("Not Following").append("\n");
@@ -102,7 +102,7 @@ public class UsersCli
             StringBuilder result = new StringBuilder();
             if (me.followings.contains(loaded.id + ""))
                 result.append(ConsoleColors.GREEN_BRIGHT).append("Following").append("\n");
-            else if (me.pending.contains(user.id + ""))
+            else if (me.pending.contains(loaded.id + ""))
                 result.append(ConsoleColors.YELLOW_BRIGHT).append("Pending").append("\n");
             else
                 result.append(ConsoleColors.RED_BRIGHT).append("Not Following").append("\n");
