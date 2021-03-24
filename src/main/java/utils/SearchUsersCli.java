@@ -6,61 +6,34 @@ import models.User;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class UsersCli
+public class SearchUsersCli
 {
     User me;
-    User user;
+    ArrayList<String> users = new ArrayList<>();
 
-    public UsersCli(User me, User user)
+    public SearchUsersCli(User me, ArrayList<String> users)
     {
         this.me = me;
-        this.user = user;
+        this.users = users;
     }
 
-    public int numberOfFollowersPages(int perPage)
+    public int numberOfPages(int perPage)
     {
-        if (user.followers.size() % perPage == 0)
-            return user.followers.size()/perPage;
-        return user.followers.size()/perPage + 1;
+        if (users.size() % perPage == 0)
+            return users.size()/perPage;
+        return users.size()/perPage + 1;
     }
 
-    public int numberOfFollowingsPages(int perPage)
-    {
-        if (user.followings.size() % perPage == 0)
-            return user.followings.size()/perPage;
-        return user.followings.size()/perPage + 1;
-    }
-
-    public ArrayList<String> followersPage(int page, int perPage)
+    public ArrayList<String> usersPage(int page, int perPage)
     {
         ArrayList<String> result = new ArrayList<>();
-        int start = user.followers.size() - ((page + 1) * perPage);
+        int start = users.size() - ((page + 1) * perPage);
         int index = 0;
         int exception = 0;
         do {
             try
             {
-                result.add(user.followers.get(start + index));
-            }
-            catch (Exception e)
-            {
-                exception++;
-            }
-            index++;
-        } while (index != perPage);
-        return result;
-    }
-
-    public ArrayList<String> followingsPage(int page, int perPage)
-    {
-        ArrayList<String> result = new ArrayList<>();
-        int start = user.followings.size() - ((page + 1) * perPage);
-        int index = 0;
-        int exception = 0;
-        do {
-            try
-            {
-                result.add(user.followings.get(start + index));
+                result.add(users.get(start + index));
             }
             catch (Exception e)
             {
@@ -77,9 +50,7 @@ public class UsersCli
         {
             User loaded = Load.findUser(Long.parseLong(page.get(index)));
             StringBuilder result = new StringBuilder();
-            if (me.id.equals(loaded.id))
-                result.append(ConsoleColors.BLUE).append("You").append("\n");
-            else if (me.followings.contains(loaded.id + ""))
+            if (me.followings.contains(loaded.id + ""))
                 result.append(ConsoleColors.GREEN).append("Following").append("\n");
             else if (me.pending.contains(loaded.id + ""))
                 result.append(ConsoleColors.YELLOW).append("Pending").append("\n");
@@ -102,9 +73,7 @@ public class UsersCli
         {
             User loaded = Load.findUser(Long.parseLong(page.get(index)));
             StringBuilder result = new StringBuilder();
-            if (me.id.equals(loaded.id))
-                result.append(ConsoleColors.BLUE_BRIGHT).append("You").append("\n");
-            else if (me.followings.contains(loaded.id + ""))
+            if (me.followings.contains(loaded.id + ""))
                 result.append(ConsoleColors.GREEN_BRIGHT).append("Following").append("\n");
             else if (me.pending.contains(loaded.id + ""))
                 result.append(ConsoleColors.YELLOW_BRIGHT).append("Pending").append("\n");

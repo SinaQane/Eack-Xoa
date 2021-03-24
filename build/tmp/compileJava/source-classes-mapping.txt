@@ -12,16 +12,16 @@ pages/DirectMessages.java
  pages.DirectMessages
 pages/Notifications.java
  pages.Notifications
-pages/Explore.java
- pages.Explore
-utils/UsersCli.java
- utils.UsersCli
-pages/MainPage.java
- pages.MainPage
-utils/TweetsCli.java
- utils.TweetsCli
+data/Save.java
+ data.Save
 pages/Settings.java
  pages.Settings
+models/Tweet.java
+ models.Tweet
+utils/TweetsCli.java
+ utils.TweetsCli
+models/User.java
+ models.User
 entry/SignUp.java
  entry.SignUp
 entry/Enter.java
@@ -30,14 +30,14 @@ entry/Login.java
  entry.Login
 data/Load.java
  data.Load
-models/User.java
- models.User
-data/Save.java
- data.Save
 pages/FirstPage.java
  pages.FirstPage
-models/Tweet.java
- models.Tweet
+utils/UsersCli.java
+ utils.UsersCli
+utils/SearchUsersCli.java
+ utils.SearchUsersCli
+pages/MainPage.java
+ pages.MainPage
 pages/ViewUser.java
  pages.ViewUser
 pages/HomePage.java
@@ -48,5 +48,7 @@ pages/ViewTweet.java
  pages.ViewTweet
 pages/Followings.java
  pages.Followings
+pages/Explore.java
+ pages.Explore
 pages/Timeline.java
  pages.Timeline

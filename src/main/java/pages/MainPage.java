@@ -45,10 +45,13 @@ public class MainPage
                     Timeline.timeLine(user);
                     break;
                 case "explore":
+                    Explore.explore(user);
+                    flag = false;
+                    break;
                 case "notifications":
                 case "direct":
                     System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                    // TODO add explore, notifications and dm
+                    // TODO add notifications and dm
                     flag = false;
                     break;
                 case "log out":

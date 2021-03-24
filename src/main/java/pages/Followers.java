@@ -112,7 +112,7 @@ public class Followers
                             ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                         else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
                             ViewTweet.viewTweet(me, Load.findTweet(lastPLace.get(lastPLace.size() - 1).substring(1)), lastPLace.subList(0, lastPLace.size() - 1));
-                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='e') // Followers
+                        else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='f') // Followers
                             Followers.followers(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                         else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
                             Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
@@ -120,13 +120,13 @@ public class Followers
                     case "view":
                         if (currentVisiblePerson != null)
                         {
-                            followersFlag = false;
-                            flag = false;
-                            lastPLace.add("e" + user.id);
+                            lastPLace.add("f" + user.id);
                             ViewUser.viewUser(me, currentVisiblePerson, lastPLace);
+                            followersFlag = false;
                         }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
                         break;
                     case "dm":
                         System.out.println(ConsoleColors.RED + "This function isn't available yet");

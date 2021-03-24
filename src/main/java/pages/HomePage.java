@@ -144,13 +144,15 @@ public class HomePage
             System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
 
             boolean flag = true;
-            while (flag) {
+            while (flag)
+            {
                 String command = scanner.nextLine().toLowerCase();
 
                 List<String> lastPlace = new LinkedList<>();
                 lastPlace.add("home");
 
-                switch (command) {
+                switch (command)
+                {
                     case "main":
                         flag = false;
                         homeFlag = false;

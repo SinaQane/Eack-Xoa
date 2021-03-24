@@ -232,7 +232,7 @@ public class Tweet
             System.out.println(ConsoleColors.RED_BRIGHT + "You can't report your own tweet!");
     }
 
-    // TODO User shares this tweet with other users
+    // TODO add dm. User shares this tweet with other users
     /* public void share(User user, ArrayList<User> users)
     {
         for (User dest : users)

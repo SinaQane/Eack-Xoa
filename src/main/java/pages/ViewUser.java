@@ -86,13 +86,15 @@ public class ViewUser
                                 userFlag = false;
                                 if (lastPLace.get(lastPLace.size() - 1).equals("home"))
                                     HomePage.homePage(me);
-                                else if (lastPLace.get(lastPLace.size() - 1).equals("time line"))
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("timeline"))
                                     Timeline.timeLine(me);
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("explore"))
+                                    Explore.explore(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
                                     ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
                                     ViewTweet.viewTweet(me, Load.findTweet(lastPLace.get(lastPLace.size() - 1).substring(1)), lastPLace.subList(0, lastPLace.size() - 1));
-                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='e') // Followers
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='f') // Followers
                                     Followers.followers(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
                                     Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
@@ -135,7 +137,7 @@ public class ViewUser
                                     ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
                                     ViewTweet.viewTweet(me, Load.findTweet(lastPLace.get(lastPLace.size() - 1).substring(1)), lastPLace.subList(0, lastPLace.size() - 1));
-                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='e') // Followers
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='f') // Followers
                                     Followers.followers(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
                                     Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
@@ -269,11 +271,13 @@ public class ViewUser
                                     HomePage.homePage(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).equals("timeline"))
                                     Timeline.timeLine(me);
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("explore"))
+                                    Explore.explore(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
                                     ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
                                     ViewTweet.viewTweet(me, Load.findTweet(lastPLace.get(lastPLace.size() - 1).substring(1)), lastPLace.subList(0, lastPLace.size() - 1));
-                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='e') // Followers
+                                else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='f') // Followers
                                     Followers.followers(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
                                     Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
