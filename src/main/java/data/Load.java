@@ -67,9 +67,12 @@ public class Load
 
         Gson gson = gsonBuilder.create();
         Tweet result;
-        try {
+        try
+        {
             result = gson.fromJson(Files.readString(Paths.get(path)), Tweet.class);
-        } catch (NoSuchFileException e) {
+        }
+        catch (NoSuchFileException e)
+        {
             result = null;
         }
         return result;
