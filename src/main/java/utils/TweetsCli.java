@@ -61,4 +61,18 @@ public class TweetsCli
         }
         return "";
     }
+
+    public String printTweetById(ArrayList<String> page, int index) throws IOException // index starts from 0
+    {
+        if (index < page.size())
+        {
+            Tweet tweet = Load.findTweet(page.get(index));
+            return "@" + tweet.getOwner() + ":\n" +
+                    tweet.getText() + "\n" +
+                    tweet.getKarma() + " Karma - " +
+                    tweet.getCommentsCount() + " Comments - " +
+                    tweet.getRetweetsCount() + " Retweets";
+        }
+        return "";
+    }
 }

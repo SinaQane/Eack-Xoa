@@ -77,25 +77,24 @@ public class RandomTweets
 
                     for (int i = perPage; i > currentTweet; i--)
                     {
-                        if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), i).equals(""))
+                        if (!tweetsCli.printTweetById(tweetsCli.page(page, perPage), i).equals(""))
                         {
-                            System.out.println(ConsoleColors.CYAN_BRIGHT + tweetsCli.printTweet(tweetsCli.page(page, perPage), i));
+                            System.out.println(ConsoleColors.CYAN_BRIGHT + tweetsCli.printTweetById(tweetsCli.page(page, perPage), i));
                             System.out.println("------------------------------------------------------");
                         }
                     }
-                    if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), currentTweet).equals(""))
+                    if (!tweetsCli.printTweetById(tweetsCli.page(page, perPage), currentTweet).equals(""))
                     {
-                        String[] currentVisibleTweetParts = tweetsCli.page(page, perPage).get(currentTweet).split("-");
-                        String currentVisibleTweetId = currentVisibleTweetParts[2] + "-" + currentVisibleTweetParts[3];
+                        String currentVisibleTweetId = tweetsCli.page(page, perPage).get(currentTweet);
                         currentVisibleTweet = Load.findTweet(currentVisibleTweetId);
-                        System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + tweetsCli.printTweet(tweetsCli.page(page, perPage), currentTweet));
+                        System.out.println(ConsoleColors.CYAN_BOLD_BRIGHT + tweetsCli.printTweetById(tweetsCli.page(page, perPage), currentTweet));
                         System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
                     }
                     for (int i = currentTweet - 1; i >= 0; i--)
                     {
-                        if (!tweetsCli.printTweet(tweetsCli.page(page, perPage), i).equals(""))
+                        if (!tweetsCli.printTweetById(tweetsCli.page(page, perPage), i).equals(""))
                         {
-                            System.out.println(ConsoleColors.CYAN_BRIGHT + tweetsCli.printTweet(tweetsCli.page(page, perPage), i));
+                            System.out.println(ConsoleColors.CYAN_BRIGHT + tweetsCli.printTweetById(tweetsCli.page(page, perPage), i));
                             System.out.println("------------------------------------------------------");
                         }
                     }

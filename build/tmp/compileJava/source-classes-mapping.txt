@@ -12,43 +12,45 @@ pages/DirectMessages.java
  pages.DirectMessages
 pages/Notifications.java
  pages.Notifications
-data/Save.java
- data.Save
-pages/Settings.java
- pages.Settings
+pages/FirstPage.java
+ pages.FirstPage
 models/Tweet.java
  models.Tweet
-utils/TweetsCli.java
- utils.TweetsCli
-models/User.java
- models.User
-entry/SignUp.java
- entry.SignUp
+pages/MainPage.java
+ pages.MainPage
+data/Load.java
+ data.Load
+pages/Settings.java
+ pages.Settings
+pages/Followers.java
+ pages.Followers
 entry/Enter.java
  entry.Enter
 entry/Login.java
  entry.Login
-data/Load.java
- data.Load
-pages/FirstPage.java
- pages.FirstPage
-utils/UsersCli.java
- utils.UsersCli
 utils/SearchUsersCli.java
  utils.SearchUsersCli
-pages/MainPage.java
- pages.MainPage
-pages/ViewUser.java
- pages.ViewUser
-pages/HomePage.java
- pages.HomePage
-pages/Followers.java
- pages.Followers
-pages/ViewTweet.java
- pages.ViewTweet
 pages/Followings.java
  pages.Followings
-pages/Explore.java
- pages.Explore
+models/User.java
+ models.User
+entry/SignUp.java
+ entry.SignUp
+data/Save.java
+ data.Save
+utils/UsersCli.java
+ utils.UsersCli
+pages/ViewUser.java
+ pages.ViewUser
 pages/Timeline.java
  pages.Timeline
+pages/HomePage.java
+ pages.HomePage
+utils/TweetsCli.java
+ utils.TweetsCli
+pages/ViewTweet.java
+ pages.ViewTweet
+pages/RandomTweets.java
+ pages.RandomTweets
+pages/Explore.java
+ pages.Explore
