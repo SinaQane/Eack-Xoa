@@ -56,7 +56,7 @@ public class Explore
                     break;
                 case "random":
                     flag = false;
-                    random(user);
+                    RandomTweets.randomTweets(user);
                     break;
                 default:
                     System.out.println(ConsoleColors.RED_BRIGHT + "Please enter a valid command:");
@@ -376,7 +376,10 @@ public class Explore
                                     for (String tempPath : paths)
                                     {
                                         Tweet temp = gson.fromJson(Files.readString(Paths.get(path + "/" + tempPath)), Tweet.class);
-                                        if (temp.text.contains(command)  && temp.getOwnerId() != user.id)
+                                        if (temp.text.contains(command)  && !Load.findUser(temp.getOwnerId()).blocked.contains(user.id + "")
+                                                && !(!Load.findUser(temp.getOwnerId()).followers.contains(user.id + "")
+                                                && Load.findUser(temp.getOwnerId()).privateState
+                                                && temp.getOwnerId() != user.id))
                                             results.add(temp.id + "");
                                     }
 
@@ -595,10 +598,5 @@ public class Explore
                     break;
             }
         }
-    }
-
-    public static void random(User user) throws IOException
-    {
-
     }
 }

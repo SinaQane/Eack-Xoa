@@ -13,6 +13,44 @@ import java.util.*;
 
 public class Timeline
 {
+    public static ArrayList<String> tweets(User user) throws IOException
+    {
+        HashMap<String, Long> tempTweets = new HashMap<>();
+
+        for (String following : user.followings)
+        {
+            if (!user.muted.contains(following))
+            {
+                User tempUser = Load.findUser(Long.parseLong(following));
+                for (Map.Entry<String, Long> entry : tempUser.homePageTweets.entrySet())
+                {
+                    String tempTweetString = entry.getKey();
+                    String[] tempTweetParts = tempTweetString.split("-");
+                    String tempTweetId = tempTweetParts[2] + "-" + tempTweetParts[3];
+                    Tweet tempTweet = Load.findTweet(tempTweetId);
+                    if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive()
+                            && !Load.findUser(tempTweet.getOwner()).blocked.contains(user.id + "")
+                            && tempTweet.upperTweet.equals(""))
+                        tempTweets.put(entry.getKey(), entry.getValue());
+                }
+            }
+        }
+
+        for (Map.Entry<String, Long> entry : user.homePageTweets.entrySet())
+        {
+            String userTweet = entry.getKey();
+            String[] userTempTweetParts = userTweet.split("-");
+            String userTempTweetId = userTempTweetParts[2] + "-" + userTempTweetParts[3];
+            Tweet userTempTweet = Load.findTweet(userTempTweetId);
+            if (userTempTweet.visible && Load.findUser(userTempTweet.getOwner()).getIsActive() && userTempTweet.upperTweet.equals(""))
+                tempTweets.put(entry.getKey(), entry.getValue());
+        }
+
+        HashMap<String, Long> timelineTweets = (HashMap<String, Long>) MapUtil.sortByValue(tempTweets);
+        Set<String> keySet = timelineTweets.keySet();
+        return new ArrayList<>(keySet);
+    }
+
     public static void timeLine(User user) throws IOException, InterruptedException
     {
         int page = 0;
@@ -25,46 +63,13 @@ public class Timeline
             System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Timeline");
             System.out.println("------------------------------------------------------");
 
-            HashMap<String, Long> tempTweets = new HashMap<>();
-
-            for (String following : user.followings)
-            {
-                if (!user.muted.contains(following))
-                {
-                    User tempUser = Load.findUser(Long.parseLong(following));
-                    for (Map.Entry<String, Long> entry : tempUser.homePageTweets.entrySet())
-                    {
-                        String tempTweetString = entry.getKey();
-                        String[] tempTweetParts = tempTweetString.split("-");
-                        String tempTweetId = tempTweetParts[2] + "-" + tempTweetParts[3];
-                        Tweet tempTweet = Load.findTweet(tempTweetId);
-                        if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive()
-                                && !Load.findUser(tempTweet.getOwner()).blocked.contains(user.id + "")
-                                && tempTweet.upperTweet.equals(""))
-                            tempTweets.put(entry.getKey(), entry.getValue());
-                    }
-                }
-            }
-
-            for (Map.Entry<String, Long> entry : user.homePageTweets.entrySet())
-            {
-                String userTweet = entry.getKey();
-                String[] userTempTweetParts = userTweet.split("-");
-                String userTempTweetId = userTempTweetParts[2] + "-" + userTempTweetParts[3];
-                Tweet userTempTweet = Load.findTweet(userTempTweetId);
-                if (userTempTweet.visible && Load.findUser(userTempTweet.getOwner()).getIsActive() && userTempTweet.upperTweet.equals(""))
-                    tempTweets.put(entry.getKey(), entry.getValue());
-            }
-
-            HashMap<String, Long> timelineTweets = (HashMap<String, Long>) MapUtil.sortByValue(tempTweets);
-            Set<String> keySet = timelineTweets.keySet();
-            ArrayList<String> listOfKeys = new ArrayList<>(keySet);
-
             Tweet currentVisibleTweet = null;
 
-            if (listOfKeys.size()>0)
+            ArrayList<String> tweets = tweets(user);
+
+            if (tweets.size()>0)
             {
-                TweetsCli tweetsCli = new TweetsCli(listOfKeys);
+                TweetsCli tweetsCli = new TweetsCli(tweets);
 
                 int numberOfPages = tweetsCli.numberOfPages(perPage);
 
