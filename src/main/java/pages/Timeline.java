@@ -158,8 +158,14 @@ public class Timeline
                         MainPage.mainPage(user);
                         break;
                     case "comment":
-                        System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                        // TODO add comment
+                        if (currentVisibleTweet != null)
+                        {
+                            System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your comment:");
+                            String comment = scanner.nextLine();
+                            user.comment(currentVisibleTweet, comment);
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "view owner":

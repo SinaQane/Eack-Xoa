@@ -281,7 +281,6 @@ public class Notifications
 
             System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
             System.out.println(ConsoleColors.PURPLE_BRIGHT + "back: go back to the notifications page");
-            System.out.println("refresh: refresh this page");
 
             if (empty)
             {
@@ -301,12 +300,9 @@ public class Notifications
                 {
                     case "back":
                         flag = false;
-                        user.refresh();
+                        if (state.equals("new"))
+                            user.refresh();
                         notifications(user);
-                        break;
-                    case "refresh":
-                        user.refresh();
-                        flag = false;
                         break;
                     case "next page":
                         page++;

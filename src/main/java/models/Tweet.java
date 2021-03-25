@@ -232,8 +232,16 @@ public class Tweet
             System.out.println(ConsoleColors.RED_BRIGHT + "You can't report your own tweet!");
     }
 
-    // TODO add dm. User shares this tweet with other users
-    /* public void share(User user, ArrayList<User> users)
+    // For comments
+    public void setUpperTweet(String upperTweet) throws IOException
+    {
+        this.upperTweet = upperTweet;
+        Save.saveTweet(this);
+    }
+
+    /*
+    TODO add dm. User shares this tweet with other users
+    public void share(User user, ArrayList<User> users)
     {
         for (User dest : users)
         {

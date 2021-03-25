@@ -210,6 +210,14 @@ public class User
         Save.saveUser(this);
     }
 
+    // User puts a comment under another tweet
+    public void comment(Tweet upperTweet, String comment) throws IOException
+    {
+        Tweet tweet = new Tweet(this, comment);
+        tweet.setUpperTweet(upperTweet.id);
+        Save.saveUser(this);
+    }
+
     // User removes his/her tweet.
     public void deleteTweet(Tweet tweet) throws IOException
     {
@@ -321,6 +329,7 @@ public class User
         }
     }
 
+    // Refresh all notifications
     public void refresh() throws IOException
     {
         while (this.newNotifications.size() > 0)

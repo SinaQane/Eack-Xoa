@@ -162,13 +162,6 @@ public class ViewTweet
                         else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
                             Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                         break;
-                    case "upper comment":
-                    case "main comment":
-                    case "comment":
-                        System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                        // TODO add comment
-                        flag = false;
-                        break;
                     case "upper tweet":
                         if (upperTweet != null)
                         {
@@ -178,13 +171,23 @@ public class ViewTweet
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
-
                         break;
                     case "upper owner":
                         if (upperTweet != null)
                         {
                             lastPLace.add("w" + tweet.id);
                             ViewUser.viewUser(me, Load.findUser(upperTweet.getOwnerId()), lastPLace);
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "upper comment":
+                        if (upperTweet != null)
+                        {
+                            System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your comment:");
+                            String upperComment = scanner.nextLine();
+                            me.comment(upperTweet, upperComment);
                         }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
@@ -248,6 +251,12 @@ public class ViewTweet
                         ViewUser.viewUser(me, Load.findUser(tweet.getOwnerId()), lastPLace);
                         flag = false;
                         break;
+                    case "main comment":
+                        System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your comment:");
+                        String mainComment = scanner.nextLine();
+                        me.comment(tweet, mainComment);
+                        flag = false;
+                        break;
                     case "main upvote":
                         tweet.upvote(me);
                         flag = false;
@@ -296,6 +305,17 @@ public class ViewTweet
                         {
                             lastPLace.add("w" + tweet.id);
                             ViewUser.viewUser(me, Load.findUser(currentVisibleTweet.getOwnerId()), lastPLace);
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                        flag = false;
+                        break;
+                    case "comment":
+                        if (currentVisibleTweet != null)
+                        {
+                            System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your comment:");
+                            String comment = scanner.nextLine();
+                            me.comment(tweet, comment);
                         }
                         else
                             System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");

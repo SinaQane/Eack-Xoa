@@ -285,9 +285,8 @@ public class ViewUser
                                     Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 break;
                             case "dm":
-                            case "comment":
                                 System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                                // TODO add dm & comment
+                                // TODO add dm
                                 flag = false;
                                 break;
                             case "view owner":
@@ -305,6 +304,17 @@ public class ViewUser
                                 {
                                     lastPLace.add("u" + user.id);
                                     ViewTweet.viewTweet(me, currentVisibleTweet, lastPLace);
+                                }
+                                else
+                                    System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
+                                flag = false;
+                                break;
+                            case "comment":
+                                if (currentVisibleTweet != null)
+                                {
+                                    System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your comment:");
+                                    String comment = scanner.nextLine();
+                                    me.comment(currentVisibleTweet, comment);
                                 }
                                 else
                                     System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
