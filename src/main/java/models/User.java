@@ -215,6 +215,8 @@ public class User
     {
         Tweet tweet = new Tweet(this, comment);
         tweet.setUpperTweet(upperTweet.id);
+        upperTweet.comments.add("1-" + this.id + "-" + tweet.id);
+        Save.saveTweet(upperTweet);
         Save.saveUser(this);
     }
 

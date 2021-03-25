@@ -30,7 +30,7 @@ public class Timeline
                     Tweet tempTweet = Load.findTweet(tempTweetId);
                     if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive()
                             && !Load.findUser(tempTweet.getOwner()).blocked.contains(user.id + "")
-                            && tempTweet.upperTweet.equals(""))
+                            && (tempTweet.upperTweet.equals("") || tempTweetString.charAt(0)=='0'))
                         tempTweets.put(entry.getKey(), entry.getValue());
                 }
             }

@@ -58,7 +58,7 @@ public class HomePage
                 String[] homepageTweetParts = tweetString.split("-");
                 String homepageTweetId = homepageTweetParts[2] + "-" + homepageTweetParts[3];
                 Tweet tempTweet = Load.findTweet(homepageTweetId);
-                if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive() && tempTweet.upperTweet.equals(""))
+                if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive() && (tempTweet.upperTweet.equals("") || tweetString.charAt(0)=='0'))
                     homePageTweets.add(tweetString);
             }
 

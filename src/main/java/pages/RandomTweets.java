@@ -34,7 +34,8 @@ public class RandomTweets
             Tweet temp = gson.fromJson(Files.readString(Paths.get(path + "/" + tempPath)), Tweet.class);
             if (!user.followings.contains(temp.getOwnerId() + "")  && temp.getOwnerId() != user.id
                 && !Load.findUser(temp.getOwnerId()).blocked.contains(user.id + "")
-                    && !Load.findUser(temp.getOwnerId()).privateState)
+                    && !Load.findUser(temp.getOwnerId()).privateState
+                    && temp.upperTweet.equals(""))
                 results.add(temp.id + "");
         }
         return results;

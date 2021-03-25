@@ -170,7 +170,7 @@ public class ViewUser
                                 && !me.muted.contains(Load.findUser(tempTweet.getOwner()).id + "")
                                 && !Load.findUser(tempTweet.getOwner()).blocked.contains(me.id + "")
                                 && !(Load.findUser(tempTweet.getOwner()).privateState && !Load.findUser(tempTweet.getOwner()).followers.contains(me.id + ""))
-                                && tempTweet.upperTweet.equals(""))
+                                && (tempTweet.upperTweet.equals("") || tweetString.charAt(0)=='0'))
                             homePageTweets.add(tweetString);
                     }
 

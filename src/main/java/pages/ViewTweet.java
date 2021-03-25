@@ -44,8 +44,11 @@ public class ViewTweet
 
             ArrayList<String> comments = new ArrayList<>();
 
-            for (String tweetString : tweet.comments) {
-                Tweet tempTweet = Load.findTweet(tweetString);
+            for (String tweetString : tweet.comments)
+            {
+                String[] tweetParts = tweetString.split("-");
+                String tweetId = tweetParts[2] + "-" + tweetParts[3];
+                Tweet tempTweet = Load.findTweet(tweetId);
                 if (tempTweet.visible && Load.findUser(tempTweet.getOwner()).getIsActive()
                         && !me.muted.contains(Load.findUser(tempTweet.getOwner()).id + "")
                         && !Load.findUser(tempTweet.getOwner()).blocked.contains(me.id + "")
