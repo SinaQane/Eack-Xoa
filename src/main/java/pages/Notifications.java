@@ -157,6 +157,7 @@ public class Notifications
                 {
                     case "back":
                         flag = false;
+                        requestsFlag = false;
                         notifications(user);
                         break;
                     case "view":
@@ -257,7 +258,7 @@ public class Notifications
             }
             else
             {
-                if (user.oldNotifications.size() > 0)
+                if (user.newNotifications.size() > 0)
                 {
                     NotificationsCli cli = new NotificationsCli((ArrayList<String>) user.newNotifications);
                     int numberOfPages = cli.numberOfPages(perPage);
@@ -302,6 +303,7 @@ public class Notifications
                         flag = false;
                         if (state.equals("new"))
                             user.refresh();
+                        notificationsFlag = false;
                         notifications(user);
                         break;
                     case "next page":

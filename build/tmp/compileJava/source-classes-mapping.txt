@@ -14,45 +14,45 @@ pages/FirstPage.java
  pages.FirstPage
 utils/NotificationsCli.java
  utils.NotificationsCli
-models/Tweet.java
- models.Tweet
+pages/ViewUser.java
+ pages.ViewUser
 pages/MainPage.java
  pages.MainPage
 utils/TweetsCli.java
  utils.TweetsCli
 pages/Settings.java
  pages.Settings
-models/User.java
- models.User
-entry/Enter.java
- entry.Enter
-entry/Login.java
- entry.Login
-utils/SearchUsersCli.java
- utils.SearchUsersCli
-data/Load.java
- data.Load
-utils/UsersCli.java
- utils.UsersCli
-pages/Notifications.java
- pages.Notifications
-entry/SignUp.java
- entry.SignUp
-data/Save.java
- data.Save
-pages/ViewUser.java
- pages.ViewUser
-pages/RandomTweets.java
- pages.RandomTweets
-pages/HomePage.java
- pages.HomePage
 pages/Followers.java
  pages.Followers
+entry/Enter.java
+ entry.Enter
 pages/ViewTweet.java
  pages.ViewTweet
+utils/SearchUsersCli.java
+ utils.SearchUsersCli
 pages/Followings.java
  pages.Followings
-pages/Explore.java
- pages.Explore
 pages/Timeline.java
  pages.Timeline
+pages/Notifications.java
+ pages.Notifications
+pages/RandomTweets.java
+ pages.RandomTweets
+data/Save.java
+ data.Save
+utils/UsersCli.java
+ utils.UsersCli
+models/User.java
+ models.User
+pages/HomePage.java
+ pages.HomePage
+entry/Login.java
+ entry.Login
+pages/Explore.java
+ pages.Explore
+data/Load.java
+ data.Load
+entry/SignUp.java
+ entry.SignUp
+models/Tweet.java
+ models.Tweet

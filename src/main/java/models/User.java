@@ -139,9 +139,10 @@ public class User
 
     // User sets private or public page state in the Settings.
     // "true" is the page is private, "false" if not.
-    public void setPrivateState(boolean privateState)
+    public void setPrivateState(boolean privateState) throws IOException
     {
         this.privateState = privateState;
+        Save.saveUser(this);
     }
 
     // User sets an info state in the Settings.
@@ -243,7 +244,7 @@ public class User
         {
             this.followings.add(user.id + "");
             user.followers.add(this.id + "");
-            user.newNotifications.add(this.username + "started following you.");
+            user.newNotifications.add(this.username + " started following you.");
             Save.saveUser(user);
             Save.saveUser(this);
         }
@@ -258,7 +259,7 @@ public class User
         {
             this.followings.remove(user.id + "");
             user.followers.remove(this.id + "");
-            user.newNotifications.add(this.username + "unfollowed you.");
+            user.newNotifications.add(this.username + " unfollowed you.");
             Save.saveUser(user);
             Save.saveUser(this);
         }
@@ -297,8 +298,8 @@ public class User
         this.followers.add(user.id + "");
         user.pending.remove(user.id + "");
         user.followings.add(user.id + "");
-        user.newNotifications.add(user.username + "started following you.");
-        user.newNotifications.add(this.username + "accepted your follow request.");
+        user.newNotifications.add(user.username + " started following you.");
+        user.newNotifications.add(this.username + " accepted your follow request.");
         Save.saveUser(user);
         Save.saveUser(this);
     }
@@ -308,7 +309,7 @@ public class User
     {
         this.requests.remove(user.id + "");
         user.pending.remove(user.id + "");
-        user.newNotifications.add(this.username + "rejected your follow request.");
+        user.newNotifications.add(this.username + " rejected your follow request.");
         Save.saveUser(user);
         Save.saveUser(this);
     }
