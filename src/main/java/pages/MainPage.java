@@ -49,9 +49,12 @@ public class MainPage
                     flag = false;
                     break;
                 case "notifications":
+                    Notifications.notifications(user);
+                    flag = false;
+                    break;
                 case "direct":
                     System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                    // TODO add notifications and dm
+                    // TODO and dm
                     flag = false;
                     break;
                 case "log out":

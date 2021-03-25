@@ -31,6 +31,13 @@ public class UsersCli
         return user.followings.size()/perPage + 1;
     }
 
+    public int numberOfRequestsPages(int perPage)
+    {
+        if (user.requests.size() % perPage == 0)
+            return user.requests.size()/perPage;
+        return user.requests.size()/perPage + 1;
+    }
+
     public ArrayList<String> followersPage(int page, int perPage)
     {
         ArrayList<String> result = new ArrayList<>();
@@ -61,6 +68,26 @@ public class UsersCli
             try
             {
                 result.add(user.followings.get(start + index));
+            }
+            catch (Exception e)
+            {
+                exception++;
+            }
+            index++;
+        } while (index != perPage);
+        return result;
+    }
+
+    public ArrayList<String> requestsPage(int page, int perPage)
+    {
+        ArrayList<String> result = new ArrayList<>();
+        int start = user.requests.size() - ((page + 1) * perPage);
+        int index = 0;
+        int exception = 0;
+        do {
+            try
+            {
+                result.add(user.requests.get(start + index));
             }
             catch (Exception e)
             {

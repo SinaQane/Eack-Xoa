@@ -34,6 +34,10 @@ public class User
     public List<String> requests = new LinkedList<>();
     public List<String> pending = new LinkedList<>();
 
+    // Notifications
+    public List<String> newNotifications = new LinkedList<>();
+    public List<String> oldNotifications = new LinkedList<>();
+
     // Tweets
     public HashMap<String, Long> homePageTweets = new HashMap<>();
     public List<String> userTweets = new LinkedList<>();
@@ -53,6 +57,7 @@ public class User
     // Preferences
     public int tweetsPerPage;
     public int peoplePerPage;
+    public int notificationsPerPage;
 
     public User(String username, String password) throws IOException
     {
@@ -63,11 +68,12 @@ public class User
         this.infoState = false;
         this.lastSeenState = 1;
         this.isActive = true;
-        this.isPermitted = true; // TODO report tweet and user
+        this.isPermitted = true;
         this.privateState = false;
         this.reports = 0;
         this.tweetsPerPage = 5;
         this.peoplePerPage = 10;
+        this.notificationsPerPage = 15;
         Save.changeUsername("0", this.username);
         Save.saveUser(this);
     }
@@ -227,6 +233,7 @@ public class User
         {
             this.followings.add(user.id + "");
             user.followers.add(this.id + "");
+            user.newNotifications.add(this.username + "started following you.");
             Save.saveUser(user);
             Save.saveUser(this);
         }
@@ -241,6 +248,7 @@ public class User
         {
             this.followings.remove(user.id + "");
             user.followers.remove(this.id + "");
+            user.newNotifications.add(this.username + "unfollowed you.");
             Save.saveUser(user);
             Save.saveUser(this);
         }
@@ -279,12 +287,23 @@ public class User
         this.followers.add(user.id + "");
         user.pending.remove(user.id + "");
         user.followings.add(user.id + "");
+        user.newNotifications.add(user.username + "started following you.");
+        user.newNotifications.add(this.username + "accepted your follow request.");
         Save.saveUser(user);
         Save.saveUser(this);
     }
 
     // This user rejects someone's request
-    public void reject(User user) throws IOException
+    public void rejectWithNotifications(User user) throws IOException
+    {
+        this.requests.remove(user.id + "");
+        user.pending.remove(user.id + "");
+        user.newNotifications.add(this.username + "rejected your follow request.");
+        Save.saveUser(user);
+        Save.saveUser(this);
+    }
+
+    public void rejectWithoutNotifications(User user) throws IOException
     {
         this.requests.remove(user.id + "");
         user.pending.remove(user.id + "");
@@ -299,6 +318,16 @@ public class User
         {
             User user = Load.findUser(Long.parseLong(userId));
             this.accept(user);
+        }
+    }
+
+    public void refresh() throws IOException
+    {
+        while (this.newNotifications.size() > 0)
+        {
+            this.oldNotifications.add(this.newNotifications.get(0));
+            this.newNotifications.remove(0);
+            Save.saveUser(this);
         }
     }
 
@@ -373,6 +402,12 @@ public class User
     {
         this.peoplePerPage = peoplePerPage;
         Save.saveUser(this);
+    }
+
+    // Sets the number of notifications per page
+    public void setNotificationsPerPage(int notificationsPerPage)
+    {
+        this.notificationsPerPage = notificationsPerPage;
     }
 
     // Additional methods

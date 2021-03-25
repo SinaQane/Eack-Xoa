@@ -35,6 +35,7 @@ public class Settings
             System.out.println("info: change your info share privacy status");
             System.out.println("cli tweet: change how many tweets you want to see in each page");
             System.out.println("cli people: change how many people you want to see in each page");
+            System.out.println("cli notification: change how many notifications you want to see in each page");
             System.out.println("password: change your password");
             System.out.println("deactivate: deactivate your account");
             System.out.println("------------------------------------------------------");
@@ -288,6 +289,27 @@ public class Settings
                                 {
                                     peopleNumber = false;
                                     user.setPeoplePerPage(Integer.parseInt(naturalNumber));
+                                }
+                                else
+                                    System.out.println(ConsoleColors.RED_BRIGHT + "Please enter a natural number:");
+                            }
+                        }
+                        flag = false;
+                        break;
+                    case "cli notification":
+                        System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a number (Default = 15):");
+                        boolean notificationsNumber = true;
+                        while (notificationsNumber)
+                        {
+                            String naturalNumber = scanner.nextLine();
+                            if (naturalNumber.equals(""))
+                                user.setNotificationsPerPage(15);
+                            else
+                            {
+                                if (Validations.isNaturalNumber(naturalNumber))
+                                {
+                                    notificationsNumber = false;
+                                    user.setNotificationsPerPage(Integer.parseInt(naturalNumber));
                                 }
                                 else
                                     System.out.println(ConsoleColors.RED_BRIGHT + "Please enter a natural number:");
