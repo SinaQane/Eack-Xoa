@@ -48,6 +48,9 @@ public class User
     public List<String> reportedTweets = new LinkedList<>();
     public Long lastTweetId = (long) 0;
 
+    //Messages
+    public HashMap<Long, ArrayList<String[]>> directMessages = new HashMap<>();
+
     // Privacy
     public boolean infoState;
     public int lastSeenState;
@@ -400,6 +403,20 @@ public class User
                 System.out.println(ConsoleColors.GREEN_BRIGHT + "User unmuted.");
             }
         }
+    }
+
+    // Adds direct message
+    public void addMessage(Long key, String value) throws IOException
+    {
+        ArrayList<String[]> arrayList;
+        if (this.directMessages.containsKey(key))
+            arrayList = this.directMessages.get(key);
+        else
+            arrayList = new ArrayList<>();
+        String[] messageArray = new String[]{value, "f"};
+        arrayList.add(messageArray);
+        this.directMessages.put(key, arrayList);
+        Save.saveUser(this);
     }
 
     // Sets the number of tweets per page

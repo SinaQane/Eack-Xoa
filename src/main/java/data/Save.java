@@ -2,6 +2,7 @@ package data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import models.Message;
 import models.Tweet;
 import models.User;
 import utils.ConsoleColors;
@@ -72,6 +73,34 @@ public class Save
         fout.close();
     }
 
+    public static void saveMessage(Message message) throws IOException
+    {
+        String path = "./resources/messages/" + message.id;
+        File file = new File(path);
+        if(file.getParentFile().mkdirs())
+            System.out.println(ConsoleColors.GREEN_BRIGHT + "Messages directory was made successfully.");
+        if (!file.exists())
+        {
+            if (file.createNewFile())
+                System.out.println(ConsoleColors.GREEN_BRIGHT + "Message file was saved successfully.");
+        }
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+
+        Gson gson = gsonBuilder.create();
+        String data = gson.toJson(message);
+
+        FileOutputStream fout = new FileOutputStream(path, false);
+        PrintStream printStream = new PrintStream(fout);
+        printStream.println(data);
+
+        printStream.flush();
+        printStream.close();
+        fout.flush();
+        fout.close();
+    }
+
     public static void replaceLine(String path, String oldLine, String newLine) throws IOException
     {
         List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8));
@@ -110,7 +139,13 @@ public class Save
     {
         List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./resources/id.txt"), StandardCharsets.UTF_8));
         fileContent.set(0, newId + "");
-        boolean flag = true;
         Files.write(Paths.get("./resources/id.txt"), fileContent, StandardCharsets.UTF_8);
+    }
+
+    public static void changeLastMessage(long newId) throws IOException
+    {
+        List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./resources/message.txt"), StandardCharsets.UTF_8));
+        fileContent.set(0, newId + "");
+        Files.write(Paths.get("./resources/message.txt"), fileContent, StandardCharsets.UTF_8);
     }
 }

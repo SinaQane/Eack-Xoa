@@ -2,6 +2,7 @@ package data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import models.Message;
 import models.Tweet;
 import models.User;
 
@@ -78,9 +79,34 @@ public class Load
         return result;
     }
 
+    public static Message findMessage(String id) throws IOException
+    {
+        String path = "./resources/messages/" + id;
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+
+        Gson gson = gsonBuilder.create();
+        Message result;
+        try
+        {
+            result = gson.fromJson(Files.readString(Paths.get(path)), Message.class);
+        }
+        catch (NoSuchFileException e)
+        {
+            result = null;
+        }
+        return result;
+    }
+
     public static long loadLastId() throws IOException
     {
         List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./resources/id.txt"), StandardCharsets.UTF_8));
+        return Long.parseLong(fileContent.get(0));
+    }
+
+    public static long loadLastMessage() throws IOException
+    {
+        List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./resources/message.txt"), StandardCharsets.UTF_8));
         return Long.parseLong(fileContent.get(0));
     }
 }

@@ -37,8 +37,7 @@ public class Tweet
         this.tweetTime = new Date();
         this.visible = true;
         owner.userTweets.add(this.id);
-        Date date = new Date();
-        owner.homePageTweets.put("1-" + owner.id + "-" + this.id, date.getTime());
+        owner.homePageTweets.put("1-" + owner.id + "-" + this.id, this.tweetTime.getTime());
         this.upperTweet = "";
         Save.saveTweet(this);
     }
@@ -239,13 +238,15 @@ public class Tweet
         Save.saveTweet(this);
     }
 
-    /*
-    TODO add dm. User shares this tweet with other users
-    public void share(User user, ArrayList<User> users)
+    // User shares tweet with a list of users
+    public void share(User user, ArrayList<User> users) throws IOException
     {
         for (User dest : users)
         {
-            user.send(dest, this);
+            user.addMessage(dest.id, "S:" + text);
+            Save.saveUser(user);
+            dest.addMessage(user.id, "R:" + text);
+            Save.saveUser(dest);
         }
-    }*/
+    }
 }
