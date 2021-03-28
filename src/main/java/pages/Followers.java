@@ -129,8 +129,14 @@ public class Followers
                         flag = false;
                         break;
                     case "dm":
-                        System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                        // TODO add dm
+                        if (currentVisiblePerson != null)
+                        {
+                            lastPLace.add("f" + user.id);
+                            DirectMessages.chat(me, currentVisiblePerson, lastPLace);
+                            followersFlag = false;
+                        }
+                        else
+                            System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                         flag = false;
                         break;
                     case "follow":

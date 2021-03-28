@@ -56,6 +56,7 @@ public class User
     public int lastSeenState;
     public boolean privateState;
     private int reports;
+    private long reportedUntil;
 
     // Preferences
     public int tweetsPerPage;
@@ -134,10 +135,11 @@ public class User
     }
 
     // Updated by the app every n seconds.
-    public void setLastSeen(Date lastSeen) throws IOException
+    public TimerTask setLastSeen(Date lastSeen) throws IOException
     {
         this.lastSeen = lastSeen;
         Save.saveUser(this);
+        return null;
     }
 
     // User sets private or public page state in the Settings.
@@ -196,7 +198,8 @@ public class User
                 if (this.reports >= 10)
                 {
                     this.isPermitted = false;
-                    // TODO user won't be able to tweet and leave comments for n seconds after getting suspended.
+                    Date reportTime = new Date();
+                    this.reportedUntil = reportTime.getTime() + 604800000; // A week of suspension
                 }
                 Save.saveUser(this);
             }
@@ -210,18 +213,49 @@ public class User
     // User tweets something.
     public void tweet(String tweet) throws IOException
     {
-        new Tweet(this, tweet);
-        Save.saveUser(this);
+        if (this.reportedUntil != 0)
+        {
+            if (this.reportedUntil > new Date().getTime())
+                System.out.println(ConsoleColors.RED_BRIGHT + "Unfortunately you are suspended. You can't tweet right now.");
+            else
+            {
+                this.reportedUntil = 0;
+                new Tweet(this, tweet);
+                Save.saveUser(this);
+            }
+        }
+        else
+        {
+            new Tweet(this, tweet);
+            Save.saveUser(this);
+        }
     }
 
     // User puts a comment under another tweet
     public void comment(Tweet upperTweet, String comment) throws IOException
     {
-        Tweet tweet = new Tweet(this, comment);
-        tweet.setUpperTweet(upperTweet.id);
-        upperTweet.comments.add("1-" + this.id + "-" + tweet.id);
-        Save.saveTweet(upperTweet);
-        Save.saveUser(this);
+        if (this.reportedUntil != 0)
+        {
+            if (this.reportedUntil > new Date().getTime())
+                System.out.println(ConsoleColors.RED_BRIGHT + "Unfortunately you are suspended. You can't leave comments right now.");
+            else
+            {
+                this.reportedUntil = 0;
+                Tweet tweet = new Tweet(this, comment);
+                tweet.setUpperTweet(upperTweet.id);
+                upperTweet.comments.add("1-" + this.id + "-" + tweet.id);
+                Save.saveTweet(upperTweet);
+                Save.saveUser(this);
+            }
+        }
+        else
+        {
+            Tweet tweet = new Tweet(this, comment);
+            tweet.setUpperTweet(upperTweet.id);
+            upperTweet.comments.add("1-" + this.id + "-" + tweet.id);
+            Save.saveTweet(upperTweet);
+            Save.saveUser(this);
+        }
     }
 
     // User removes his/her tweet.
@@ -361,13 +395,12 @@ public class User
                 user.followings.remove(this.id + "");
                 user.followers.remove(this.id + "");
                 Save.saveUser(user);
-                Save.saveUser(this);
             }
             else
             {
                 this.blocked.remove(user.id + "");
-                Save.saveUser(this);
             }
+            Save.saveUser(this);
         }
     }
 

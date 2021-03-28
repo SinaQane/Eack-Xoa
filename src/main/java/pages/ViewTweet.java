@@ -116,6 +116,7 @@ public class ViewTweet
             }
 
             System.out.println("main owner: view main tweet's owner's page");
+            System.out.println("main share: share main tweet with your friends");
             System.out.println("main comment: leave a comment under main tweet");
             System.out.println("main upvote: upvote main tweet");
             System.out.println("main downvote: downvote main tweet");
@@ -252,6 +253,14 @@ public class ViewTweet
                     case "main owner":
                         lastPLace.add("u" + tweet.id);
                         ViewUser.viewUser(me, Load.findUser(tweet.getOwnerId()), lastPLace);
+                        flag = false;
+                        break;
+                    case "main share":
+                        System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your destinations:");
+                        System.out.println(" You should type users like u/x and groups like g/x");
+                        String destinations = scanner.nextLine();
+                        // TODO add this
+                        System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweet was sent to valid destinations");
                         flag = false;
                         break;
                     case "main comment":

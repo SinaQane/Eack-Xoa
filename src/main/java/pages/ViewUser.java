@@ -63,6 +63,15 @@ public class ViewUser
                     else
                         System.out.println("Phone Number: N/A");
                 }
+                if (user.lastSeenState == 2 || (user.lastSeenState == 1 && user.followers.contains(me.id + "")))
+                {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    System.out.println(ConsoleColors.CYAN_BRIGHT + "Last seen " + simpleDateFormat.format(user.lastSeen));
+                }
+                else
+                {
+                    System.out.println(ConsoleColors.CYAN_BRIGHT + "Last seen recently");
+                }
                 if (!user.bio.equals(""))
                     System.out.println(ConsoleColors.CYAN_BRIGHT + "\n" + user.bio);
                 System.out.println(ConsoleColors.CYAN_BRIGHT + "------------------------------------------------------");
@@ -92,6 +101,8 @@ public class ViewUser
                                     Explore.explore(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).equals("notifications"))
                                     Notifications.requests(me);
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("blacklist"))
+                                    Blacklist.blacklist(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
                                     ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
@@ -291,8 +302,13 @@ public class ViewUser
                                     Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 break;
                             case "dm":
-                                System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                                // TODO add dm
+                                if (currentVisibleTweet != null)
+                                {
+                                    lastPLace.add("u" + user.id);
+                                    DirectMessages.chat(me, Load.findUser(currentVisibleTweet.getOwnerId()), lastPLace);
+                                }
+                                else
+                                    System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                                 flag = false;
                                 break;
                             case "view owner":

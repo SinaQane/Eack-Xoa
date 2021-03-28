@@ -168,6 +168,11 @@ public class HomePage
                         homeFlag = false;
                         Followings.followings(user, user, lastPlace);
                         break;
+                    case "blacklist":
+                        flag = false;
+                        homeFlag = false;
+                        Blacklist.blacklist(user);
+                        break;
                     case "comment":
                         if (currentVisibleTweet != null)
                         {

@@ -237,8 +237,15 @@ public class Explore
                                                 resultFlag = false;
                                                 break;
                                             case "dm":
-                                                System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                                                // TODO add dm
+                                                if (currentVisiblePerson != null)
+                                                {
+                                                    DirectMessages.chat(user, currentVisiblePerson, lastPlace);
+                                                    searchFlag = false;
+                                                    commandFlag = false;
+                                                    usersListFlag = false;
+                                                }
+                                                else
+                                                    System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");
                                                 resultFlag = false;
                                                 break;
                                             case "follow":

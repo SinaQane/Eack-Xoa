@@ -31,6 +31,13 @@ public class UsersCli
         return user.followings.size()/perPage + 1;
     }
 
+    public int numberOfBlacklistPages(int perPage)
+    {
+        if (user.blocked.size() % perPage == 0)
+            return user.blocked.size()/perPage;
+        return user.blocked.size()/perPage + 1;
+    }
+
     public int numberOfRequestsPages(int perPage)
     {
         if (user.requests.size() % perPage == 0)
@@ -78,6 +85,26 @@ public class UsersCli
         return result;
     }
 
+    public ArrayList<String> blacklistPage(int page, int perPage)
+    {
+        ArrayList<String> result = new ArrayList<>();
+        int start = user.blocked.size() - ((page + 1) * perPage);
+        int index = 0;
+        int exception = 0;
+        do {
+            try
+            {
+                result.add(user.blocked.get(start + index));
+            }
+            catch (Exception e)
+            {
+                exception++;
+            }
+            index++;
+        } while (index != perPage);
+        return result;
+    }
+
     public ArrayList<String> requestsPage(int page, int perPage)
     {
         ArrayList<String> result = new ArrayList<>();
@@ -110,6 +137,8 @@ public class UsersCli
                 result.append(ConsoleColors.GREEN).append("Following").append("\n");
             else if (me.pending.contains(loaded.id + ""))
                 result.append(ConsoleColors.YELLOW).append("Pending").append("\n");
+            else if (me.blocked.contains(loaded.id + ""))
+                result.append(ConsoleColors.RED).append("Blocked").append("\n");
             else
                 result.append(ConsoleColors.RED).append("Not Following").append("\n");
             result.append(ConsoleColors.CYAN).append(loaded.name).append("\n")
@@ -135,6 +164,8 @@ public class UsersCli
                 result.append(ConsoleColors.GREEN_BRIGHT).append("Following").append("\n");
             else if (me.pending.contains(loaded.id + ""))
                 result.append(ConsoleColors.YELLOW_BRIGHT).append("Pending").append("\n");
+            else if (me.blocked.contains(loaded.id + ""))
+                result.append(ConsoleColors.RED_BRIGHT).append("Blocked").append("\n");
             else
                 result.append(ConsoleColors.RED_BRIGHT).append("Not Following").append("\n");
             result.append(ConsoleColors.CYAN_BRIGHT).append(loaded.name).append("\n")

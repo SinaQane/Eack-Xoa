@@ -9,6 +9,9 @@ import utils.Input;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class DirectMessages
@@ -56,7 +59,9 @@ public class DirectMessages
                 {
                     User otherPerson = Load.findUser(command.substring(2));
                     flag = false;
-                    chat(user, otherPerson);
+                    List<String> lastPlace = new LinkedList<>();
+                    lastPlace.add("direct");
+                    chat(user, otherPerson, lastPlace);
                 }
                 catch (Exception e)
                 {
@@ -66,27 +71,32 @@ public class DirectMessages
         }
     }
 
-    public static void chat(User me, User them) throws IOException, InterruptedException
+    public static void chat(User me, User them, List<String> lastPLace) throws IOException, InterruptedException
     {
         Scanner scanner = Input.scanner();
         System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + them.username + "'s Chatroom");
         System.out.println("------------------------------------------------------");
+        if (!me.directMessages.containsKey(them.id))
+        {
+            ArrayList<String[]> arrayList = new ArrayList<>();
+            me.directMessages.put(them.id, arrayList);
+        }
         for (String[] messageArray : me.directMessages.get(them.id))
         {
             messageArray[1] = "t";
             StringBuilder text = new StringBuilder();
-            SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
             if (messageArray[0].charAt(0) == 's')
             {
                 Message message = Load.findMessage(messageArray[0].substring(1));
-                text.append(sdfDate.format(message.messageTime)).append(" ").append(me.username).append(": ");
+                text.append(simpleDateFormat.format(message.messageTime)).append(" ").append(me.username).append(": ");
                 text.append(message.text);
                 System.out.println(ConsoleColors.WHITE_BRIGHT + text.toString());
             }
             else if (messageArray[0].charAt(0) == 'r')
             {
                 Message message = Load.findMessage(messageArray[0].substring(1));
-                text.append(sdfDate.format(message.messageTime)).append(" ").append(them.username).append(": ");
+                text.append(simpleDateFormat.format(message.messageTime)).append(" ").append(them.username).append(": ");
                 text.append(message.text);
                 System.out.println(ConsoleColors.CYAN_BRIGHT + text.toString());
             }
@@ -107,13 +117,24 @@ public class DirectMessages
         }
         String command = scanner.nextLine();
         if (command.equals(" "))
-            chat (me, them);
+            chat (me, them, lastPLace);
         else if (command.equals(":q!")) // I know, I'm going to hell for this...
-            directMessages(me);
+        {
+            if (lastPLace.get(lastPLace.size() - 1).equals("direct"))
+                directMessages(me);
+            else if (lastPLace.get(lastPLace.size() - 1).equals("explore"))
+                Explore.explore(me);
+            else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
+                ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+            else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='f') // Followers
+                Followers.followers(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+            else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='i') // Followings
+                Followings.followings(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
+        }
         else
         {
             me.addMessage(them.id, "s" + command);
-            chat (me, them);
+            chat (me, them, lastPLace);
         }
     }
 }

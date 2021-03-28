@@ -5,13 +5,18 @@ import utils.ConsoleColors;
 import utils.Input;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class MainPage
 {
     public static void mainPage(User user) throws NoSuchElementException, IOException, InterruptedException
     {
+        Timer timer = new Timer();
+        timer.schedule(user.setLastSeen(new Date()), 60000);
+
         Scanner scanner = Input.scanner();
 
         System.out.println(ConsoleColors.BLUE_BOLD_BRIGHT + "Main Page");
@@ -54,11 +59,12 @@ public class MainPage
                     break;
                 case "direct":
                     System.out.println(ConsoleColors.RED + "This function isn't available yet");
-                    // TODO and dm
+                    DirectMessages.directMessages(user);
                     flag = false;
                     break;
                 case "log out":
                     System.out.println(ConsoleColors.WHITE_BRIGHT + "Logging out...");
+                    timer.cancel();
                     FirstPage.firstPage();
                     break;
                 case "settings":
@@ -68,6 +74,7 @@ public class MainPage
                 case "close":
                     flag = false;
                     System.out.print(ConsoleColors.WHITE_BRIGHT + "Closing the app...");
+                    timer.cancel();
                     System.exit(0);
                     break;
                 default:
