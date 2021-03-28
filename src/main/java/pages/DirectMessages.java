@@ -39,7 +39,8 @@ public class DirectMessages
 
         System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT + "list of available commands: \n");
         System.out.println(ConsoleColors.PURPLE_BRIGHT + "main: go back to the Main Page");
-        System.out.println(ConsoleColors.PURPLE_BRIGHT + "u/x: go to user x's chat");
+        System.out.println("saved: go to your saved tweets");
+        System.out.println("u/x: go to user x's chat");
 
         System.out.println("------------------------------------------------------");
 
@@ -51,6 +52,8 @@ public class DirectMessages
             String command = scanner.nextLine().toLowerCase();
             if (command.equals("main"))
                 MainPage.mainPage(user);
+            if (command.equals("saved"))
+                SavedTweets.savedTweets(user);
             else
             {
                 if (Load.userExists(command.substring(2)))

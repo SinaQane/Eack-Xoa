@@ -158,6 +158,8 @@ public class ViewTweet
                             Timeline.timeLine(me);
                         else if (lastPLace.get(lastPLace.size() - 1).equals("explore"))
                             Explore.explore(me);
+                        else if (lastPLace.get(lastPLace.size() - 1).equals("saved"))
+                            SavedTweets.savedTweets(me);
                         else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
                             ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                         else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet

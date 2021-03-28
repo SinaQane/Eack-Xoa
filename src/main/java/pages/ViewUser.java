@@ -103,6 +103,8 @@ public class ViewUser
                                     Notifications.requests(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).equals("blacklist"))
                                     Blacklist.blacklist(me);
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("saved"))
+                                    SavedTweets.savedTweets(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
                                     ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
@@ -150,6 +152,10 @@ public class ViewUser
                                     Explore.explore(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).equals("notifications"))
                                     Notifications.requests(me);
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("blacklist"))
+                                    Blacklist.blacklist(me);
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("saved"))
+                                    SavedTweets.savedTweets(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
                                     ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
@@ -278,9 +284,11 @@ public class ViewUser
                     System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter a command:");
 
                     boolean flag = true;
-                    while (flag) {
+                    while (flag)
+                    {
                         String command = scanner.nextLine().toLowerCase();
-                        switch (command) {
+                        switch (command)
+                        {
                             case "back":
                                 flag = false;
                                 userFlag = false;
@@ -292,6 +300,10 @@ public class ViewUser
                                     Explore.explore(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).equals("notifications"))
                                     Notifications.requests(me);
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("blacklist"))
+                                    Blacklist.blacklist(me);
+                                else if (lastPLace.get(lastPLace.size() - 1).equals("saved"))
+                                    SavedTweets.savedTweets(me);
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='u') // User
                                     ViewUser.viewUser(me, Load.findUser(Long.parseLong(lastPLace.get(lastPLace.size() - 1).substring(1))), lastPLace.subList(0, lastPLace.size() - 1));
                                 else if (lastPLace.get(lastPLace.size() - 1).charAt(0)=='w') // Tweet
