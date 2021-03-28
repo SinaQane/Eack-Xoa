@@ -26,6 +26,7 @@ public class User
     public boolean isPermitted;
 
     // Interactions with other users
+    public HashMap<String, List<Long>> groups = new HashMap<>();
     public List<String> followers = new LinkedList<>();
     public List<String> followings = new LinkedList<>();
     public List<String> blocked = new LinkedList<>();

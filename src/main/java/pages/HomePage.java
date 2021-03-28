@@ -119,6 +119,8 @@ public class HomePage
             System.out.println(ConsoleColors.PURPLE_BRIGHT + "main: go back to the Main Page");
             System.out.println("followers: view your followers");
             System.out.println("followings: view your followings");
+            System.out.println("blacklist: view your blacklist");
+            System.out.println("groups: manage your user groups");
             System.out.println("tweet: tweet something...");
 
             if (currentVisibleTweet != null)
@@ -172,6 +174,11 @@ public class HomePage
                         flag = false;
                         homeFlag = false;
                         Blacklist.blacklist(user);
+                        break;
+                    case "groups":
+                        flag = false;
+                        homeFlag = false;
+                        Groups.groups(user);
                         break;
                     case "comment":
                         if (currentVisibleTweet != null)
