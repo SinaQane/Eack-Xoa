@@ -131,7 +131,7 @@ public class Followings
                         if (currentVisiblePerson != null)
                         {
                             lastPLace.add("i" + user.id);
-                            DirectMessages.chat(me, currentVisiblePerson, lastPLace);
+                            Chat.chat(me, currentVisiblePerson, lastPLace);
                             followingsFlag = false;
                         }
                         else

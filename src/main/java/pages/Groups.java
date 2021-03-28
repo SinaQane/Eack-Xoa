@@ -7,10 +7,7 @@ import utils.ConsoleColors;
 import utils.Input;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Groups
 {
@@ -98,7 +95,7 @@ public class Groups
                 }
                 else if (command.startsWith("add group"))
                 {
-                    String[] names = command.substring(9).split(" ");
+                    String[] names = command.substring(10).split(" ");
                     if (user.groups.containsKey(names[0]))
                     {
                         if (!user.groups.get(names[0]).contains(Load.findUser(names[1]).id))
@@ -115,7 +112,7 @@ public class Groups
                 }
                 else if (command.startsWith("rem group"))
                 {
-                    String[] names = command.substring(9).split(" ");
+                    String[] names = command.substring(10).split(" ");
                     if (user.groups.containsKey(names[0]))
                     {
                         if (user.groups.get(names[0]).contains(Load.findUser(names[1]).id))

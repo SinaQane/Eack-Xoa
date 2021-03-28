@@ -26,9 +26,9 @@ public class Message
         this.visible = true;
         this.messageTime = new Date();
         this.seen = false;
-        Load.findUser(sender).addMessage(receiver, "s:" + text);
+        Load.findUser(sender).addMessage(receiver, "s:" + this.id);
         Save.saveUser(Load.findUser(sender));
-        Load.findUser(receiver).addMessage(sender, "r:" + text);
+        Load.findUser(receiver).addMessage(sender, "r:" + this.id);
         Save.saveUser(Load.findUser(receiver));
         Save.saveMessage(this);
     }

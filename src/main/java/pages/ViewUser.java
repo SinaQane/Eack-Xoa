@@ -305,7 +305,7 @@ public class ViewUser
                                 if (currentVisibleTweet != null)
                                 {
                                     lastPLace.add("u" + user.id);
-                                    DirectMessages.chat(me, Load.findUser(currentVisibleTweet.getOwnerId()), lastPLace);
+                                    Chat.chat(me, Load.findUser(currentVisibleTweet.getOwnerId()), lastPLace);
                                 }
                                 else
                                     System.out.println(ConsoleColors.RED_BRIGHT + "Invalid request...");

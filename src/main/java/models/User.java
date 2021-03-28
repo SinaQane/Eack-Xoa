@@ -136,11 +136,10 @@ public class User
     }
 
     // Updated by the app every n seconds.
-    public TimerTask setLastSeen(Date lastSeen) throws IOException
+    public void setLastSeen(Date lastSeen) throws IOException
     {
         this.lastSeen = lastSeen;
         Save.saveUser(this);
-        return null;
     }
 
     // User sets private or public page state in the Settings.

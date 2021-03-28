@@ -243,10 +243,10 @@ public class Tweet
     {
         for (Long dest : users)
         {
-            user.addMessage(dest, "S:" + text);
+            user.addMessage(dest, "S:" + this.id);
             Save.saveUser(user);
             User destination = Load.findUser(dest);
-            destination.addMessage(user.id, "R:" + text);
+            destination.addMessage(user.id, "R:" + this.id);
             Save.saveUser(destination);
         }
     }

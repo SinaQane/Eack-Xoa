@@ -239,7 +239,7 @@ public class Explore
                                             case "dm":
                                                 if (currentVisiblePerson != null)
                                                 {
-                                                    DirectMessages.chat(user, currentVisiblePerson, lastPlace);
+                                                    Chat.chat(user, currentVisiblePerson, lastPlace);
                                                     searchFlag = false;
                                                     commandFlag = false;
                                                     usersListFlag = false;

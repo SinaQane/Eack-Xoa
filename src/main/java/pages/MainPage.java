@@ -5,17 +5,30 @@ import utils.ConsoleColors;
 import utils.Input;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.Timer;
+import java.util.*;
 
 public class MainPage
 {
     public static void mainPage(User user) throws NoSuchElementException, IOException, InterruptedException
     {
         Timer timer = new Timer();
-        timer.schedule(user.setLastSeen(new Date()), 60000);
+        TimerTask task = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    user.setLastSeen(new Date());
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        timer.schedule(task, 60000);
 
         Scanner scanner = Input.scanner();
 
@@ -58,7 +71,6 @@ public class MainPage
                     flag = false;
                     break;
                 case "direct":
-                    System.out.println(ConsoleColors.RED + "This function isn't available yet");
                     DirectMessages.directMessages(user);
                     flag = false;
                     break;

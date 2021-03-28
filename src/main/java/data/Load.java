@@ -17,6 +17,23 @@ import java.util.List;
 
 public class Load
 {
+    public static boolean userExists(String username) throws IOException
+    {
+        File dir = new File("./resources/users");
+        String[] paths = dir.list();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        assert paths != null;
+        for (String tempPath : paths)
+        {
+            User temp = gson.fromJson(Files.readString(Paths.get("./resources/users/" + tempPath)), User.class);
+            if (temp.username.equals(username))
+                return true;
+        }
+        return false;
+    }
+
     // For finding user by his/her Username
     public static User findUser(String username) throws IOException
     {
