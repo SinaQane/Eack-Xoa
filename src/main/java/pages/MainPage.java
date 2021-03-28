@@ -4,11 +4,16 @@ import models.User;
 import utils.ConsoleColors;
 import utils.Input;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import java.io.IOException;
 import java.util.*;
 
 public class MainPage
 {
+    static private final Logger logger = LogManager.getLogger(MainPage.class);
+
     public static void mainPage(User user) throws NoSuchElementException, IOException, InterruptedException
     {
         Timer timer = new Timer();
@@ -77,6 +82,7 @@ public class MainPage
                 case "log out":
                     System.out.println(ConsoleColors.WHITE_BRIGHT + "Logging out...");
                     timer.cancel();
+                    logger.fatal("user " + user.id + " just logged out.");
                     FirstPage.firstPage();
                     break;
                 case "settings":
@@ -87,6 +93,7 @@ public class MainPage
                     flag = false;
                     System.out.print(ConsoleColors.WHITE_BRIGHT + "Closing the app...");
                     timer.cancel();
+                    logger.fatal("user " + user.id + " closed the program.");
                     System.exit(0);
                     break;
                 default:

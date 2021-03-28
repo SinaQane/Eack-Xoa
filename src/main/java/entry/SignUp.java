@@ -5,6 +5,9 @@ import utils.ConsoleColors;
 import utils.Input;
 import utils.Validations;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,6 +16,8 @@ import java.util.Scanner;
 
 public class SignUp
 {
+    static private final Logger logger = LogManager.getLogger(SignUp.class);
+
     public User user;
 
     public SignUp() throws IOException
@@ -36,6 +41,7 @@ public class SignUp
                 System.out.println(ConsoleColors.RED_BRIGHT + "This username isn't valid. PLease choose another one...");
             if (!Validations.usernameIsAvailable(userName))
             {
+                logger.warn("duplicate username attempt.");
                 System.out.println(ConsoleColors.RED_BRIGHT + "This username has already been used. PLease choose another one...");
                 System.out.println(ConsoleColors.CYAN + " Already have an account? You can go to the Login page by typing \"" +
                         ConsoleColors.CYAN_UNDERLINED + "I already have an account" + ConsoleColors.CYAN + "\".");
@@ -73,6 +79,7 @@ public class SignUp
                 System.out.println(ConsoleColors.RED_BRIGHT + "PLease enter a valid email address...");
             if (!Validations.emailIsAvailable(email))
             {
+                logger.warn("duplicate email attempt.");
                 System.out.println(ConsoleColors.RED_BRIGHT + "There's already an account with this email address registered.");
                 System.out.println("PLease choose another one...");
                 System.out.println(ConsoleColors.CYAN + " Already have an account? You can go to the Login page by typing \"" +
@@ -100,6 +107,7 @@ public class SignUp
                 }
                 if (!Validations.phoneNumberIsAvailable(phoneNumber))
                 {
+                    logger.warn("duplicate phone number attempt.");
                     System.out.println(ConsoleColors.RED_BRIGHT + "There's already an account with this phone number registered.");
                     System.out.println("PLease choose another one...");
                     System.out.println(ConsoleColors.CYAN + " Already have an account? You can go to the Login page by typing \"" +
@@ -138,7 +146,7 @@ public class SignUp
         if (!date.equals(""))
         {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date birthDate = null;
+            Date birthDate;
             try
             {
                 birthDate = format.parse(date);

@@ -6,12 +6,17 @@ import utils.ConsoleColors;
 import utils.Input;
 import utils.Validations;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
 
 public class Login
 {
+    static private final Logger logger = LogManager.getLogger(Login.class);
+
     public User user;
 
     public Login() throws IOException
@@ -59,6 +64,7 @@ public class Login
                             System.out.println(ConsoleColors.GREEN_BRIGHT + "------------------------------------------------------");
                             System.out.println("Your Account has been reactivated.");
                             result.reactivate();
+                            logger.fatal("account " + result.id + " was reactivated and logged into.");
                             this.user = result;
                             break;
                         }
@@ -72,6 +78,7 @@ public class Login
                 }
                 else
                 {
+                    logger.error("there was an unsuccessful login to account " + result.id + ".");
                     System.out.println(ConsoleColors.RED_BRIGHT + "The username or password is incorrect. Please try again...");
                     System.out.println(ConsoleColors.CYAN + " Don't have an account yet? You can go to Sign Up page by typing \"" +
                             ConsoleColors.CYAN_UNDERLINED + "Create an account" + ConsoleColors.CYAN + "\" as your username.");

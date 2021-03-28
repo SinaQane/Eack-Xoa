@@ -1,0 +1,20 @@
+2021-03-28 20:05:09.329 [main] INFO  data.Save - last id was changed.
+2021-03-28 20:05:09.331 [main] DEBUG data.Save - usernames list was updated.
+2021-03-28 20:05:09.332 [main] DEBUG data.Save - 1th user's file was created.
+2021-03-28 20:05:09.348 [main] DEBUG data.Save - 1th user's file was saved.
+2021-03-28 20:05:09.348 [main] WARN  models.User - 1's name was changed.
+2021-03-28 20:05:09.352 [main] DEBUG data.Save - 1th user's file was saved.
+2021-03-28 20:05:09.352 [main] DEBUG data.Save - emails list was updated.
+2021-03-28 20:05:09.352 [main] FATAL models.User - 1's email was changed.
+2021-03-28 20:05:09.356 [main] DEBUG data.Save - 1th user's file was saved.
+2021-03-28 20:05:09.356 [main] DEBUG data.Save - phonenumbers list was updated.
+2021-03-28 20:05:09.357 [main] FATAL models.User - 1's phonenumber was changed.
+2021-03-28 20:05:09.360 [main] DEBUG data.Save - 1th user's file was saved.
+2021-03-28 20:05:09.360 [main] INFO  models.User - 1 changed their bio.
+2021-03-28 20:05:09.363 [main] DEBUG data.Save - 1th user's file was saved.
+2021-03-28 20:05:09.364 [main] ERROR models.User - 1 logged in.
+2021-03-28 20:05:09.367 [main] DEBUG data.Save - 1th user's file was saved.
+2021-03-28 20:05:19.319 [main] DEBUG models.User - account 1 just tweeted something.
+2021-03-28 20:05:19.330 [main] DEBUG data.Save - tweet 1-1's file was created.
+2021-03-28 20:05:19.332 [main] DEBUG data.Save - tweet 1-1's file was saved.
+2021-03-28 20:05:19.335 [main] DEBUG data.Save - 1th user's file was saved.

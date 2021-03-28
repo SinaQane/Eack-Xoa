@@ -19,7 +19,7 @@ public class Load
 {
     public static boolean userExists(String username) throws IOException
     {
-        File dir = new File("./resources/users");
+        File dir = new File("./src/main/resources/users");
         String[] paths = dir.list();
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
@@ -27,7 +27,7 @@ public class Load
         assert paths != null;
         for (String tempPath : paths)
         {
-            User temp = gson.fromJson(Files.readString(Paths.get("./resources/users/" + tempPath)), User.class);
+            User temp = gson.fromJson(Files.readString(Paths.get("./src/main/resources/users/" + tempPath)), User.class);
             if (temp.username.equals(username))
                 return true;
         }
@@ -37,7 +37,7 @@ public class Load
     // For finding user by his/her Username
     public static User findUser(String username) throws IOException
     {
-        String path = "./resources/users";
+        String path = "./src/main/resources/users";
         File dir = new File(path);
         String[] paths = dir.list();
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -60,7 +60,7 @@ public class Load
     // For finding user by his/her ID
     public static User findUser(long id) throws IOException
     {
-        String path = "./resources/users/" + id;
+        String path = "./src/main/resources/users/" + id;
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
 
@@ -79,7 +79,7 @@ public class Load
 
     public static Tweet findTweet(String id) throws IOException
     {
-        String path = "./resources/tweets/" + id;
+        String path = "./src/main/resources/tweets/" + id;
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
 
@@ -98,7 +98,7 @@ public class Load
 
     public static Message findMessage(String id) throws IOException
     {
-        String path = "./resources/messages/" + id;
+        String path = "./src/main/resources/messages/" + id;
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
 
@@ -117,13 +117,13 @@ public class Load
 
     public static long loadLastId() throws IOException
     {
-        List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./resources/id.txt"), StandardCharsets.UTF_8));
+        List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./src/main/resources/database/id.txt"), StandardCharsets.UTF_8));
         return Long.parseLong(fileContent.get(0));
     }
 
     public static long loadLastMessage() throws IOException
     {
-        List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./resources/message.txt"), StandardCharsets.UTF_8));
+        List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./src/main/resources/database/message.txt"), StandardCharsets.UTF_8));
         return Long.parseLong(fileContent.get(0));
     }
 }

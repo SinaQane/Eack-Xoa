@@ -4,11 +4,16 @@ import data.Load;
 import data.Save;
 import utils.ConsoleColors;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import java.io.IOException;
 import java.util.*;
 
 public class User
 {
+    static private final Logger logger = LogManager.getLogger(User.class);
+
     // Account Info
     public final Long id;
     public String username;
@@ -87,6 +92,7 @@ public class User
     public void setName(String name) throws IOException
     {
         this.name = name;
+        logger.warn(this.id + "'s name was changed.");
         Save.saveUser(this);
     }
 
@@ -94,6 +100,7 @@ public class User
     public void setBirthDate(Date birthDate) throws IOException
     {
         this.birthDate = birthDate;
+        logger.warn(this.id + "'s birthdate was changed.");
         Save.saveUser(this);
     }
 
@@ -102,6 +109,7 @@ public class User
     {
         Save.changeUsername(Objects.requireNonNullElse(this.username, "0"), username);
         this.username = username;
+        logger.fatal(this.id + "'s username was changed.");
         Save.saveUser(this);
     }
 
@@ -110,6 +118,7 @@ public class User
     {
         Save.changeEmail(Objects.requireNonNullElse(this.email, "0"), email);
         this.email = email;
+        logger.fatal(this.id + "'s email was changed.");
         Save.saveUser(this);
     }
 
@@ -118,6 +127,7 @@ public class User
     {
         Save.changePhoneNumber(Objects.requireNonNullElse(this.phoneNumber, "0"), phoneNumber);
         this.phoneNumber = phoneNumber;
+        logger.fatal(this.id + "'s phonenumber was changed.");
         Save.saveUser(this);
     }
 
@@ -125,6 +135,7 @@ public class User
     public void setPassword(String password) throws IOException
     {
         this.password = password;
+        logger.error(this.id + "'s password was changed.");
         Save.saveUser(this);
     }
 
@@ -132,6 +143,7 @@ public class User
     public void setLastLogin(Date lastLogin) throws IOException
     {
         this.lastLogin = lastLogin;
+        logger.error(this.id + " logged in.");
         Save.saveUser(this);
     }
 
@@ -147,6 +159,7 @@ public class User
     public void setPrivateState(boolean privateState) throws IOException
     {
         this.privateState = privateState;
+        logger.debug(this.id + " changed their private state.");
         Save.saveUser(this);
     }
 
@@ -155,6 +168,7 @@ public class User
     public void setInfoState(boolean publicInfo) throws IOException
     {
         this.infoState = publicInfo;
+        logger.debug(this.id + " changed their info state.");
         Save.saveUser(this);
     }
 
@@ -170,12 +184,14 @@ public class User
     public void setBio(String bio) throws IOException
     {
         this.bio = bio;
+        logger.info(this.id + " changed their bio.");
         Save.saveUser(this);
     }
 
     // Deactivate the account.
     public void deactivate() throws IOException
     {
+        logger.fatal("account " + this.id + " was reactivated.");
         this.setIsActive(false);
     }
 
@@ -193,6 +209,7 @@ public class User
         {
             if (!user.reported.contains(this.id + ""))
             {
+                logger.debug("account " + user.id + " reported " + this.id + ".");
                 user.reported.add(this.id + "");
                 this.reports++;
                 if (this.reports >= 10)
@@ -219,6 +236,7 @@ public class User
                 System.out.println(ConsoleColors.RED_BRIGHT + "Unfortunately you are suspended. You can't tweet right now.");
             else
             {
+                logger.debug("account " + this.id + " just tweeted something.");
                 this.reportedUntil = 0;
                 new Tweet(this, tweet);
                 Save.saveUser(this);
@@ -226,6 +244,7 @@ public class User
         }
         else
         {
+            logger.debug("account " + this.id + " just tweeted something.");
             new Tweet(this, tweet);
             Save.saveUser(this);
         }
@@ -240,6 +259,7 @@ public class User
                 System.out.println(ConsoleColors.RED_BRIGHT + "Unfortunately you are suspended. You can't leave comments right now.");
             else
             {
+                logger.debug("account " + this.id + " left a comment to " + upperTweet.id + ".");
                 this.reportedUntil = 0;
                 Tweet tweet = new Tweet(this, comment);
                 tweet.setUpperTweet(upperTweet.id);
@@ -250,6 +270,7 @@ public class User
         }
         else
         {
+            logger.debug("account " + this.id + " left a comment to " + upperTweet.id + ".");
             Tweet tweet = new Tweet(this, comment);
             tweet.setUpperTweet(upperTweet.id);
             upperTweet.comments.add("1-" + this.id + "-" + tweet.id);
@@ -263,6 +284,7 @@ public class User
     {
         if (tweet.getOwnerId() == this.id)
         {
+            logger.warn("account " + this.id + " deleted tweet " + tweet.id + ".");
             this.userTweets.remove(tweet.id);
             this.homePageTweets.remove("1-" + this.id + "-" + tweet.id);
             tweet.deleted();
@@ -279,6 +301,7 @@ public class User
     {
         if (!this.followings.contains(user.id + ""))
         {
+            logger.debug("account " + this.id + " started following " + user.id + ".");
             this.followings.add(user.id + "");
             user.followers.add(this.id + "");
             user.newNotifications.add(this.username + " started following you.");
@@ -294,6 +317,7 @@ public class User
     {
         if (this.followings.contains(user.id + ""))
         {
+            logger.debug("account " + this.id + " stopped following " + user.id + ".");
             this.followings.remove(user.id + "");
             user.followers.remove(this.id + "");
             user.newNotifications.add(this.username + " unfollowed you.");
@@ -315,10 +339,15 @@ public class User
                 System.out.println(ConsoleColors.YELLOW_BRIGHT + "This page isn't private.");
             else
             {
-                if (this.pending.contains(user.id + "")) {
+                if (this.pending.contains(user.id + ""))
+                {
+                    logger.debug("account " + this.id + " took back the follow request to " + user.id + ".");
                     this.pending.remove(user.id + "");
                     user.requests.remove(this.id + "");
-                } else {
+                }
+                else
+                {
+                    logger.debug("account " + this.id + " sent a follow request to " + user.id + ".");
                     this.pending.add(user.id + "");
                     user.requests.add(this.id + "");
                 }
@@ -331,6 +360,7 @@ public class User
     // This user accepts someone's request
     public void accept(User user) throws IOException
     {
+        logger.debug("account " + this.id + " accepted a follow request from " + user.id + ".");
         this.requests.remove(user.id + "");
         this.followers.add(user.id + "");
         user.pending.remove(user.id + "");
@@ -344,6 +374,7 @@ public class User
     // This user rejects someone's request
     public void rejectWithNotifications(User user) throws IOException
     {
+        logger.warn("account " + this.id + " rejected a follow request from " + user.id + ".");
         this.requests.remove(user.id + "");
         user.pending.remove(user.id + "");
         user.newNotifications.add(this.username + " rejected your follow request.");
@@ -353,6 +384,7 @@ public class User
 
     public void rejectWithoutNotifications(User user) throws IOException
     {
+        logger.warn("account " + this.id + " rejected a follow request from " + user.id + ".");
         this.requests.remove(user.id + "");
         user.pending.remove(user.id + "");
         Save.saveUser(user);
@@ -366,6 +398,7 @@ public class User
         {
             User user = Load.findUser(Long.parseLong(userId));
             this.accept(user);
+            logger.debug("account " + this.id + " accepted a follow request from " + user.id + ".");
         }
     }
 
@@ -389,6 +422,7 @@ public class User
         {
             if (!this.blocked.contains(user.id + ""))
             {
+                logger.fatal("account " + this.id + " blocked " + user.id + ".");
                 this.blocked.add(user.id + "");
                 this.followings.remove(user.id + "");
                 this.followers.remove(user.id + "");
@@ -398,6 +432,7 @@ public class User
             }
             else
             {
+                logger.debug("account " + this.id + " unblocked " + user.id + ".");
                 this.blocked.remove(user.id + "");
             }
             Save.saveUser(this);
@@ -408,6 +443,7 @@ public class User
     {
         if (this.followers.contains(user.id + ""))
         {
+            logger.warn("account " + this.id + " removed " + user.id + " from their followers.");
             this.followers.remove(user.id + "");
             Save.saveUser(user);
             Save.saveUser(this);
@@ -425,12 +461,14 @@ public class User
             {
             if (!this.muted.contains(user.id + ""))
             {
+                logger.warn("account " + this.id + " muted " + user.id + ".");
                 this.muted.add(user.id + "");
                 Save.saveUser(this);
                 System.out.println(ConsoleColors.GREEN_BRIGHT + "User muted.");
             }
             else
             {
+                logger.debug("account " + this.id + " unmuted " + user.id + ".");
                 this.muted.remove(user.id + "");
                 Save.saveUser(this);
                 System.out.println(ConsoleColors.GREEN_BRIGHT + "User unmuted.");
@@ -456,6 +494,7 @@ public class User
     public void setTweetsPerPage(int tweetsPerPage) throws IOException
     {
         this.tweetsPerPage = tweetsPerPage;
+        logger.info("account " + this.id + " changed their preferences.");
         Save.saveUser(this);
     }
 
@@ -463,13 +502,16 @@ public class User
     public void setPeoplePerPage(int peoplePerPage) throws IOException
     {
         this.peoplePerPage = peoplePerPage;
+        logger.info("account " + this.id + " changed their preferences.");
         Save.saveUser(this);
     }
 
     // Sets the number of notifications per page
-    public void setNotificationsPerPage(int notificationsPerPage)
+    public void setNotificationsPerPage(int notificationsPerPage) throws IOException
     {
         this.notificationsPerPage = notificationsPerPage;
+        logger.info("account " + this.id + " changed their preferences.");
+        Save.saveUser(this);
     }
 
     // Additional methods

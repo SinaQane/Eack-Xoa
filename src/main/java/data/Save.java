@@ -5,7 +5,9 @@ import com.google.gson.GsonBuilder;
 import models.Message;
 import models.Tweet;
 import models.User;
-import utils.ConsoleColors;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -16,17 +18,18 @@ import java.util.List;
 
 public class Save
 {
+    static private final Logger logger = LogManager.getLogger(Save.class);
 
     public static void saveUser(User user) throws IOException
     {
-        String path = "./resources/users/" + user.id;
+        String path = "./src/main/resources/users/" + user.id;
         File file = new File(path);
         if(file.getParentFile().mkdirs())
-            System.out.println(ConsoleColors.GREEN_BRIGHT + "Users directory was made successfully.");
+            logger.warn("users directory was created.");
         if (!file.exists())
         {
             if (file.createNewFile())
-                System.out.println(ConsoleColors.GREEN_BRIGHT + "User file was saved successfully.");
+                logger.debug(user.id + "th user's file was created.");
         }
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -43,18 +46,19 @@ public class Save
         printStream.close();
         fout.flush();
         fout.close();
+        logger.debug(user.id + "th user's file was saved.");
     }
 
     public static void saveTweet(Tweet tweet) throws IOException
     {
-        String path = "./resources/tweets/" + tweet.id;
+        String path = "./src/main/resources/tweets/" + tweet.id;
         File file = new File(path);
         if(file.getParentFile().mkdirs())
-            System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweets directory was made successfully.");
+            logger.warn("tweets directory was created.");
         if (!file.exists())
         {
             if (file.createNewFile())
-                System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweet file was saved successfully.");
+                logger.debug("tweet " + tweet.id + "'s file was created.");
         }
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -71,18 +75,23 @@ public class Save
         printStream.close();
         fout.flush();
         fout.close();
+        logger.debug("tweet " + tweet.id + "'s file was saved.");
     }
 
     public static void saveMessage(Message message) throws IOException
     {
-        String path = "./resources/messages/" + message.id;
+        String path = "./src/main/resources/messages/" + message.id;
         File file = new File(path);
         if(file.getParentFile().mkdirs())
-            System.out.println(ConsoleColors.GREEN_BRIGHT + "Messages directory was made successfully.");
+        {
+            logger.warn("messages directory was created.");
+        }
         if (!file.exists())
         {
             if (file.createNewFile())
-                System.out.println(ConsoleColors.GREEN_BRIGHT + "Message file was saved successfully.");
+            {
+                logger.debug("message " + message.id + "'s file was created.");
+            }
         }
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -99,6 +108,7 @@ public class Save
         printStream.close();
         fout.flush();
         fout.close();
+        logger.debug("message " + message.id + "'s file was saved.");
     }
 
     public static void replaceLine(String path, String oldLine, String newLine) throws IOException
@@ -122,30 +132,35 @@ public class Save
 
     public static void changeUsername(String oldUsername, String username) throws IOException
     {
-        replaceLine( "./resources/usernames.txt", oldUsername, username);
+        replaceLine( "./src/main/resources/database/usernames.txt", oldUsername, username);
+        logger.debug("usernames list was updated.");
     }
 
     public static void changeEmail(String oldEmail, String email) throws IOException
     {
-        replaceLine( "./resources/emails.txt", oldEmail, email);
+        replaceLine( "./src/main/resources/database/emails.txt", oldEmail, email);
+        logger.debug("emails list was updated.");
     }
 
     public static void changePhoneNumber(String oldPhoneNumber, String phoneNumber) throws IOException
     {
-        replaceLine( "./resources/phonenumbers.txt", oldPhoneNumber, phoneNumber);
+        replaceLine( "./src/main/resources/database/phonenumbers.txt", oldPhoneNumber, phoneNumber);
+        logger.debug("phonenumbers list was updated.");
     }
 
     public static void changeLastId(long newId) throws IOException
     {
-        List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./resources/id.txt"), StandardCharsets.UTF_8));
+        List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./src/main/resources/database/id.txt"), StandardCharsets.UTF_8));
         fileContent.set(0, newId + "");
-        Files.write(Paths.get("./resources/id.txt"), fileContent, StandardCharsets.UTF_8);
+        Files.write(Paths.get("./src/main/resources/database/id.txt"), fileContent, StandardCharsets.UTF_8);
+        logger.info("last id was changed.");
     }
 
     public static void changeLastMessage(long newId) throws IOException
     {
-        List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./resources/message.txt"), StandardCharsets.UTF_8));
+        List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("./src/main/resources/database/message.txt"), StandardCharsets.UTF_8));
         fileContent.set(0, newId + "");
-        Files.write(Paths.get("./resources/message.txt"), fileContent, StandardCharsets.UTF_8);
+        Files.write(Paths.get("./src/main/resources/database/message.txt"), fileContent, StandardCharsets.UTF_8);
+        logger.info("last message was changed.");
     }
 }

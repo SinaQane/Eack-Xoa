@@ -4,11 +4,16 @@ import data.Load;
 import data.Save;
 import utils.ConsoleColors;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import java.io.IOException;
 import java.util.*;
 
 public class Tweet
 {
+    static private final Logger logger = LogManager.getLogger(Tweet.class);
+
     // Tweet info
     /* Tweet's ID will be in the form "num1-num2" where "num1" is its owner's ID,
     and "num2" is its number in owner's tweets' arrangement
@@ -45,6 +50,7 @@ public class Tweet
     // Tweet gets deleted
     public void deleted() throws IOException
     {
+        logger.debug("tweet " + this.id + " was deleted.");
         this.visible = false;
         Save.saveTweet(this);
     }
@@ -118,12 +124,14 @@ public class Tweet
     {
         if (user.retweetedTweets.contains(this.id))
         {
+            logger.debug("tweet " + this.id + " was unretweeted by " + user.id + ".");
             user.retweetedTweets.remove(this.id);
             user.homePageTweets.remove("0-" + user.id + "-" + this.id);
             this.removeFromRetweets(user.id + "");
         }
         else
         {
+            logger.debug("tweet " + this.id + " was retweeted by " + user.id + ".");
             user.retweetedTweets.add(this.id);
             Date date = new Date();
             user.homePageTweets.put("0-" + user.id + "-" + this.id, date.getTime());
@@ -140,6 +148,7 @@ public class Tweet
     {
         if (user.downvotedTweets.contains(this.id))
         {
+            logger.info("tweet " + this.id + " was upvoted by " + user.id + ".");
             user.addUpvote(this);
             this.addToUpvotes(user);
             user.removeDownvote(this);
@@ -147,11 +156,13 @@ public class Tweet
         }
         else if (user.upvotedTweets.contains(this.id))
         {
+            logger.info("tweet " + this.id + " was un-upvoted by " + user.id + ".");
             user.removeUpvote(this);
             this.removeFromUpvoted(user);
         }
         else
         {
+            logger.info("tweet " + this.id + " was upvoted by " + user.id + ".");
             user.addUpvote(this);
             this.addToUpvotes(user);
         }
@@ -164,6 +175,7 @@ public class Tweet
     {
         if (user.upvotedTweets.contains(this.id))
         {
+            logger.info("tweet " + this.id + " was downvoted by " + user.id + ".");
             user.addDownvote(this);
             this.addToDownvotes(user);
             user.removeUpvote(this);
@@ -171,11 +183,13 @@ public class Tweet
         }
         else if (user.downvotedTweets.contains(this.id))
         {
+            logger.info("tweet " + this.id + " was un-downvoted by " + user.id + ".");
             user.removeDownvote(this);
             this.removeFromDownvoted(user);
         }
         else
         {
+            logger.info("tweet " + this.id + " was downvoted by " + user.id + ".");
             user.addDownvote(this);
             this.addToDownvotes(user);
         }
@@ -188,6 +202,7 @@ public class Tweet
     {
         if (!user.savedTweets.contains(this.id))
         {
+            logger.info("tweet " + this.id + " was saved by " + user.id + ".");
             user.savedTweets.add(this.id);
             Save.saveUser(user);
         }
@@ -200,6 +215,7 @@ public class Tweet
     {
         if (user.savedTweets.contains(this.id))
         {
+            logger.info("tweet " + this.id + " was unsaved by " + user.id + ".");
             user.savedTweets.remove(this.id);
             Save.saveUser(user);
         }
@@ -222,6 +238,7 @@ public class Tweet
                 }
                 Save.saveTweet(this);
                 user.reportedTweets.add(this.id);
+                logger.warn("tweet " + this.id + " was reported by " + user.id + ".");
                 Save.saveUser(user);
             }
             else
@@ -243,6 +260,7 @@ public class Tweet
     {
         for (Long dest : users)
         {
+            logger.warn("user " + user.id + " shared this tweet with " + dest + ".");
             user.addMessage(dest, "S:" + this.id);
             Save.saveUser(user);
             User destination = Load.findUser(dest);
