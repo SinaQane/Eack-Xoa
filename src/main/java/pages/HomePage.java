@@ -6,7 +6,7 @@ import models.User;
 import utils.TweetsCli;
 import utils.ConsoleColors;
 import utils.Input;
-import utils.MapUtil;
+import utils.DataStructuresUtil;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -53,7 +53,7 @@ public class HomePage
 
             ArrayList<String> homePageTweets = new ArrayList<>();
 
-            for(String tweetString : MapUtil.sortByValue(user.homePageTweets).keySet())
+            for(String tweetString : DataStructuresUtil.sortByValue(user.homePageTweets).keySet())
             {
                 String[] homepageTweetParts = tweetString.split("-");
                 String homepageTweetId = homepageTweetParts[2] + "-" + homepageTweetParts[3];

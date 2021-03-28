@@ -7,13 +7,15 @@ import utils.ConsoleColors;
 import utils.Input;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Groups
 {
-    public static void groups(User user) throws IOException, InterruptedException {
+    public static void groups(User user) throws IOException, InterruptedException
+    {
         boolean groupFlag = true;
         while (groupFlag)
         {
@@ -133,5 +135,15 @@ public class Groups
             }
 
         }
+    }
+
+    public static ArrayList<Long> getUsers(User user, String groupName)
+    {
+        ArrayList<Long> result = new ArrayList<>();
+        if (user.groups.containsKey(groupName))
+        {
+            result.addAll(user.groups.get(groupName));
+        }
+        return result;
     }
 }

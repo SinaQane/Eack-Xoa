@@ -4,6 +4,7 @@ import data.Load;
 import models.Tweet;
 import models.User;
 import utils.ConsoleColors;
+import utils.DataStructuresUtil;
 import utils.Input;
 import utils.TweetsCli;
 
@@ -258,8 +259,27 @@ public class ViewTweet
                     case "main share":
                         System.out.println(ConsoleColors.WHITE_BRIGHT + "Enter your destinations:");
                         System.out.println(" You should type users like u/x and groups like g/x");
-                        String destinations = scanner.nextLine();
-                        // TODO add this
+                        System.out.println(" e.g. u/user u/user g/group");
+                        String[] items = scanner.nextLine().split(" ");
+                        ArrayList<Long> destinations = new ArrayList<>();
+                        for (String destination : items)
+                        {
+                            String[] parts = destination.split("/");
+                            if (parts[0].equals("g"))
+                                destinations = DataStructuresUtil.unionArrayLists(destinations, Groups.getUsers(me, parts[1]));
+                            else if (parts[0].equals("u"))
+                            {
+                                try
+                                {
+                                    User dest = Load.findUser(parts[1]);
+                                    ArrayList<Long> temp = new ArrayList<>();
+                                    temp.add(dest.id);
+                                    destinations = DataStructuresUtil.unionArrayLists(destinations, temp);
+                                }
+                                catch (Exception ignored) {}
+                            }
+                        }
+                        tweet.share(me, destinations);
                         System.out.println(ConsoleColors.GREEN_BRIGHT + "Tweet was sent to valid destinations");
                         flag = false;
                         break;

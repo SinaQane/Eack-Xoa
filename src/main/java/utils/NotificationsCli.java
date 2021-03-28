@@ -23,16 +23,12 @@ public class NotificationsCli
         ArrayList<String> result = new ArrayList<>();
         int start = this.notifications.size() - ((page + 1) * perPage);
         int index = 0;
-        int exception = 0;
         do {
             try
             {
                 result.add(this.notifications.get(start + index));
             }
-            catch (Exception e)
-            {
-                exception++;
-            }
+            catch (Exception ignored){}
             index++;
         } while (index != perPage);
         return result;

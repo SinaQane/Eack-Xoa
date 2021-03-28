@@ -50,16 +50,12 @@ public class UsersCli
         ArrayList<String> result = new ArrayList<>();
         int start = user.followers.size() - ((page + 1) * perPage);
         int index = 0;
-        int exception = 0;
         do {
             try
             {
                 result.add(user.followers.get(start + index));
             }
-            catch (Exception e)
-            {
-                exception++;
-            }
+            catch (Exception ignored){}
             index++;
         } while (index != perPage);
         return result;
@@ -70,16 +66,12 @@ public class UsersCli
         ArrayList<String> result = new ArrayList<>();
         int start = user.followings.size() - ((page + 1) * perPage);
         int index = 0;
-        int exception = 0;
         do {
             try
             {
                 result.add(user.followings.get(start + index));
             }
-            catch (Exception e)
-            {
-                exception++;
-            }
+            catch (Exception ignored){}
             index++;
         } while (index != perPage);
         return result;
@@ -90,16 +82,12 @@ public class UsersCli
         ArrayList<String> result = new ArrayList<>();
         int start = user.blocked.size() - ((page + 1) * perPage);
         int index = 0;
-        int exception = 0;
         do {
             try
             {
                 result.add(user.blocked.get(start + index));
             }
-            catch (Exception e)
-            {
-                exception++;
-            }
+            catch (Exception ignored){}
             index++;
         } while (index != perPage);
         return result;
@@ -110,16 +98,12 @@ public class UsersCli
         ArrayList<String> result = new ArrayList<>();
         int start = user.requests.size() - ((page + 1) * perPage);
         int index = 0;
-        int exception = 0;
         do {
             try
             {
                 result.add(user.requests.get(start + index));
             }
-            catch (Exception e)
-            {
-                exception++;
-            }
+            catch (Exception ignored){}
             index++;
         } while (index != perPage);
         return result;

@@ -6,7 +6,7 @@ import models.User;
 import utils.TweetsCli;
 import utils.ConsoleColors;
 import utils.Input;
-import utils.MapUtil;
+import utils.DataStructuresUtil;
 
 import java.io.IOException;
 import java.util.*;
@@ -46,7 +46,7 @@ public class Timeline
                 tempTweets.put(entry.getKey(), entry.getValue());
         }
 
-        HashMap<String, Long> timelineTweets = (HashMap<String, Long>) MapUtil.sortByValue(tempTweets);
+        HashMap<String, Long> timelineTweets = (HashMap<String, Long>) DataStructuresUtil.sortByValue(tempTweets);
         Set<String> keySet = timelineTweets.keySet();
         return new ArrayList<>(keySet);
     }

@@ -239,14 +239,15 @@ public class Tweet
     }
 
     // User shares tweet with a list of users
-    public void share(User user, ArrayList<User> users) throws IOException
+    public void share(User user, ArrayList<Long> users) throws IOException
     {
-        for (User dest : users)
+        for (Long dest : users)
         {
-            user.addMessage(dest.id, "S:" + text);
+            user.addMessage(dest, "S:" + text);
             Save.saveUser(user);
-            dest.addMessage(user.id, "R:" + text);
-            Save.saveUser(dest);
+            User destination = Load.findUser(dest);
+            destination.addMessage(user.id, "R:" + text);
+            Save.saveUser(destination);
         }
     }
 }

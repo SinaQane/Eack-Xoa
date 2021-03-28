@@ -5,7 +5,7 @@ import models.Tweet;
 import models.User;
 import utils.ConsoleColors;
 import utils.Input;
-import utils.MapUtil;
+import utils.DataStructuresUtil;
 import utils.TweetsCli;
 
 import java.io.IOException;
@@ -178,7 +178,7 @@ public class ViewUser
                 {
                     ArrayList<String> homePageTweets = new ArrayList<>();
 
-                    for(String tweetString : MapUtil.sortByValue(user.homePageTweets).keySet())
+                    for(String tweetString : DataStructuresUtil.sortByValue(user.homePageTweets).keySet())
                     {
                         String[] homepageTweetParts = tweetString.split("-");
                         String homepageTweetId = homepageTweetParts[2] + "-" + homepageTweetParts[3];

@@ -27,16 +27,12 @@ public class TweetsCli
         ArrayList<String> result = new ArrayList<>();
         int start = this.tweets.size() - ((page + 1) * perPage);
         int index = 0;
-        int exception = 0;
         do {
             try
             {
                 result.add(this.tweets.get(start + index));
             }
-            catch (Exception e)
-            {
-                exception++;
-            }
+            catch (Exception ignored){}
             index++;
         } while (index != perPage);
         return result;

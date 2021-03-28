@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class SearchUsersCli
 {
     User me;
-    ArrayList<String> users = new ArrayList<>();
+    ArrayList<String> users;
 
     public SearchUsersCli(User me, ArrayList<String> users)
     {
@@ -29,16 +29,12 @@ public class SearchUsersCli
         ArrayList<String> result = new ArrayList<>();
         int start = users.size() - ((page + 1) * perPage);
         int index = 0;
-        int exception = 0;
         do {
             try
             {
                 result.add(users.get(start + index));
             }
-            catch (Exception e)
-            {
-                exception++;
-            }
+            catch (Exception ignored){}
             index++;
         } while (index != perPage);
         return result;
