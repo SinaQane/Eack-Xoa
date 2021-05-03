@@ -115,7 +115,7 @@ public class Explore
                                 while (usersListFlag)
                                 {
                                     ArrayList<String> results = new ArrayList<>();
-                                    String path = "./resources/users";
+                                    String path = "./src/main/resources/users/";
                                     File dir = new File(path);
                                     String[] paths = dir.list();
                                     GsonBuilder gsonBuilder = new GsonBuilder();
@@ -373,7 +373,7 @@ public class Explore
                                 while (tweetsListFlag)
                                 {
                                     ArrayList<String> results = new ArrayList<>();
-                                    String path = "./resources/tweets";
+                                    String path = "./src/main/resources/tweets/";
                                     File dir = new File(path);
                                     String[] paths = dir.list();
                                     GsonBuilder gsonBuilder = new GsonBuilder();
