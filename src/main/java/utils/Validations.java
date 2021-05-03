@@ -43,7 +43,7 @@ public class Validations
     // Search in file "where" for string "what". returns true if "what" is in "where".
     public static boolean search(String where, String what)
     {
-        File file = new File("./resources/" + where + ".txt");
+        File file = new File(".src/main/resources/" + where + ".txt");
         try {
             Scanner scanner = new Scanner(file);
 
