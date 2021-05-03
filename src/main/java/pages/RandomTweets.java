@@ -20,7 +20,7 @@ public class RandomTweets
     public static ArrayList<String> tweets(User user) throws IOException
     {
         ArrayList<String> results = new ArrayList<>();
-        String path = "./resources/tweets";
+        String path = ".src/main/resources/tweets";
         File dir = new File(path);
         String[] paths = dir.list();
         GsonBuilder gsonBuilder = new GsonBuilder();
