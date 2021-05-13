@@ -9,3 +9,5 @@ There are multiple sections like home, timeline, explore, notification, settings
 You can pretty much do anything you can do in the real twitter app.
 
 This is for phase 1 of my AP project for university. So its just using CLI and it's not really clean (GUI and Clean Code are parts of the phase 2) and its offline (network will be added in the phase 3) for now.
+
+I'll add some info soon enough...
