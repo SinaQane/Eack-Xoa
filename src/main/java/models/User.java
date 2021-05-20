@@ -363,9 +363,9 @@ public class User
         logger.debug("account " + this.id + " accepted a follow request from " + user.id + ".");
         this.requests.remove(user.id + "");
         this.followers.add(user.id + "");
-        user.pending.remove(user.id + "");
-        user.followings.add(user.id + "");
-        user.newNotifications.add(user.username + " started following you.");
+        user.pending.remove(this.id + "");
+        user.followings.add(this.id + "");
+        this.newNotifications.add(user.username + " started following you.");
         user.newNotifications.add(this.username + " accepted your follow request.");
         Save.saveUser(user);
         Save.saveUser(this);
@@ -376,7 +376,7 @@ public class User
     {
         logger.warn("account " + this.id + " rejected a follow request from " + user.id + ".");
         this.requests.remove(user.id + "");
-        user.pending.remove(user.id + "");
+        user.pending.remove(this.id + "");
         user.newNotifications.add(this.username + " rejected your follow request.");
         Save.saveUser(user);
         Save.saveUser(this);
@@ -386,7 +386,7 @@ public class User
     {
         logger.warn("account " + this.id + " rejected a follow request from " + user.id + ".");
         this.requests.remove(user.id + "");
-        user.pending.remove(user.id + "");
+        user.pending.remove(this.id + "");
         Save.saveUser(user);
         Save.saveUser(this);
     }
